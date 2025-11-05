@@ -15,11 +15,14 @@
     "subtitle2": "التميّز في التنفيذ عبر كل المجالات.",
     "buttonPrimary": "ابدأ الآن",
     "buttonSecondary": "اعرف المزيد",
-    "stats": [
-      { "key": "الدول", "value": "6" },
-      { "key": "الشركات", "value": "12" },
-      { "key": "الموظفون", "value": "1660" }
-    ]
+    "stats": {
+  "Countries": { "label": "الدول", "value": "46" },
+  "Clients": { "label": "العملاء", "value": "24630" },
+  "Employees": { "label": "الموظفون", "value": "360" },
+  "ProjectsCompleted": { "label": "المشاريع المنجزة", "value": "46210" },
+  "Companies": { "label": "الشركات", "value": "5" }
+}
+
   },
 
   "about": {

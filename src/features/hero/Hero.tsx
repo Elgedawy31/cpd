@@ -14,11 +14,11 @@ export default function HeroSection() {
 
   // Expanded stats data
   const stats = [
-    { label: "Countries", value: 46 },
-    { label: "Clients", value: 24_630 },
-    { label: "Employees", value: 360 },
-    { label: "Projects Completed", value: 46_210 },
-    { label: "Companies", value: 5 },
+   'Countries',
+   'Clients',
+   'Employees',
+   'ProjectsCompleted',
+   'Companies'
   ];
   useEffect(() => {
     AOS.init({ duration: 1000, once: true, mirror: false });
@@ -64,14 +64,16 @@ export default function HeroSection() {
         className="absolute bottom-0 w-full bg-black/50 backdrop-blur-md py-8"
       >
         <div className="max-w-6xl mx-auto px-6 lg:px-12 grid grid-cols-2 sm:grid-cols-5 gap-6 text-center text-white">
-          {stats.map((stat) => (
-            <div key={stat.label} className="flex flex-col gap-2">
+          
+          
+          {stats.map((stat)=>(
+             <div key={stat}  className="flex flex-col gap-2">
               <p className="text-3xl sm:text-4xl font-bold text-primary-200">
                 +
                 {inView ? (
                   <CountUp
                     start={0}
-                    end={stat.value}
+                    end={Number(t(`stats.${stat}.value`))}
                     duration={5.5}
                     separator=","
                   />
@@ -80,10 +82,11 @@ export default function HeroSection() {
                 )}
               </p>
               <p className="text-sm  uppercase tracking-wide">
-                {stat.label}
+                {t(`stats.${stat}.label`)}
               </p>
             </div>
           ))}
+           
         </div>
       </div>
     </section>

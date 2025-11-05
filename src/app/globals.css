@@ -1,0 +1,235 @@
+@import "tailwindcss";
+
+/* Make dark utilities work with .dark class */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Tailwind CSS v4 Theme Configuration */
+@theme {
+  /* Font Family Configuration */
+  
+  --color-primary: #5f295e;
+  --color-primary-foreground: #ffffff;
+  
+  /* Color palette for primary */  
+  --color-primary-50: #f8f0f8; 
+  --color-primary-100: #e9d9e8;  
+  --color-primary-200: #d4b5d2;
+  --color-primary-300: #bd8dc2;
+  --color-primary-400: #a35fae;
+  --color-primary-500: #8b419c;
+  --color-primary-600: #792e8a;
+  --color-primary-700: #652174;
+  --color-primary-800: #551a61;
+  --color-primary-900: #41144a;
+  --color-primary-950: #2b0b31;
+  
+  /* Background and foreground */
+  --color-background: #f0f4f8;
+  --color-surface: #fcfdfe;
+  --color-foreground: #1a202c;
+  
+  /* Card colors */
+  --color-card: #fcfdfe;
+  --color-card-foreground: #1a202c;
+  
+  /* Popover colors */
+  --color-popover: #fcfdfe;
+  --color-popover-foreground: #1a202c;
+  
+  /* Secondary colors */
+  --color-secondary: #f7fafc;
+  --color-secondary-foreground: #2d3748;
+  
+  /* Muted colors */
+  --color-muted: #edf2f7;
+  --color-muted-foreground: #718096;
+  
+  /* Accent colors */
+  --color-accent: #edf2f7;
+  --color-accent-foreground: #1a202c;
+  
+  /* Semantic colors */
+  --color-destructive: #e53e3e;
+  --color-destructive-foreground: #ffffff;
+  
+  --color-success: #38a169;
+  --color-success-foreground: #ffffff;
+  
+  --color-warning: #f6e05e;
+  --color-warning-foreground: #1a202c;
+  
+  --color-info: #4299e1;
+  --color-info-foreground: #ffffff;
+  
+  /* Border and input */
+  --color-border: #e2e8f0;
+  --color-input: #e2e8f0;
+  --color-ring: #5f295e;
+
+  /* Shadow colors */
+  --shadow-color: 0 0 0;
+  --shadow-color-rgb: 0, 0, 0;
+
+  /* Border radius */
+  --radius: 0.5rem;
+}
+
+/* Dark mode overrides */
+.dark {
+  --color-background: #2d3748;
+  --color-surface: #1a202c;
+  --color-foreground: #edf2f7;
+  --color-card: #1a202c;
+  --color-card-foreground: #edf2f7;
+  --color-popover: #1a202c;
+  --color-popover-foreground: #edf2f7;
+  --color-primary: #bd8dc2;
+  --color-primary-foreground: #1a202c;
+  --color-secondary: #4a5568;
+  --color-secondary-foreground: #edf2f7;
+  --color-muted: #4a5568;
+  --color-muted-foreground: #a0aec0;
+  --color-accent: #4a5568;
+  --color-accent-foreground: #edf2f7;
+  --color-destructive: #e53e3e;
+  --color-destructive-foreground: #edf2f7;
+  --color-success: #48bb78;
+  --color-success-foreground: #edf2f7;
+  --color-warning: #ecc94b;
+  --color-warning-foreground: #1a202c;
+  --color-info: #63b3ed;
+  --color-info-foreground: #edf2f7;
+  --color-border: #4a5568;
+  --color-input: #4a5568;
+  --color-input-30: #4a556830;
+  --color-ring: #bd8dc2;
+
+  /* Shadow colors */
+  --shadow-color: 255 255 255;
+  --shadow-color-rgb: 255, 255, 255;
+}
+
+/* Global font application */
+* {
+  font-family: var(--font-sans);
+}
+html{
+scroll-behavior: smooth;
+}
+
+/* Professional typography settings */
+body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--color-foreground);
+  background-color: white;
+}
+
+/* Heading typography with Poppins */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+}
+
+/* Tailwind CSS Shadow overrides */
+@tailwind utilities;
+
+@layer utilities {
+  .shadow-sm {
+    box-shadow: 0 1px 2px 0 rgb(var(--shadow-color-rgb) / 0.05);
+  }
+  .shadow-md {
+    box-shadow: 0 4px 6px -1px rgb(var(--shadow-color-rgb) / 0.1),
+                0 2px 4px -2px rgb(var(--shadow-color-rgb) / 0.1);
+  }
+  .shadow-lg {
+    box-shadow: 0 10px 15px -3px rgb(var(--shadow-color-rgb) / 0.1),
+                0 4px 6px -4px rgb(var(--shadow-color-rgb) / 0.1);
+  }
+  .shadow-xl {
+    box-shadow: 0 20px 25px -5px rgb(var(--shadow-color-rgb) / 0.1),
+                0 8px 10px -6px rgb(var(--shadow-color-rgb) / 0.1);
+  }
+  .shadow-2xl {
+    box-shadow: 0 25px 50px -12px rgb(var(--shadow-color-rgb) / 0.25);
+  }
+  .shadow-inner {
+    box-shadow: inset 0 2px 4px 0 rgb(var(--shadow-color-rgb) / 0.05);
+  }
+  .shadow-none {
+    box-shadow: none;
+  }
+}
+
+
+::selection{
+  background-color: var(--color-primary);
+  color: var(--color-primary-foreground);
+}
+
+/* Button and interactive elements */
+button {
+  font-family: var(--font-sans);
+}
+input, select, textarea {
+  font-family: var(--font-sans);
+  color: var(--color-foreground);
+}
+
+/* Code elements use monospace */
+code, pre, kbd, samp {
+  font-family: var(--font-mono);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-muted);
+}
+
+::-webkit-scrollbar-thumb {
+
+  background-color: var(--color-primary);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--color-primary) 50%, transparent);
+}
+
+/* Professional text utilities */
+.text-balance {
+  text-wrap: balance;
+}
+
+.text-pretty {
+  text-wrap: pretty;
+}
+.text-danger{
+  @apply text-red-600
+}
+.swiper-button-next,
+.swiper-button-prev {
+  color: var(--color-background) !important;
+  width: 30px !important;
+  height: 30px !important;
+  background-color: var(--color-primary);
+  padding: 5px !important;
+  border-radius: 50%;
+  cursor: pointer;
+  top:65% !important;
+}
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+opacity: 0.8;
+}
+
+

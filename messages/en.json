@@ -1,0 +1,133 @@
+{
+  "HomePage": {
+    "title": "Hello world!"
+  },
+  "navbar": {
+    "home": "Home",
+    "about": "About",
+    "companies": "Companies",
+    "partners": "Partners",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "Welcome to Our Platform",
+    "subtitle": "We provide the best solutions for your business growth.",
+    "buttonPrimary": "Get Started",
+    "buttonSecondary": "Learn More",
+    "stats": [
+      { "key": "Country", "value": "6" },
+      { "key": "Companies", "value": "12" },
+      { "key": "Emplyees", "value": "1660" }
+    ]
+  },
+
+  "about": {
+    "title": "About Us",
+    "subtitle": "Turning Expertise into Measurable Impact",
+    "description1": "We are a multidisciplinary team dedicated to delivering reliable, high-quality, and innovative solutions that bring clarity and performance to every project. Our goal is to combine technical excellence with practical insight to create value that lasts.",
+    "visionTitle": "Our Vision",
+    "visionDescription": "To be the trusted integrated partner that turns multidisciplinary expertise into clear results and enduring value anchored in integrity, accountability, and measurable impact.",
+    "missionTitle": "Our Mission",
+    "missionDescription": "We unite diverse specialties to plan and deliver strategic, rigorous, and reliable solutions bringing clarity, performance, and sustained growth for our clients as one accountable team from concept to handover.",
+    "expertiseTitle": "Our Expertise",
+    "expertiseDescription": "We have extensive experience in technical inspection, risk management, and providing independent design inspection services for construction projects. Our specialized team conducts precise tests to ensure the quality, efficiency, and reliability of products and systems using the latest performance and usability methods. We transform innovative ideas into user-friendly digital solutions that enhance performance and simplify processes. Our goal is to develop reliable and customized solutions that empower organizations to achieve their goals and exceed client expectations. We also take pride in our façade design expertise and delivering successful, high-quality engineering work, focusing on turning engineering challenges into practical solutions that enhance project efficiency and quality. Additionally, we operate in software distribution and supply through exclusive partnerships with technology providers worldwide."
+  },
+  "companies": {
+    "title": "Our Companies",
+    "subtitle": "Delivering measurable impact through expertise, precision, and innovation.",
+    "learnMore": "Learn More",
+    "visit": "Visit Website",
+    "cpv": {
+      "title": "CPV Arabia",
+      "description": "CPV Arabia is a highly regarded organization specializing in Technical Inspection Services, Risk Management, and Independent Design Inspection."
+    },
+    "domApp": {
+      "title": "DomApp",
+      "description": " develop innovative, customized, and reliable solutions that enhance business visions, exceed client expectations, and drive continuous success."
+    },
+    "domeFdh": {
+      "title": "DOME FDH",
+      "description": "Our values are quality in everything that we do professional and ethical in all our actions, growth and development of all our staff."
+    },
+    "designalEngineering": {
+      "title": "DESIGNAL ENGINEERING",
+      "description": "We craft innovative, code-compliant, and cost-efficient engineering designs that bring reinforced concrete structures to life—anywhere in the world."
+    },
+    "dlalat": {
+      "title": "DLALAT",
+      "description": "At Dlalat, we are committed to providing businesses with top-tier software solutions through exclusive dealership and distribution partnerships."
+    }
+  
+  },
+
+
+  "whyChooseUs": {
+    "title": "Why Choose Us",
+    "subtitle": "Delivering measurable impact through expertise, precision, and innovation.",
+    "learnMore": "Learn More",
+    "risk": {
+      "title": "Risk Assessment",
+      "description": "We build long-term partnerships across KSA—not one-off jobs. Client-centric reviews and inspections that de-risk delivery. Custom technical solutions (RDAPP, SHM, digital checklists) tailored to your project. Proven impact—from workflows to façade & structural assessments. We leverage the latest tech: AI-assisted review, drones, GPR, and data dashboards. Saudi & international codes, delivered with precision, speed, and clarity."
+    },
+    "facade": {
+      "title": "Façade Design",
+      "description": "Integrated façade and steel delivery from concept to installation—IFC, shop, connection detailing, and fabrication packages by focused specialists. Verified performance and compliance: drift/deflection, anchorage, thermal bridging, and airtightness checked against SBC, ACI/AISC, EN/BS, and ASTM/AAMA under disciplined QA/QC. Digital-to-site accuracy via BIM LOD400/500, clash resolution, and laser/drone surveys for predictable schedules and faster approvals."
+    },
+    "softwareDistribution": {
+      "title": "Software Distribution & Integration",
+      "description": "We are your trusted exclusive software partner, delivering top-tier solutions through dealership, distribution, and direct sales. With strong partnerships and market experience, we ensure tailored software solutions across industries, combining innovation, reliability, and strategic impact."
+    },
+    "softwareSolutions": {
+      "title": "Software Solutions",
+      "description": "We convert strategic concepts into deployable products using modern tech and mature engineering practices. Transparent governance and fast feedback cycles ensure predictability. AI, immersive tech, and analytics drive measurable performance gains with secure, scalable delivery."
+    },
+    "integratedEngineering": {
+      "title": "Integrated Engineering Delivery",
+      "description": "One accountable team across Architecture, Structure, BIM, and Site Supervision ensures seamless continuity from concept to construction. Code-compliant, cost-aware design aligned with ACI, AISC, and Eurocode/SBC. Digital-first execution through coordinated BIM, 3D reviews, and clear documentation."
+    }
+  },
+  "Partners": {
+    "title": "Our Partners",
+    "subtitle": "Trusted partnerships that drive excellence and innovation across industries."
+  },
+
+
+
+  "contact": {
+    "title": "Get in Touch",
+    "subtitle": "Have a question or need support? We’d love to hear from you.",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "namePlaceholder": "Your full name",
+    "emailPlaceholder": "your@email.com",
+    "messagePlaceholder": "Write your message...",
+    "send": "Send Message",
+    "sending": "Sending...",
+    "success": "Message sent successfully!",
+    "errors": {
+      "name": "Name must be at least 2 characters",
+      "email": "Please enter a valid email address",
+      "message": "Message must be at least 10 characters"
+    }
+  },
+  "footer": {
+    "description": "We deliver integrated, reliable, and high-quality solutions that transform expertise into measurable results.",
+    "contactInfo": "Contact Information",
+    "workTime": "Work Hours:",
+    "locations": "Our Locations",
+    "quickLinks": "Quick Links",
+    "home": "Home",
+    "about": "About Us",
+    "services": "Services",
+    "contact": "Contact Us",
+    "followUs": "Follow Us",
+    "rights": "All rights reserved.",
+    "workTimes": {
+      "nl": "Monday to Friday, 09:00 AM – 05:00 PM — Local time in Amsterdam, Netherlands (CET/CEST)",
+      "sa": "Saturday to Thursday, 09:00 AM – 05:00 PM — Local time in Makkah, Saudi Arabia",
+      "eg": "Saturday to Thursday, 09:00 AM – 05:00 PM — Local time in Cairo, Egypt",
+      "uk": "Monday to Friday, 09:00 AM – 05:00 PM — Greenwich Mean Time (GMT)"
+    }
+  }
+}

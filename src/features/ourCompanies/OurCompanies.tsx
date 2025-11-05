@@ -12,11 +12,9 @@ import "swiper/css/navigation";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import CustomHeader from "@/components/CustomHeader";
 import Image from "next/image";
-import { ChevronRight } from "lucide-react";
-
+import { ChevronLeft, ChevronRight } from "lucide-react";
 export default function OurCompanies() {
   const t = useTranslations("companies");
-
   useEffect(() => {
     AOS.init({ duration: 1000, once: true, mirror: false });
   }, []);
@@ -96,9 +94,18 @@ export default function OurCompanies() {
                 style={{ maxHeight: "100px", objectFit: "contain" }}
               />
             </div>
-            <p className="mt-3 text-start text-sm font-normal text-muted-foreground py-2">{card.description}</p>
-            <a href={card.url} target="_blank" rel="noopener noreferrer" className=" text-md font-medium text-primary hover:opacity-75 flex justify-end px-5 align-center mt-2">
-         <span>{t('visit')}</span>   <ChevronRight className="text-primary w-5 h-7 " />
+            <p className="mt-3 text-center text-md  font-normal text-muted-foreground py-2 w-[75%] m-auto">{card.description}</p>
+            <a href={card.url} target="_blank" rel="noopener noreferrer" className=" text-md font-medium text-primary hover:opacity-75 flex justify-center px-5 align-center mt-2">
+       <span className=" flex gap-1 items-center">
+          <span>{t('visit')}</span>  
+          {
+            t('visit')=='زيارة الموقع'?
+             <ChevronLeft className="text-primary w-5 h-7 mt-1 " />
+             :
+             <ChevronRight className="text-primary w-5 h-7 mt-1 " />
+          }
+          
+       </span>
             </a>
           </div>
         </SwiperSlide>

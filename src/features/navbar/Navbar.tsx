@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Globe } from "lucide-react";
+import Image from "next/image";
 
 export default function Navbar() {
   const t = useTranslations("navbar");
@@ -57,11 +58,18 @@ export default function Navbar() {
         {/* Logo */}
         <Link
           href={`/${isRTL ? "ar" : "en"}#home`}
-          className={`text-2xl font-bold transition-colors duration-300 ${
+          className={`text-2xl py-2 font-bold transition-colors duration-300 ${
             scrolled ? "text-foreground" : "text-white"
           }`} 
         >
-          Logo
+         <div className="relative w-[100px] h-[100px] flex items-center justify-center">
+                          <Image
+                            src={scrolled?`/cpdLogoDark.png`:`/cpdLogo.png`}
+                            alt='Logo'
+                            fill
+                            style={{ objectFit: "contain" }}
+                          />
+                        </div>
         </Link>
 
         {/* Desktop Links */}

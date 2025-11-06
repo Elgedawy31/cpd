@@ -25,7 +25,7 @@ export default function OurCompanies() {
       title: t("cpv.title"),
       description: t("cpv.description"),
       url: "https://cpvarabia.com/",
-      logo: "/ourCompanies/CPV-logo.png",
+      logo: "/ourCompanies/cpv-logo.png",
     },
     {
       key: "domApp",

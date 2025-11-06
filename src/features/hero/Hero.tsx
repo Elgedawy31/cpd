@@ -52,9 +52,6 @@ export default function HeroSection() {
         <p  data-aos="fade-up" data-delay='200' className="text-white/80 text-md md:text-lg ps-2 mb-3 max-w-xl font-bold">
         {t("subtitle1")}
         </p>
-        <p  data-aos="fade-up" data-delay='250' className="text-white/80 text-md md:text-lg ps-2 mb-3 max-w-xl font-bold">
-        {t("subtitle2")}
-        </p>
       </div>
 
       {/* Stats Section */}

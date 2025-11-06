@@ -10,20 +10,23 @@
     "contact": "Contact"
   },
   "hero": {
-    "title": "Welcome to Our Platform",
-    "subtitle": "We provide the best solutions for your business growth.",
+    "title": "WELCOME TO CPD ALIANCE",
+    "subtitle1": "Uniting Expertice , Delivering Enduring Value.",
+    "subtitle2": "Excellence in execution across every domain.",
     "buttonPrimary": "Get Started",
     "buttonSecondary": "Learn More",
-    "stats": [
-      { "key": "Country", "value": "6" },
-      { "key": "Companies", "value": "12" },
-      { "key": "Emplyees", "value": "1660" }
-    ]
+  "stats" : {
+ "Countries":{ "label": "Countries", "value": "46" },
+   "Clients": { "label": "Clients", "value": "24630" },
+   "Employees": { "label": "Employees", "value": "360" },
+   "ProjectsCompleted": { "label": "Projects Completed", "value": "46210" },
+   "Companies": { "label": "Companies", "value": "5" }
+  }
   },
 
   "about": {
     "title": "About Us",
-    "subtitle": "Turning Expertise into Measurable Impact",
+    "subtitle": "Strategic solutions. Reliable outcomes. Lasting trust",
     "description1": "We are a multidisciplinary team dedicated to delivering reliable, high-quality, and innovative solutions that bring clarity and performance to every project. Our goal is to combine technical excellence with practical insight to create value that lasts.",
     "visionTitle": "Our Vision",
     "visionDescription": "To be the trusted integrated partner that turns multidisciplinary expertise into clear results and enduring value anchored in integrity, accountability, and measurable impact.",
@@ -32,38 +35,38 @@
     "expertiseTitle": "Our Expertise",
     "expertiseDescription": "We have extensive experience in technical inspection, risk management, and providing independent design inspection services for construction projects. Our specialized team conducts precise tests to ensure the quality, efficiency, and reliability of products and systems using the latest performance and usability methods. We transform innovative ideas into user-friendly digital solutions that enhance performance and simplify processes. Our goal is to develop reliable and customized solutions that empower organizations to achieve their goals and exceed client expectations. We also take pride in our façade design expertise and delivering successful, high-quality engineering work, focusing on turning engineering challenges into practical solutions that enhance project efficiency and quality. Additionally, we operate in software distribution and supply through exclusive partnerships with technology providers worldwide."
   },
-  "companies": {
-    "title": "Our Companies",
-    "subtitle": "Delivering measurable impact through expertise, precision, and innovation.",
-    "learnMore": "Learn More",
-    "visit": "Visit Website",
-    "cpv": {
-      "title": "CPV Arabia",
-      "description": "CPV Arabia is a highly regarded organization specializing in Technical Inspection Services, Risk Management, and Independent Design Inspection."
-    },
-    "domApp": {
-      "title": "DomApp",
-      "description": " develop innovative, customized, and reliable solutions that enhance business visions, exceed client expectations, and drive continuous success."
-    },
-    "domeFdh": {
-      "title": "DOME FDH",
-      "description": "Our values are quality in everything that we do professional and ethical in all our actions, growth and development of all our staff."
-    },
-    "designalEngineering": {
-      "title": "DESIGNAL ENGINEERING",
-      "description": "We craft innovative, code-compliant, and cost-efficient engineering designs that bring reinforced concrete structures to life—anywhere in the world."
-    },
-    "dlalat": {
-      "title": "DLALAT",
-      "description": "At Dlalat, we are committed to providing businesses with top-tier software solutions through exclusive dealership and distribution partnerships."
-    }
-  
+"companies": {
+  "title": "Our Companies",
+  "subtitle": "Delivering integrated solutions with professional rigor.",
+  "learnMore": "Learn More",
+  "visit": "Visit Website",
+  "cpv": {
+    "title": "CPV Arabia",
+    "description": "Technical inspection and risk management."
   },
+  "domApp": {
+    "title": "DomApp",
+    "description": "Innovative and reliable digital solutions."
+  },
+  "domeFdh": {
+    "title": "DOME FDH",
+    "description": "Quality, ethics, and professional growth."
+  },
+  "designalEngineering": {
+    "title": "DESIGNAL ENGINEERING",
+    "description": "Innovative and efficient engineering designs."
+  },
+  "dlalat": {
+    "title": "DLALAT",
+    "description": "Leading software and distribution partner."
+  }
+}
+,
 
 
   "whyChooseUs": {
     "title": "Why Choose Us",
-    "subtitle": "Delivering measurable impact through expertise, precision, and innovation.",
+    "subtitle": "Transforming diverse capabilities into measurable success.",
     "learnMore": "Learn More",
     "risk": {
       "title": "Risk Assessment",
@@ -88,7 +91,7 @@
   },
   "Partners": {
     "title": "Our Partners",
-    "subtitle": "Trusted partnerships that drive excellence and innovation across industries."
+    "subtitle": "Trusted partners for complex challenges and clear results."
   },
 
 
@@ -116,7 +119,7 @@
     "contactInfo": "Contact Information",
     "workTime": "Work Hours:",
     "locations": "Our Locations",
-    "quickLinks": "Quick Links",
+    "quickLinks": " Links",
     "home": "Home",
     "about": "About Us",
     "services": "Services",
@@ -128,6 +131,15 @@
       "sa": "Saturday to Thursday, 09:00 AM – 05:00 PM — Local time in Makkah, Saudi Arabia",
       "eg": "Saturday to Thursday, 09:00 AM – 05:00 PM — Local time in Cairo, Egypt",
       "uk": "Monday to Friday, 09:00 AM – 05:00 PM — Greenwich Mean Time (GMT)"
-    }
+    } ,
+    "location1":"10th Floor, Weena 290, City Centre, Rotterdam 3012 NJ, Netherlands",
+    "location2": "Samir Abd El-Raouf, Al Manteqah Al Thamenah, Nasr City, Cairo, Egypt",
+    "location3":"8th District, 21 Samir Abd El-Raouf St, 2nd Floor, Nasr City, Cairo, Egypt",
+    "location4": "Al-Mottaheda Tower, 2nd & 9th Floor, Kafr El-Shaikh, Egypt",
+    "location5":"Gadallah Tower, 3rd & 4th Floor, Kafr El-Shaikh, Egypt",
+    "location6":  "Office 17, North Ring Road, Al Wady Dist, Exit 6, Riyadh, Saudi Arabia",
+    "location7":"Al Malaz, Riyadh, Saudi Arabia"
   }
+ 
+
 }

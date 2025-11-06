@@ -9,17 +9,17 @@ export default function Footer() {
   const locale = useLocale();
 
   return (
-    <footer className="w-full border-t border-borderColor bg-primary text-text py-12 px-6 md:px-20 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-8 gap-10">
+    <footer className="w-full border-t border-borderColor bg-primary text-text py-12 px-6  md:px-12 transition-colors duration-300">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10">
 
         {/* Logo & Description */}
-        <div className="space-y-4 text-white md:col-span-2">
+        <div className="space-y-4 text-white lg:col-span-3">
           <h2 className="text-2xl font-semibold text-white">CPD</h2>
           <p className="text-sm opacity-80 leading-relaxed">{t("description")}</p>
         </div>
 
         {/* Contact Info */}
-        <div className="text-white md:col-span-2">
+        <div className="text-white lg:col-span-4">
           <h3 className="text-lg font-semibold mb-4">{t("contactInfo")}</h3>
           <ul className="space-y-3 text-sm opacity-80">
             <li className="flex items-start gap-2">
@@ -28,28 +28,37 @@ export default function Footer() {
             <li className="flex items-start gap-2">
               <Phone size={16} className="mt-1" /> +20 100 123 4567
             </li>
-            <li className="flex items-start gap-2">
-              <Clock size={16} className="mt-1" /> {t("workTime")}
+            <li >
+              <span className="flex items-start gap-2">
+                <Clock size={16} className="mt-1" /> {t("workTime")}
+              </span>
+              
+             <ul className="space-y-2 text-sm opacity-80 leading-relaxed px-0">
+              <li>{t("workTimes.nl")}</li>
+              <li>{t("workTimes.sa")}</li>
+              <li>{t("workTimes.eg")}</li>
+              <li>{t("workTimes.uk")}</li>
+             </ul>
             </li>
           </ul>
         </div>
 
         {/* Addresses */}
-        <div className="text-white md:col-span-3">
+        <div className="text-white lg:col-span-4">
           <h3 className="text-lg font-semibold mb-4">{t("locations")}</h3>
           <ul className="space-y-2 text-sm opacity-80 leading-relaxed px-0">
-            <li className="flex items-start gap-2"><MapPin size={16} className="mt-1" /> 10th Floor, Weena 290, City Centre, Rotterdam 3012 NJ, Netherlands</li>
-           <li className="flex items-start gap-2"><MapPin size={16} className="mt-1" /> Samir Abd El-Raouf, Al Manteqah Al Thamenah, Nasr City, Cairo, Egypt</li>
-           <li className="flex items-start gap-2"><MapPin size={16} className="mt-1" />8th District, 21 Samir Abd El-Raouf St, 2nd Floor, Nasr City, Cairo, Egypt</li>
-           <li className="flex items-start gap-2"><MapPin size={16} className="mt-1" />Al-Mottaheda Tower, 2nd & 9th Floor, KFS, Egypt</li>
-           <li className="flex items-start gap-2"><MapPin size={16} className="mt-1" />Gadallah Tower, 3rd & 4th Floor, KFS, Egypt</li>
-           <li className="flex items-start gap-2"><MapPin size={16} className="mt-1" />Office 17, North Ring Road, Al Wady Dist, Exit 6, Riyadh, Saudi Arabia</li>
-           <li className="flex items-start gap-2"><MapPin size={16} className="mt-1" />Al Malaz, Al-Riyadh, Saudi Arabia</li>
+            <li className="flex items-start gap-2"><MapPin size={16} className="mt-1" />{t('location1')}</li>
+            <li className="flex items-start gap-2"><MapPin size={16} className="mt-1" />{t('location2')}</li>
+            <li className="flex items-start gap-2"><MapPin size={16} className="mt-1" />{t('location3')}</li>
+            <li className="flex items-start gap-2"><MapPin size={16} className="mt-1" />{t('location4')}</li>
+            <li className="flex items-start gap-2"><MapPin size={16} className="mt-1" />{t('location5')}</li>
+            <li className="flex items-start gap-2"><MapPin size={16} className="mt-1" />{t('location6')}</li>
+            <li className="flex items-start gap-2"><MapPin size={16} className="mt-1" />{t('location7')}</li>
           </ul>
         </div>
 
         {/* Quick Links & Socials */}
-        <div className="text-white md:col-span-1"> 
+        <div className="text-white lg:col-span-1"> 
           <h3 className="text-lg font-semibold mb-4">{t("quickLinks")}</h3>
           <ul className="space-y-2 text-sm opacity-80">
             <li><Link href={`/${locale}`} className="hover:text-primary transition">{t("home")}</Link></li>

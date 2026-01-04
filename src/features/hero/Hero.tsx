@@ -4,12 +4,15 @@ import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 export default function HeroSection() {
   const t = useTranslations("hero");
   const locale = useLocale();
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const heroRef = useRef<HTMLElement>(null);
+  const rafRef = useRef<number | null>(null);
 
   // Expanded stats data
   const stats = [
@@ -22,17 +25,83 @@ export default function HeroSection() {
   useEffect(() => {
     AOS.init({ duration: 1000, once: true, mirror: false });
   }, []);
+
+  // Scroll-based resize effect
+  useEffect(() => {
+    const handleScroll = () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+
+      rafRef.current = requestAnimationFrame(() => {
+        if (!heroRef.current) return;
+
+        const scrollY = window.scrollY;
+        
+        // Calculate scroll progress (0 = top of hero, 1 = scrolled past hero)
+        // Start resizing after 50px scroll, complete at 500px
+        const scrollStart = 50;
+        const scrollEnd = 500;
+        const scrollDistance = Math.max(0, scrollY - scrollStart);
+        const maxScroll = scrollEnd - scrollStart;
+        
+        // Clamp progress between 0 and 1
+        const progress = Math.min(1, scrollDistance / maxScroll);
+        
+        // Apply smooth easing (cubic-bezier for professional feel)
+        const easedProgress = progress < 0.5
+          ? 2 * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+        
+        setScrollProgress(easedProgress);
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Initial calculation
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, []);
+
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.3 });
+
+  // Calculate dynamic values based on scroll progress
+  const initialHeight = 100; // 100vh
+  const finalHeight = 40; // 40vh
+  const currentHeight = initialHeight - (initialHeight - finalHeight) * scrollProgress;
+  
+  // Scale factor for video (starts at 1, scales down)
+  const initialScale = 1;
+  const finalScale = 0.85;
+  const currentScale = initialScale - (initialScale - finalScale) * scrollProgress;
 
   return (
     <section
-    id="hero"
-      className={`relative w-full min-h-screen overflow-hidden ${
+      ref={heroRef}
+      id="hero"
+      className={`relative w-full overflow-hidden transition-all duration-300 ease-out ${
         locale === "ar" ? "text-right" : "text-left"
       }`}
+      style={{
+        height: `${currentHeight}vh`,
+        minHeight: `${currentHeight}vh`,
+        willChange: "height",
+      }}
     >
       {/* Background Video */}
-      <div className="absolute top-0 left-0 w-full h-full -z-10">
+      <div 
+        className="absolute top-0 left-0 w-full h-full -z-10 origin-center transition-transform duration-300 ease-out"
+        style={{
+          transform: `scale(${currentScale})`,
+          willChange: "transform",
+          height: "100%",
+        }}
+      >
         {/* Fallback image - shown behind video as backup */}
         <Image
           src="/hero-bg.jpg"
@@ -56,21 +125,50 @@ export default function HeroSection() {
       </div>
 
       {/* Overlay Content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-12 flex flex-col justify-center min-h-[70vh] ">
-        <h1  data-aos="fade-up" className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
+      <div 
+        className="relative z-10 max-w-6xl mx-auto px-6 lg:px-12 flex flex-col justify-center transition-all duration-300 ease-out"
+        style={{
+          height: "100%",
+          paddingTop: `${20 + scrollProgress * 10}px`,
+          paddingBottom: `${20 + scrollProgress * 10}px`,
+        }}
+      >
+        <h1  
+          data-aos="fade-up" 
+          className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight transition-all duration-300 ease-out"
+          style={{
+            transform: `translateY(${scrollProgress * -20}px)`,
+            opacity: 1 - scrollProgress * 0.3,
+          }}
+        >
           {t("title")}
         </h1>
 
-        <p  data-aos="fade-up" data-delay='200' className="text-white/80 text-md md:text-lg ps-2 mb-3 max-w-xl font-bold">
-        {t("subtitle1")}
+        <p  
+          data-aos="fade-up" 
+          data-delay='200' 
+          className="text-white/80 text-md md:text-lg ps-2 mb-3 max-w-xl font-bold transition-all duration-300 ease-out"
+          style={{
+            transform: `translateY(${scrollProgress * -15}px)`,
+            opacity: 1 - scrollProgress * 0.4,
+          }}
+        >
+          {t("subtitle1")}
         </p>
       </div>
 
       {/* Stats Section */}
       <div
-      data-aos="fade-up" data-aos-delay="600"
+        data-aos="fade-up" 
+        data-aos-delay="600"
         ref={ref}
-        className="absolute bottom-0 w-full bg-black/50 backdrop-blur-md py-8"
+        className="absolute bottom-0 w-full bg-black/50 backdrop-blur-md transition-all duration-300 ease-out"
+        style={{
+          paddingTop: `${32 - scrollProgress * 16}px`,
+          paddingBottom: `${32 - scrollProgress * 16}px`,
+          opacity: scrollProgress > 0.7 ? 0 : 1,
+          transform: `translateY(${scrollProgress * 20}px)`,
+        }}
       >
         <div className="max-w-6xl mx-auto px-6 lg:px-12 grid grid-cols-2 sm:grid-cols-5 gap-6 text-center text-white">
           

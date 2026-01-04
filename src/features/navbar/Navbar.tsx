@@ -14,6 +14,17 @@ export default function Navbar() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeLink, setActiveLink] = useState<string>("");
+
+  const isRTL = pathname?.startsWith("/ar");
+
+  const links = useMemo(() => [
+    { id: "companies", label: t("companies") || "Our Companies" },
+    { id: "businessAreas", label: t("businessAreas") || "Business areas" },
+    { id: "partners", label: t("partners") },
+    { id: "about", label: t("about") },
+    { id: "contact", label: t("contact") },
+  ], [t]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,15 +37,83 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const isRTL = pathname?.startsWith("/ar");
+  // Detect active section using Intersection Observer
+  useEffect(() => {
+    const checkIfInHero = () => {
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      const heroElement = document.getElementById("hero");
+      
+      if (heroElement) {
+        const heroBottom = heroElement.offsetTop + heroElement.offsetHeight;
+        // If scrolled less than 30% of hero height, we're in hero section
+        return scrollY < heroBottom * 0.3;
+      }
+      return false;
+    };
 
-  const links = useMemo(() => [
-    { id: "companies", label: t("companies") || "Our Companies" },
-    { id: "businessAreas", label: t("businessAreas") || "Business areas" },
-    { id: "partners", label: t("partners") },
-    { id: "about", label: t("about") },
-    { id: "contact", label: t("contact") },
-  ], [t]);
+    const observerOptions = {
+      root: null,
+      rootMargin: "-20% 0px -60% 0px",
+      threshold: 0,
+    };
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      // If in hero section, clear active link
+      if (checkIfInHero()) {
+        setActiveLink("");
+        return;
+      }
+
+      // Otherwise, find the active section
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveLink(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    // Observe all sections
+    links.forEach((link) => {
+      const element = document.getElementById(link.id);
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
+    // Handle scroll to check if we're back in hero section
+    const handleScroll = () => {
+      if (checkIfInHero()) {
+        setActiveLink("");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    // Initial check
+    if (checkIfInHero()) {
+      setActiveLink("");
+    }
+
+    // Also check hash on mount (but only if not in hero)
+    if (typeof window !== "undefined") {
+      const hash = window.location.hash.slice(1);
+      if (hash && links.some((link) => link.id === hash)) {
+        // Delay to ensure DOM is ready
+        setTimeout(() => {
+          if (!checkIfInHero()) {
+            setActiveLink(hash);
+          }
+        }, 100);
+      }
+    }
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [links]);
 
   // Toggle language
   const handleLangToggle = () => {
@@ -73,7 +152,7 @@ export default function Navbar() {
           {/* Navigation Links */}
           <ul className="flex items-center space-x-10">
             {links.map((link) => {
-            
+              const isActive = activeLink === link.id;
               
               return (
                 <li key={link.id} className="relative group">
@@ -85,7 +164,9 @@ export default function Navbar() {
                   >
                     {link.label}
                   </a>
-                  <span className="absolute left-0 -bottom-1 w-0 group-hover:w-full bg-primary transition-all duration-300 h-0.5"></span>
+                  <span className={`absolute left-0 -bottom-1 bg-primary transition-all duration-300 h-0.5 ${
+                    isActive ? "w-full" : "w-0 group-hover:w-full"
+                  }`}></span>
                 </li>
               );
             })}
@@ -142,6 +223,7 @@ export default function Navbar() {
       >
         <ul className="flex flex-col space-y-1 p-6">
           {links.map((link) => {
+            const isActive = activeLink === link.id;
             const handleMobileClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
               e.preventDefault();
               setIsOpen(false);
@@ -178,7 +260,9 @@ export default function Navbar() {
                 >
                   {link.label}
                 </a>
-                <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                <span className={`absolute left-0 bottom-0 h-0.5 bg-primary transition-all duration-300 ${
+                  isActive ? "w-full" : "w-0 group-hover:w-full"
+                }`}></span>
               </li>
             );
           })}

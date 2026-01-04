@@ -65,7 +65,7 @@ export default function HeroSection() {
   const initialScale = 1;
   const finalScale = 0.85;
   const currentScale = initialScale - (initialScale - finalScale) * scrollProgress;
-
+  
   return (
     <section
       ref={heroRef}
@@ -116,69 +116,36 @@ export default function HeroSection() {
           height: "100%",
         }}
       >
+        <p data-aos="fade-up" className="text-white text-sm font-bold mb-2">
+          {t("sharedVision")}
+        </p>
         <h1  
+        data-aos-delay='300'
           data-aos="fade-up" 
-          className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight transition-all duration-300 ease-out"
-          style={{
-            transform: `translateY(${scrollProgress * -20}px)`,
-            opacity: 1 - scrollProgress * 0.3,
-          }}
+          className="text-5xl sm:text-7xl lg:text-8xl font-extrabold text-white mb-4 leading-tight transition-all duration-300 ease-out"
+         
         >
           {t("title")}
         </h1>
 
         <p  
           data-aos="fade-up" 
-          data-delay='200' 
-          className="text-white/80 text-md md:text-lg ps-2 mb-3 max-w-xl font-bold transition-all duration-300 ease-out"
-          style={{
-            transform: `translateY(${scrollProgress * -15}px)`,
-            opacity: 1 - scrollProgress * 0.4,
-          }}
+          data-aos-delay='600' 
+          className="text-white/80 text-lg md:text-xl mb-8 max-w-2xl font-medium transition-all duration-300 ease-out"
+        
         >
           {t("subtitle1")}
         </p>
-      </div>
 
-      {/* Stats Section */}
-      {/* <div
-        data-aos="fade-up" 
-        data-aos-delay="600"
-        ref={ref}
-        className="absolute bottom-0 w-full bg-black/50 backdrop-blur-md transition-all duration-300 ease-out"
-        style={{
-          paddingTop: `${32 - scrollProgress * 16}px`,
-          paddingBottom: `${32 - scrollProgress * 16}px`,
-          opacity: scrollProgress > 0.7 ? 0 : 1,
-          transform: `translateY(${scrollProgress * 20}px)`,
-        }}
-      >
-        <div className="max-w-6xl mx-auto px-6 lg:px-12 grid grid-cols-2 sm:grid-cols-5 gap-6 text-center text-white">
-          
-          
-          {stats.map((stat)=>(
-             <div key={stat}  className="flex flex-col gap-2">
-              <p className="text-3xl sm:text-4xl font-bold text-primary-200">
-                +
-                {inView ? (
-                  <CountUp
-                    start={0}
-                    end={Number(t(`stats.${stat}.value`))}
-                    duration={5.5}
-                    separator=","
-                  />
-                ) : (
-                  0
-                )}
-              </p>
-              <p className="text-sm  uppercase tracking-wide">
-                {t(`stats.${stat}.label`)}
-              </p>
-            </div>
-          ))}
-           
+        <div data-aos="fade-up" data-aos-delay='900' className="flex gap-4">
+          <a 
+            href={`/${locale}/#about`}
+            className="px-6 py-3 bg-primary text-white rounded-md font-semibold text-lg hover:bg-primary-700 transition-colors duration-300"
+          >
+            {t("buttonPrimary")}
+          </a>
         </div>
-      </div> */}
+      </div>
     </section>
   );
 }

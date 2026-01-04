@@ -13,9 +13,10 @@
     "businessAreasDescription": "CPD Alliance is driving development in the installation industry through its four business areas: Infrastructure, Security, Electricity and Plumbing. With a focus on collaboration, entrepreneurship and commitment, sustainable solutions are created that shape the societies of the future."
   },
   "hero": {
-    "title": "WELCOME TO CPD ALIANCE",
-    "subtitle1": "Uniting Expertice , Delivering Enduring Value , Excellence in execution across every domain , Delivering clarity , performance , and sustained growth .",
-    "buttonPrimary": "Get Started",
+    "sharedVision": "SHARED VISION. PROVEN PERFORMANCE.",
+    "title": "CPD Alliance",
+    "subtitle1": "We see each project as a new challenge and with our capacity to build and innovate, we overcome all the obstacles.",
+    "buttonPrimary": "About us",
     "buttonSecondary": "Learn More",
   "stats" : {
  "Countries":{ "label": "Countries", "value": "46" },

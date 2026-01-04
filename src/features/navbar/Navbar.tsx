@@ -36,45 +36,6 @@ export default function Navbar() {
     { id: "contact", label: t("contact") },
   ], [t]);
 
-  // Get current hash from URL to determine active link
-  const [activeLink, setActiveLink] = useState("companies");
-  
-  useEffect(() => {
-    const updateActiveLink = () => {
-      const hash = window.location.hash.slice(1);
-      if (hash) {
-        setActiveLink(hash);
-      } else {
-        // Check scroll position to determine active section
-        const linkIds = links.map(link => link.id);
-        const sections = linkIds.map(id => {
-          const element = document.getElementById(id);
-          if (element) {
-            const rect = element.getBoundingClientRect();
-            return { id, top: rect.top, bottom: rect.bottom };
-          }
-          return null;
-        }).filter(Boolean);
-        
-        const currentSection = sections.find(section => 
-          section && section.top <= 100 && section.bottom >= 100
-        );
-        
-        if (currentSection) {
-          setActiveLink(currentSection.id);
-        }
-      }
-    };
-    
-    updateActiveLink();
-    window.addEventListener("hashchange", updateActiveLink);
-    window.addEventListener("scroll", updateActiveLink, { passive: true });
-    return () => {
-      window.removeEventListener("hashchange", updateActiveLink);
-      window.removeEventListener("scroll", updateActiveLink);
-    };
-  }, [links]);
-
   // Toggle language
   const handleLangToggle = () => {
     const newLang = isRTL ? "en" : "ar";
@@ -112,64 +73,19 @@ export default function Navbar() {
           {/* Navigation Links */}
           <ul className="flex items-center space-x-10">
             {links.map((link) => {
-              const isActive = activeLink === link.id;
-              const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-                e.preventDefault();
-                
-                // Update active link immediately
-                setActiveLink(link.id);
-                
-                // Wait for any layout changes to settle, then scroll
-                requestAnimationFrame(() => {
-                  requestAnimationFrame(() => {
-                    const element = document.getElementById(link.id);
-                    if (element) {
-                      const navbarHeight = 80; // Height of navbar (h-20 = 80px)
-                      
-                      // Force a reflow to ensure all layout changes are applied
-                      void element.offsetHeight;
-                      
-                      // Get current position after layout has stabilized
-                      const rect = element.getBoundingClientRect();
-                      const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
-                      const elementTop = rect.top + currentScrollY;
-                      const offsetPosition = elementTop - navbarHeight;
-                      
-                      // Scroll to position
-                      window.scrollTo({
-                        top: Math.max(0, offsetPosition),
-                        behavior: 'smooth'
-                      });
-                      
-                      // Update URL hash after scroll completes
-                      setTimeout(() => {
-                        window.history.pushState(null, '', `#${link.id}`);
-                      }, 300);
-                    }
-                  });
-                });
-              };
+            
               
               return (
                 <li key={link.id} className="relative group">
                   <a
                     href={`#${link.id}`}
-                    onClick={handleClick}
                     className={`text-base font-semibold transition-all duration-300 ${
-                      isActive
-                        ? "text-primary"
-                        : scrolled 
-                          ? "text-foreground" 
-                          : "text-white"
+                      scrolled ? "text-foreground" : "text-white"
                     }`}
                   >
                     {link.label}
                   </a>
-                  <span className={`absolute left-0 -bottom-1 transition-all duration-300 ${
-                    isActive 
-                      ? "w-full bg-primary" 
-                      : "w-0 group-hover:w-full bg-primary"
-                  } h-0.5`}></span>
+                  <span className="absolute left-0 -bottom-1 w-0 group-hover:w-full bg-primary transition-all duration-300 h-0.5"></span>
                 </li>
               );
             })}
@@ -230,39 +146,26 @@ export default function Navbar() {
               e.preventDefault();
               setIsOpen(false);
               
-              // Update active link immediately
-              setActiveLink(link.id);
-              
-              // Wait for menu to close and layout to settle
               setTimeout(() => {
-                requestAnimationFrame(() => {
-                  requestAnimationFrame(() => {
-                    const element = document.getElementById(link.id);
-                    if (element) {
-                      const navbarHeight = 80; // Height of navbar (h-20 = 80px)
-                      
-                      // Force a reflow to ensure all layout changes are applied
-                      void element.offsetHeight;
-                      
-                      // Get current position after layout has stabilized
-                      const rect = element.getBoundingClientRect();
-                      const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
-                      const elementTop = rect.top + currentScrollY;
-                      const offsetPosition = elementTop - navbarHeight;
-                      
-                      // Scroll to position
-                      window.scrollTo({
-                        top: Math.max(0, offsetPosition),
-                        behavior: 'smooth'
-                      });
-                      
-                      // Update URL hash after scroll completes
-                      setTimeout(() => {
-                        window.history.pushState(null, '', `#${link.id}`);
-                      }, 300);
-                    }
+                const element = document.getElementById(link.id);
+                if (element) {
+                  const navbarHeight = 80; // Height of navbar (h-20 = 80px)
+                  
+                  // Get current position
+                  const rect = element.getBoundingClientRect();
+                  const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
+                  const elementTop = rect.top + currentScrollY;
+                  const offsetPosition = elementTop - navbarHeight;
+                  
+                  // Scroll to position
+                  window.scrollTo({
+                    top: Math.max(0, offsetPosition),
+                    behavior: 'smooth'
                   });
-                });
+                  
+                  // Update URL hash
+                  window.history.pushState(null, '', `#${link.id}`);
+                }
               }, 200);
             };
             

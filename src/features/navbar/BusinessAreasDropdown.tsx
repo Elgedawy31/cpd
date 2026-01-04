@@ -75,11 +75,7 @@ export default function BusinessAreasDropdown({
           ))}
         </div>
       </div>
-      
-      {/* Arrow indicator */}
-      <div 
-        className={`absolute -top-2 ${isRTL ? 'right-8' : 'left-1/2 -translate-x-1/2'} w-4 h-4 bg-white rotate-45 border-t border-l border-gray-200`}
-      ></div>
+    
     </div>
   );
 }

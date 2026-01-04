@@ -140,7 +140,7 @@ export default function HeroSection() {
         <div data-aos="fade-up" data-aos-delay='900' className="flex gap-4">
           <a 
             href={`/${locale}/#about`}
-            className="px-6 py-3 bg-primary text-white rounded-md font-semibold text-lg hover:bg-primary-700 transition-colors duration-300"
+            className="px-6 py-3 bg-white text-primary rounded-md font-semibold text-lg hover:opacity-70 transition-opacity duration-300"
           >
             {t("buttonPrimary")}
           </a>

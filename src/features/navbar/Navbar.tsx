@@ -186,8 +186,14 @@ export default function Navbar() {
                   scrolled={scrolled}
                   onClick={(e) => handleLinkClick(e, link.id)}
                   onMouseEnter={() => {
-                    if (isBusinessAreas) setShowBusinessAreasDropdown(true);
-                    if (isCompanies) setShowCompaniesDropdown(true);
+                    if (isBusinessAreas) {
+                      setShowBusinessAreasDropdown(true);
+                      setShowCompaniesDropdown(false); // Close other dropdown
+                    }
+                    if (isCompanies) {
+                      setShowCompaniesDropdown(true);
+                      setShowBusinessAreasDropdown(false); // Close other dropdown
+                    }
                   }}
                   onMouseLeave={() => {
                     if (isBusinessAreas) setShowBusinessAreasDropdown(false);

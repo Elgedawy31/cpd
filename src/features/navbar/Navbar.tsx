@@ -13,23 +13,18 @@ export default function Navbar() {
   const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [scrollingUp, setScrollingUp] = useState(true);
-  const [lastScroll, setLastScroll] = useState(0);
-  const [scrolled, setScrolled] = useState(false); // ✅ لمتابعة إذا تعدى 100vh
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScroll = window.pageYOffset;
-      setScrollingUp(currentScroll < lastScroll || currentScroll < 50);
-      setLastScroll(currentScroll);
-
       // Change to white background after scrolling 50px
       setScrolled(currentScroll > 50);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScroll]);
+  }, []);
 
   const isRTL = pathname?.startsWith("/ar");
 
@@ -51,8 +46,6 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed w-full z-50 transition-all duration-300 ${
-        scrollingUp ? "translate-y-0" : "-translate-y-full"
-      } ${
         scrolled 
           ? "bg-white shadow-md" 
           : "bg-transparent"

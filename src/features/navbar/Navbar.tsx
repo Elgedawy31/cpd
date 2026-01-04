@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { useTranslations } from "next-intl";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import NavbarLogo from "./NavbarLogo";
 import NavLink from "./NavLink";
 import BusinessAreasDropdown from "./BusinessAreasDropdown";
@@ -13,7 +13,6 @@ import MobileMenu from "./MobileMenu";
 export default function Navbar() {
   const t = useTranslations("navbar");
   const pathname = usePathname();
-  const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -150,11 +149,12 @@ export default function Navbar() {
   };
 
   // Toggle language
-  const handleLangToggle = () => {
-    const newLang = isRTL ? "en" : "ar";
-    const newPath = pathname.replace(/^\/(en|ar)/, `/${newLang}`);
-    router.push(newPath);
-  };
+  // Handled by LanguageDropdown component
+  // const handleLangToggle = () => {
+  //   const newLang = isRTL ? "en" : "ar";
+  //   const newPath = pathname.replace(/^\/(en|ar)/, `/${newLang}`);
+  //   router.push(newPath);
+  // };
 
   return (
     <nav
@@ -222,7 +222,6 @@ export default function Navbar() {
           <NavbarActions
             scrolled={scrolled}
             isRTL={isRTL}
-            onLangToggle={handleLangToggle}
           />
         </div>
 
@@ -235,7 +234,6 @@ export default function Navbar() {
           scrolled={scrolled}
           onToggle={() => setIsOpen(!isOpen)}
           onLinkClick={scrollToSection}
-          onLangToggle={handleLangToggle}
         />
       </div>
     </nav>

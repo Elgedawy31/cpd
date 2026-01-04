@@ -1,6 +1,7 @@
 "use client";
 
-import { Globe, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import LanguageDropdown from "./LanguageDropdown";
 
 interface Link {
   id: string;
@@ -15,7 +16,6 @@ interface MobileMenuProps {
   scrolled: boolean;
   onToggle: () => void;
   onLinkClick: (linkId: string) => void;
-  onLangToggle: () => void;
 }
 
 export default function MobileMenu({
@@ -26,7 +26,6 @@ export default function MobileMenu({
   scrolled,
   onToggle,
   onLinkClick,
-  onLangToggle,
 }: MobileMenuProps) {
   const handleMobileClick = (e: React.MouseEvent<HTMLAnchorElement>, linkId: string) => {
     e.preventDefault();
@@ -83,13 +82,7 @@ export default function MobileMenu({
 
           {/* Language Toggle Button Mobile */}
           <li className="pt-4">
-            <button
-              onClick={onLangToggle}
-              className="w-full px-4 py-2 flex items-center gap-2 justify-center rounded-lg border border-primary text-foreground font-semibold hover:bg-primary hover:text-white transition-colors duration-300"
-            >
-              <Globe className="w-4 h-4" />
-              {isRTL ? "EN" : "AR"}
-            </button>
+            <LanguageDropdown scrolled={scrolled} isRTL={isRTL} />
           </li>
         </ul>
       </div>

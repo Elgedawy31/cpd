@@ -45,7 +45,7 @@ export default function CompaniesDropdown({
           {companyLogos.map((imageSrc, index) => (
             <div
               key={index}
-              className="relative h-[100px] bg-gray-50 rounded-lg overflow-hidden group/item transition-all duration-300 hover:scale-110 hover:shadow-lg border border-gray-100"
+              className="relative h-[70px] bg-gray-50 rounded-lg overflow-hidden group/item transition-all duration-300 hover:scale-110 hover:shadow-lg border border-gray-100"
               style={{
                 opacity: isOpen ? 1 : 0,
                 transform: isOpen 
@@ -58,7 +58,7 @@ export default function CompaniesDropdown({
                 src={imageSrc}
                 alt={`Company ${index + 1}`}
                 fill
-                className="object-contain p-3 transition-transform duration-300 group-hover/item:scale-105"
+                className="object-contain p-2 transition-transform duration-300 group-hover/item:scale-105"
               />
             </div>
           ))}

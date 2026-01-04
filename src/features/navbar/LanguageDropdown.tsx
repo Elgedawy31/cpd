@@ -45,14 +45,15 @@ export default function LanguageDropdown({ scrolled, isRTL }: LanguageDropdownPr
   }, []);
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative inline-block" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex items-center gap-2 px-3 py-1.5 rounded transition-colors duration-300
-          ${isOpen ? "bg-white/10" : ""} // Apply solid background when open
-          ${scrolled 
+        className={`flex items-center gap-2 px-3 py-1.5 rounded transition-colors duration-300 ${
+          isOpen ? "bg-white/10" : ""
+        } ${
+          scrolled 
             ? "text-foreground hover:bg-muted" 
-            : "text-white hover:bg-white/10" // Retain hover for when not open
+            : "text-white hover:bg-white/10"
         }`} 
       >
         {currentLangData && (

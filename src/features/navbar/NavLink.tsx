@@ -57,7 +57,7 @@ export default function NavLink({
       >
         {label}
       </a>
-      <span className={`absolute left-0 -bottom-1 ${!scrolled && isActive ? "bg-white" : "bg-primary"} transition-all duration-300 h-0.5 ${
+      <span className={`absolute left-0 -bottom-1 ${!scrolled ? "bg-white" : "bg-foreground"} transition-all duration-300 h-0.5 ${
              isActive ? "w-full" : (disableHoverBorder ? "w-0" : "w-0 group-hover:w-full")
            }`}></span>
              {children}

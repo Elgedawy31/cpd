@@ -2,8 +2,6 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
-import CountUp from "react-countup";
-import { useInView } from "react-intersection-observer";
 import { useEffect, useState, useRef } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -13,15 +11,6 @@ export default function HeroSection() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const heroRef = useRef<HTMLElement>(null);
   const rafRef = useRef<number | null>(null);
-
-  // Expanded stats data
-  const stats = [
-   'Countries',
-   'Clients',
-   'Employees',
-   'ProjectsCompleted',
-   'Companies'
-  ];
   useEffect(() => {
     AOS.init({ duration: 1000, once: true, mirror: false });
   }, []);
@@ -68,12 +57,9 @@ export default function HeroSection() {
     };
   }, []);
 
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.3 });
-
   // Calculate dynamic values based on scroll progress
-  const initialHeight = 100; // 100vh
-  const finalHeight = 40; // 40vh
-  const currentHeight = initialHeight - (initialHeight - finalHeight) * scrollProgress;
+  // Keep fixed height to prevent layout shifts
+  const initialHeight = 100; // 100vh (fixed)
   
   // Scale factor for video (starts at 1, scales down)
   const initialScale = 1;
@@ -84,13 +70,12 @@ export default function HeroSection() {
     <section
       ref={heroRef}
       id="hero"
-      className={`relative w-full overflow-hidden transition-all duration-300 ease-out ${
+      className={`relative w-full overflow-hidden  ${
         locale === "ar" ? "text-right" : "text-left"
       }`}
       style={{
-        height: `${currentHeight}vh`,
-        minHeight: `${currentHeight}vh`,
-        willChange: "height",
+        height: `${initialHeight}vh`,
+        minHeight: `${initialHeight}vh`,
       }}
     >
       {/* Background Video */}
@@ -126,11 +111,9 @@ export default function HeroSection() {
 
       {/* Overlay Content */}
       <div 
-        className="relative z-10 max-w-6xl mx-auto px-6 lg:px-12 flex flex-col justify-center transition-all duration-300 ease-out"
+        className="relative z-10 max-w-6xl mx-auto px-6 lg:px-12 flex flex-col justify-center"
         style={{
           height: "100%",
-          paddingTop: `${20 + scrollProgress * 10}px`,
-          paddingBottom: `${20 + scrollProgress * 10}px`,
         }}
       >
         <h1  

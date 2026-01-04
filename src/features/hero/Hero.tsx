@@ -1,7 +1,6 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import Link from "next/link";
 import Image from "next/image";
 import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
@@ -32,15 +31,28 @@ export default function HeroSection() {
         locale === "ar" ? "text-right" : "text-left"
       }`}
     >
-      {/* Background Image */}
+      {/* Background Video */}
       <div className="absolute top-0 left-0 w-full h-full -z-10">
+        {/* Fallback image - shown behind video as backup */}
         <Image
           src="/hero-bg.jpg"
           alt="Hero Background"
           fill
-          className="object-cover brightness-75"
+          className="absolute top-0 left-0 w-full h-full object-cover brightness-75"
           priority
+          aria-hidden="true"
         />
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          poster="/hero-bg.jpg"
+          className="absolute top-0 left-0 w-full h-full object-cover brightness-75"
+        >
+          <source src="/hero-bg.mp4" type="video/mp4" />
+        </video>
       </div>
 
       {/* Overlay Content */}

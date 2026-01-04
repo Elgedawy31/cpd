@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -28,13 +28,52 @@ export default function Navbar() {
 
   const isRTL = pathname?.startsWith("/ar");
 
-  const links = [
-    { id: "hero", label: t("home") },
-    { id: "about", label: t("about") },
-    { id: "companies", label: t("companies") },
+  const links = useMemo(() => [
+    { id: "companies", label: t("companies") || "Our Companies" },
+    { id: "businessAreas", label: t("businessAreas") || "Business areas" },
     { id: "partners", label: t("partners") },
+    { id: "about", label: t("about") },
     { id: "contact", label: t("contact") },
-  ];
+  ], [t]);
+
+  // Get current hash from URL to determine active link
+  const [activeLink, setActiveLink] = useState("companies");
+  
+  useEffect(() => {
+    const updateActiveLink = () => {
+      const hash = window.location.hash.slice(1);
+      if (hash) {
+        setActiveLink(hash);
+      } else {
+        // Check scroll position to determine active section
+        const linkIds = links.map(link => link.id);
+        const sections = linkIds.map(id => {
+          const element = document.getElementById(id);
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            return { id, top: rect.top, bottom: rect.bottom };
+          }
+          return null;
+        }).filter(Boolean);
+        
+        const currentSection = sections.find(section => 
+          section && section.top <= 100 && section.bottom >= 100
+        );
+        
+        if (currentSection) {
+          setActiveLink(currentSection.id);
+        }
+      }
+    };
+    
+    updateActiveLink();
+    window.addEventListener("hashchange", updateActiveLink);
+    window.addEventListener("scroll", updateActiveLink, { passive: true });
+    return () => {
+      window.removeEventListener("hashchange", updateActiveLink);
+      window.removeEventListener("scroll", updateActiveLink);
+    };
+  }, [links]);
 
   // Toggle language
   const handleLangToggle = () => {
@@ -72,21 +111,30 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-8">
           {/* Navigation Links */}
           <ul className="flex items-center space-x-10">
-            {links.map((link) => (
-              <li key={link.id} className="relative group">
-                <a
-                  href={`#${link.id}`}
-                  className={`text-base font-semibold transition-colors duration-300 ${
-                    scrolled ? "text-foreground" : "text-white"
-                  }`}
-                >
-                  {link.label}
-                </a>
-                <span className={`absolute left-0 -bottom-1 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
-                  scrolled ? "bg-primary" : "bg-white"
-                }`}></span>
-              </li>
-            ))}
+            {links.map((link) => {
+              const isActive = activeLink === link.id;
+              return (
+                <li key={link.id} className="relative group">
+                  <a
+                    href={`#${link.id}`}
+                    className={`text-base font-semibold transition-all duration-300 ${
+                      isActive
+                        ? "text-primary"
+                        : scrolled 
+                          ? "text-foreground" 
+                          : "text-white"
+                    }`}
+                  >
+                    {link.label}
+                  </a>
+                  <span className={`absolute left-0 -bottom-1 transition-all duration-300 ${
+                    isActive 
+                      ? "w-full bg-primary" 
+                      : "w-0 group-hover:w-full bg-primary"
+                  } h-0.5`}></span>
+                </li>
+              );
+            })}
           </ul>
 
           {/* Right Side Icons */}

@@ -115,6 +115,35 @@ export default function Navbar() {
     };
   }, [links]);
 
+  // Scroll to section with navbar offset
+  const scrollToSection = (linkId: string) => {
+    const element = document.getElementById(linkId);
+    if (element) {
+      const navbarHeight = 80; // Height of navbar (h-20 = 80px)
+      
+      // Get current position
+      const rect = element.getBoundingClientRect();
+      const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
+      const elementTop = rect.top + currentScrollY;
+      const offsetPosition = elementTop - navbarHeight;
+      
+      // Scroll to position with offset
+      window.scrollTo({
+        top: Math.max(0, offsetPosition),
+        behavior: 'smooth'
+      });
+      
+      // Update URL hash
+      window.history.pushState(null, '', `#${linkId}`);
+    }
+  };
+
+  // Handle navigation link click with scroll offset
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, linkId: string) => {
+    e.preventDefault();
+    scrollToSection(linkId);
+  };
+
   // Toggle language
   const handleLangToggle = () => {
     const newLang = isRTL ? "en" : "ar";
@@ -158,6 +187,7 @@ export default function Navbar() {
                 <li key={link.id} className="relative group">
                   <a
                     href={`#${link.id}`}
+                    onClick={(e) => handleLinkClick(e, link.id)}
                     className={`text-base font-semibold transition-all duration-300 ${
                       scrolled ? "text-foreground" : "text-white"
                     }`}
@@ -228,26 +258,9 @@ export default function Navbar() {
               e.preventDefault();
               setIsOpen(false);
               
+              // Small delay to allow menu to close before scrolling
               setTimeout(() => {
-                const element = document.getElementById(link.id);
-                if (element) {
-                  const navbarHeight = 80; // Height of navbar (h-20 = 80px)
-                  
-                  // Get current position
-                  const rect = element.getBoundingClientRect();
-                  const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
-                  const elementTop = rect.top + currentScrollY;
-                  const offsetPosition = elementTop - navbarHeight;
-                  
-                  // Scroll to position
-                  window.scrollTo({
-                    top: Math.max(0, offsetPosition),
-                    behavior: 'smooth'
-                  });
-                  
-                  // Update URL hash
-                  window.history.pushState(null, '', `#${link.id}`);
-                }
+                scrollToSection(link.id);
               }, 200);
             };
             

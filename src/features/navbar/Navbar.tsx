@@ -15,6 +15,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeLink, setActiveLink] = useState<string>("");
+  const [showBusinessAreasDropdown, setShowBusinessAreasDropdown] = useState(false);
 
   const isRTL = pathname?.startsWith("/ar");
 
@@ -182,9 +183,15 @@ export default function Navbar() {
           <ul className="flex items-center space-x-10">
             {links.map((link) => {
               const isActive = activeLink === link.id;
+              const isBusinessAreas = link.id === "businessAreas";
               
               return (
-                <li key={link.id} className="relative group">
+                <li 
+                  key={link.id} 
+                  className="relative group"
+                  onMouseEnter={() => isBusinessAreas && setShowBusinessAreasDropdown(true)}
+                  onMouseLeave={() => isBusinessAreas && setShowBusinessAreasDropdown(false)}
+                >
                   <a
                     href={`#${link.id}`}
                     onClick={(e) => handleLinkClick(e, link.id)}
@@ -197,6 +204,70 @@ export default function Navbar() {
                   <span className={`absolute left-0 -bottom-1 bg-primary transition-all duration-300 h-0.5 ${
                     isActive ? "w-full" : "w-0 group-hover:w-full"
                   }`}></span>
+                  
+                  {/* Business Areas Dropdown */}
+                  {isBusinessAreas && (
+                    <div
+                      className={`absolute top-full ${isRTL ? 'right-0' : 'left-1/2'} mt-2 w-[600px] bg-white rounded-xl shadow-2xl overflow-hidden z-50 ${
+                        showBusinessAreasDropdown
+                          ? "opacity-100 pointer-events-auto"
+                          : "opacity-0 pointer-events-none"
+                      }`}
+                      onMouseEnter={() => setShowBusinessAreasDropdown(true)}
+                      onMouseLeave={() => setShowBusinessAreasDropdown(false)}
+                      style={{
+                        transform: showBusinessAreasDropdown 
+                          ? (isRTL ? 'translateY(0)' : 'translate(-50%, 0)')
+                          : (isRTL ? 'translateY(-8px)' : 'translate(-50%, -8px)'),
+                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                      }}
+                    >
+                      <div className="p-8">
+                        {/* Header */}
+                        <h3 className={`text-2xl font-bold text-foreground mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
+                          {t("businessAreasTitle")}
+                        </h3>
+                        <p className={`text-sm text-muted-foreground leading-relaxed mb-6 ${isRTL ? 'text-right' : 'text-left'}`}>
+                          {t("businessAreasDescription")}
+                        </p>
+                        
+                        {/* Partner Images Grid */}
+                        <div className="grid grid-cols-5 gap-4">
+                          {[
+                            "/ourPartners/Image_02.png",
+                            "/ourPartners/Image_03.png",
+                            "/ourPartners/Image_05.png",
+                            "/ourPartners/Image_07.png",
+                            "/ourPartners/Image_08.png",
+                          ].map((imageSrc, index) => (
+                            <div
+                              key={index}
+                              className="relative aspect-square bg-gray-50 rounded-lg overflow-hidden group/item transition-all duration-300 hover:scale-110 hover:shadow-lg border border-gray-100"
+                              style={{
+                                opacity: showBusinessAreasDropdown ? 1 : 0,
+                                transform: showBusinessAreasDropdown 
+                                  ? 'translateY(0) scale(1)' 
+                                  : 'translateY(10px) scale(0.95)',
+                                transition: `all 0.4s cubic-bezier(0.16, 1, 0.3, 1) ${index * 60}ms`,
+                              }}
+                            >
+                              <Image
+                                src={imageSrc}
+                                alt={`Partner ${index + 1}`}
+                                fill
+                                className="object-contain p-3 transition-transform duration-300 group-hover/item:scale-105"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      {/* Arrow indicator */}
+                      <div 
+                        className={`absolute -top-2 ${isRTL ? 'right-8' : 'left-1/2 -translate-x-1/2'} w-4 h-4 bg-white rotate-45 border-t border-l border-gray-200`}
+                      ></div>
+                    </div>
+                  )}
                 </li>
               );
             })}

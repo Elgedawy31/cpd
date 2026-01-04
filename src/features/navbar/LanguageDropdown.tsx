@@ -48,11 +48,12 @@ export default function LanguageDropdown({ scrolled, isRTL }: LanguageDropdownPr
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex items-center gap-2 px-3 py-1.5 rounded transition-colors duration-300 ${
-          scrolled 
+        className={`flex items-center gap-2 px-3 py-1.5 rounded transition-colors duration-300
+          ${isOpen ? "bg-white/10" : ""} // Apply solid background when open
+          ${scrolled 
             ? "text-foreground hover:bg-muted" 
-            : "text-white hover:bg-white/10"
-        }`}
+            : "text-white hover:bg-white/10" // Retain hover for when not open
+        }`} 
       >
         {currentLangData && (
           <Image src={currentLangData.flag} alt={currentLangData.label} width={20} height={20} className="rounded-full" />

@@ -63,9 +63,7 @@
     "title": "DLALAT",
     "description": "Leading software and distribution partner."
   }
-}
-,
-
+},
 
   "whyChooseUs": {
     "title": "Why Choose Us",
@@ -118,6 +116,38 @@
     }
   },
   "footer": {
+    "domAppDescription": "At DomApp, we develop and design applications tailored to the client's requirements.",
+    "aboutUs": {
+      "home": "Home",
+      "products": "Products",
+      "whatWeDo": "What we do",
+      "whyUs": "Why us",
+      "contactUs": "Contact us"
+    },
+    "legalPolicies": "Legal Policies",
+    "privacyPolicy": "Privacy policy",
+    "products": {
+      "title": "Products",
+      "cladCut": "CladCut",
+      "windMaster": "Wind Master",
+      "bondifyCrm": "bondify CRM",
+      "rdApp": "RDAPP",
+      "chatPlus": "ChatPlus",
+      "byld": "BYLD"
+    },
+    "services": {
+      "title": "Services",
+      "developmentServices": "Development Services",
+      "facadeFabrication": "Facade Fabrication"
+    },
+    "exclusiveDealer": {
+      "title": "Exclusive Dealer",
+      "dlalat": "Dlalat"
+    },
+    "community": {
+      "title": "Community",
+      "blog": "Blog"
+    },
     "description": "We deliver integrated, reliable, and high-quality solutions that transform expertise into measurable results.",
     "contactInfo": "Contact Information",
     "workTime": "Work Hours:",

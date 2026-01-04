@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useRef } from "react";
 
 interface NavLinkProps {
   linkId: string;
@@ -23,11 +23,28 @@ export default function NavLink({
   onMouseLeave,
   children,
 }: NavLinkProps) {
+  const hoverTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  const handleMouseEnter = () => {
+    if (hoverTimeout.current) {
+      clearTimeout(hoverTimeout.current);
+      hoverTimeout.current = null;
+    }
+    onMouseEnter?.();
+  };
+
+  const handleMouseLeave = () => {
+    hoverTimeout.current = setTimeout(() => {
+      onMouseLeave?.();
+      hoverTimeout.current = null;
+    }, 200);
+  };
+
   return (
     <li 
-      className="relative group"
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+      className="relative group overflow-visible"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <a
         href={`#${linkId}`}

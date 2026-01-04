@@ -116,7 +116,7 @@
     }
   },
   "footer": {
-    "domAppDescription": "At DomApp, we develop and design applications tailored to the client's requirements.",
+    "description": "We deliver integrated, reliable, and high-quality solutions that transform expertise into measurable results.",
     "aboutUs": {
       "home": "Home",
       "products": "Products",
@@ -155,6 +155,7 @@
     "quickLinks": " Links",
     "home": "Home",
     "about": "About Us",
+    "services": "Services",
     "contact": "Contact Us",
     "followUs": "Follow Us",
     "rights": "All rights reserved.",

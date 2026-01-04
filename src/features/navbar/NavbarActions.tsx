@@ -1,6 +1,6 @@
 "use client";
 
-import { Globe, Search } from "lucide-react";
+import { Globe } from "lucide-react";
 
 interface NavbarActionsProps {
   scrolled: boolean;
@@ -15,16 +15,6 @@ export default function NavbarActions({
 }: NavbarActionsProps) {
   return (
     <div className="flex items-center gap-4">
-      {/* Search Icon */}
-      <button
-        className={`transition-colors duration-300 ${
-          scrolled ? "text-foreground" : "text-white"
-        }`}
-        aria-label="Search"
-      >
-        <Search className="w-5 h-5" />
-      </button>
-
       {/* Language Toggle Button Desktop */}
       <button
         onClick={onLangToggle}

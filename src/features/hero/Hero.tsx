@@ -158,7 +158,7 @@ export default function HeroSection() {
       </div>
 
       {/* Stats Section */}
-      <div
+      {/* <div
         data-aos="fade-up" 
         data-aos-delay="600"
         ref={ref}
@@ -195,7 +195,7 @@ export default function HeroSection() {
           ))}
            
         </div>
-      </div>
+      </div> */}
     </section>
   );
 }

@@ -57,7 +57,7 @@ export default function Navbar() {
           href={`/${isRTL ? "ar" : "en"}#home`}
           className="flex items-center"
         >
-          <div className="relative w-[120px] h-[50px] flex items-center justify-center">
+          <div className="relative w-[170px] h-[70px] flex items-center justify-center">
             <Image
               src={scrolled ? `/cpdLogoDark.png` : `/cpdLogo.png`}
               alt="Logo"

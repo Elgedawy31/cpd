@@ -68,29 +68,31 @@ export default function Navbar() {
           </div>
         </Link>
 
-        {/* Desktop Links */}
-        <ul className="hidden md:flex items-center space-x-8">
-          {links.map((link) => (
-            <li key={link.id} className="relative group">
-              <a
-                href={`#${link.id}`}
-                className={`text-sm font-medium transition-colors duration-300 ${
-                  scrolled ? "text-foreground" : "text-white"
-                }`}
-              >
-                {link.label}
-              </a>
-              <span className={`absolute left-0 -bottom-1 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
-                scrolled ? "bg-primary" : "bg-white"
-              }`}></span>
-            </li>
-          ))}
-        </ul>
+        {/* Desktop Links and Icons - Right Side */}
+        <div className="hidden md:flex items-center gap-8">
+          {/* Navigation Links */}
+          <ul className="flex items-center space-x-10">
+            {links.map((link) => (
+              <li key={link.id} className="relative group">
+                <a
+                  href={`#${link.id}`}
+                  className={`text-base font-semibold transition-colors duration-300 ${
+                    scrolled ? "text-foreground" : "text-white"
+                  }`}
+                >
+                  {link.label}
+                </a>
+                <span className={`absolute left-0 -bottom-1 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
+                  scrolled ? "bg-primary" : "bg-white"
+                }`}></span>
+              </li>
+            ))}
+          </ul>
 
-        {/* Right Side Icons */}
-        <div className="flex items-center gap-4">
-          {/* Search Icon */}
-          <button
+          {/* Right Side Icons */}
+          <div className="flex items-center gap-4">
+            {/* Search Icon */}
+            <button
             className={`transition-colors duration-300 ${
               scrolled ? "text-foreground" : "text-white"
             }`}
@@ -99,34 +101,35 @@ export default function Navbar() {
             <Search className="w-5 h-5" />
           </button>
 
-          {/* Language Toggle Button Desktop */}
-          <button
-            onClick={handleLangToggle}
-            className={`hidden md:flex items-center gap-2 px-3 py-1.5 rounded transition-colors duration-300 ${
-              scrolled 
-                ? "text-foreground hover:bg-muted" 
-                : "text-white hover:bg-white/10"
-            }`}
-          >
-            <Globe className="w-4 h-4" />
-            <span className="text-sm font-medium">{isRTL ? "EN" : "AR"}</span>
-          </button>
-
-          {/* Mobile Menu Button */}
-          <button
-            className={`md:hidden flex items-center transition-colors duration-300 ${
-              scrolled ? "text-foreground" : "text-white"
-            }`}
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle Menu"
-          >
-            {isOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </button>
+            {/* Language Toggle Button Desktop */}
+            <button
+              onClick={handleLangToggle}
+              className={`flex items-center gap-2 px-3 py-1.5 rounded transition-colors duration-300 ${
+                scrolled 
+                  ? "text-foreground hover:bg-muted" 
+                  : "text-white hover:bg-white/10"
+              }`}
+            >
+              <Globe className="w-4 h-4" />
+              <span className="text-sm font-medium">{isRTL ? "EN" : "AR"}</span>
+            </button>
+          </div>
         </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          className={`md:hidden flex items-center transition-colors duration-300 ${
+            scrolled ? "text-foreground" : "text-white"
+          }`}
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle Menu"
+        >
+          {isOpen ? (
+            <X className="w-6 h-6" />
+          ) : (
+            <Menu className="w-6 h-6" />
+          )}
+        </button>
       </div>
 
       {/* Mobile Menu */}

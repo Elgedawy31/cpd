@@ -39,13 +39,13 @@ export default function CompaniesDropdown({
         transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
       }}
     >
-      <div className="p-8">
+      <div className="p-4">
         {/* Company Logos Grid */}
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-5 gap-4">
           {companyLogos.map((imageSrc, index) => (
             <div
               key={index}
-              className="relative aspect-square bg-gray-50 rounded-lg overflow-hidden group/item transition-all duration-300 hover:scale-110 hover:shadow-lg border border-gray-100"
+              className="relative h-[100px] bg-gray-50 rounded-lg overflow-hidden group/item transition-all duration-300 hover:scale-110 hover:shadow-lg border border-gray-100"
               style={{
                 opacity: isOpen ? 1 : 0,
                 transform: isOpen 
@@ -58,7 +58,7 @@ export default function CompaniesDropdown({
                 src={imageSrc}
                 alt={`Company ${index + 1}`}
                 fill
-                className="object-contain p-4 transition-transform duration-300 group-hover/item:scale-105"
+                className="object-contain p-3 transition-transform duration-300 group-hover/item:scale-105"
               />
             </div>
           ))}

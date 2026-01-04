@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Globe } from "lucide-react";
+import { Globe, Search, Menu, X } from "lucide-react";
 import Image from "next/image";
 
 export default function Navbar() {
@@ -20,11 +20,11 @@ export default function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       const currentScroll = window.pageYOffset;
-      setScrollingUp(currentScroll < lastScroll || currentScroll < 100);
+      setScrollingUp(currentScroll < lastScroll || currentScroll < 50);
       setLastScroll(currentScroll);
 
-      // ✅ لو عدى 100vh غيّر الحالة
-      setScrolled(currentScroll > window.innerHeight * 1);
+      // Change to white background after scrolling 50px
+      setScrolled(currentScroll > 50);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -50,111 +50,117 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed w-full z-50 transition-transform duration-300 backdrop-blur-3xl ${
+      className={`fixed w-full z-50 transition-all duration-300 ${
         scrollingUp ? "translate-y-0" : "-translate-y-full"
+      } ${
+        scrolled 
+          ? "bg-white shadow-md" 
+          : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 flex justify-between items-center h-16">
+      <div className="w-full p-4 flex justify-between items-center h-20">
         {/* Logo */}
         <Link
           href={`/${isRTL ? "ar" : "en"}#home`}
-          className={`text-2xl py-2 font-bold transition-colors duration-300 ${
-            scrolled ? "text-foreground" : "text-white"
-          }`} 
+          className="flex items-center"
         >
-         <div className="relative w-[100px] h-[100px] flex items-center justify-center">
-                          <Image
-                            src={scrolled?`/cpdLogoDark.png`:`/cpdLogo.png`}
-                            alt='Logo'
-                            fill
-                            style={{ objectFit: "contain" }}
-                          />
-                        </div>
+          <div className="relative w-[120px] h-[50px] flex items-center justify-center">
+            <Image
+              src={scrolled ? `/cpdLogoDark.png` : `/cpdLogo.png`}
+              alt="Logo"
+              fill
+              style={{ objectFit: "contain" }}
+              priority
+            />
+          </div>
         </Link>
 
         {/* Desktop Links */}
-        <ul className="hidden md:flex items-center space-x-6">
+        <ul className="hidden md:flex items-center space-x-8">
           {links.map((link) => (
             <li key={link.id} className="relative group">
               <a
                 href={`#${link.id}`}
-                className={`font-bold transition-colors duration-300 ${
+                className={`text-sm font-medium transition-colors duration-300 ${
                   scrolled ? "text-foreground" : "text-white"
                 }`}
               >
                 {link.label}
               </a>
-              <span className="absolute left-0 -bottom-1 w-0 h-1 bg-primary transition-all duration-300 group-hover:w-full"></span>
+              <span className={`absolute left-0 -bottom-1 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
+                scrolled ? "bg-primary" : "bg-white"
+              }`}></span>
             </li>
           ))}
-
-          {/* Language Toggle Button Desktop */}
-          <li>
-            <button
-              onClick={handleLangToggle}
-              className={`ml-4 px-4 py-2 flex items-center gap-2 rounded-lg border border-primary font-semibold hover:bg-primary hover:scale-105 transition-transform duration-300 ${
-                scrolled ? "text-foreground" : "text-white"
-              }`}
-            >
-              <Globe className="w-4 h-4" />
-              {isRTL ? "EN" : "AR"}
-            </button>
-          </li>
         </ul>
 
-        {/* Mobile Menu Button */}
-        <button
-          className={`md:hidden flex items-center ${
-            scrolled ? "text-foreground" : "text-white"
-          }`}
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <span className="sr-only">Toggle Menu</span>
-          <div className="w-6 h-6 relative">
-            <span
-              className={`block absolute h-0.5 w-6 bg-foreground transform transition duration-300 ease-in-out ${
-                isOpen ? "rotate-45 top-2.5" : "top-1"
-              }`}
-            />
-            <span
-              className={`block absolute h-0.5 w-6 bg-foreground transform transition duration-300 ease-in-out ${
-                isOpen ? "opacity-0" : "top-3"
-              }`}
-            />
-            <span
-              className={`block absolute h-0.5 w-6 bg-foreground transform transition duration-300 ease-in-out ${
-                isOpen ? "-rotate-45 top-2.5" : "top-5"
-              }`}
-            />
-          </div>
-        </button>
+        {/* Right Side Icons */}
+        <div className="flex items-center gap-4">
+          {/* Search Icon */}
+          <button
+            className={`transition-colors duration-300 ${
+              scrolled ? "text-foreground" : "text-white"
+            }`}
+            aria-label="Search"
+          >
+            <Search className="w-5 h-5" />
+          </button>
+
+          {/* Language Toggle Button Desktop */}
+          <button
+            onClick={handleLangToggle}
+            className={`hidden md:flex items-center gap-2 px-3 py-1.5 rounded transition-colors duration-300 ${
+              scrolled 
+                ? "text-foreground hover:bg-muted" 
+                : "text-white hover:bg-white/10"
+            }`}
+          >
+            <Globe className="w-4 h-4" />
+            <span className="text-sm font-medium">{isRTL ? "EN" : "AR"}</span>
+          </button>
+
+          {/* Mobile Menu Button */}
+          <button
+            className={`md:hidden flex items-center transition-colors duration-300 ${
+              scrolled ? "text-foreground" : "text-white"
+            }`}
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle Menu"
+          >
+            {isOpen ? (
+              <X className="w-6 h-6" />
+            ) : (
+              <Menu className="w-6 h-6" />
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
       <div
-        className={`md:hidden fixed top-16 left-0 w-full bg-surface overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out ${
+        className={`md:hidden fixed top-20 left-0 w-full bg-white shadow-lg overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out ${
           isOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <ul className="flex flex-col space-y-4 p-6">
+        <ul className="flex flex-col space-y-1 p-6">
           {links.map((link) => (
             <li key={link.id} className="group relative overflow-hidden">
               <a
                 href={`#${link.id}`}
-                className="block text-foreground font-medium py-2 transform transition-all duration-300 group-hover:pl-2"
+                className="block text-foreground font-medium py-3 transform transition-all duration-300 group-hover:pl-2"
                 onClick={() => setIsOpen(false)}
               >
                 {link.label}
               </a>
-              <span className="absolute left-0 bottom-0 w-0 h-1 bg-primary transition-all duration-300 group-hover:w-full"></span>
+              <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </li>
           ))}
 
           {/* Language Toggle Button Mobile */}
-          <li>
+          <li className="pt-4">
             <button
               onClick={handleLangToggle}
-              className="w-full px-4 py-2 flex items-center gap-2 justify-center rounded-lg border border-primary text-foreground font-semibold hover:bg-primary hover:text-white hover:scale-105 transition-transform duration-300"
+              className="w-full px-4 py-2 flex items-center gap-2 justify-center rounded-lg border border-primary text-foreground font-semibold hover:bg-primary hover:text-white transition-colors duration-300"
             >
               <Globe className="w-4 h-4" />
               {isRTL ? "EN" : "AR"}

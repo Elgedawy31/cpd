@@ -113,10 +113,48 @@ export default function Navbar() {
           <ul className="flex items-center space-x-10">
             {links.map((link) => {
               const isActive = activeLink === link.id;
+              const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+                e.preventDefault();
+                
+                // Update active link immediately
+                setActiveLink(link.id);
+                
+                // Wait for any layout changes to settle, then scroll
+                requestAnimationFrame(() => {
+                  requestAnimationFrame(() => {
+                    const element = document.getElementById(link.id);
+                    if (element) {
+                      const navbarHeight = 80; // Height of navbar (h-20 = 80px)
+                      
+                      // Force a reflow to ensure all layout changes are applied
+                      void element.offsetHeight;
+                      
+                      // Get current position after layout has stabilized
+                      const rect = element.getBoundingClientRect();
+                      const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
+                      const elementTop = rect.top + currentScrollY;
+                      const offsetPosition = elementTop - navbarHeight;
+                      
+                      // Scroll to position
+                      window.scrollTo({
+                        top: Math.max(0, offsetPosition),
+                        behavior: 'smooth'
+                      });
+                      
+                      // Update URL hash after scroll completes
+                      setTimeout(() => {
+                        window.history.pushState(null, '', `#${link.id}`);
+                      }, 300);
+                    }
+                  });
+                });
+              };
+              
               return (
                 <li key={link.id} className="relative group">
                   <a
                     href={`#${link.id}`}
+                    onClick={handleClick}
                     className={`text-base font-semibold transition-all duration-300 ${
                       isActive
                         ? "text-primary"
@@ -187,18 +225,60 @@ export default function Navbar() {
         }`}
       >
         <ul className="flex flex-col space-y-1 p-6">
-          {links.map((link) => (
-            <li key={link.id} className="group relative overflow-hidden">
-              <a
-                href={`#${link.id}`}
-                className="block text-foreground font-medium py-3 transform transition-all duration-300 group-hover:pl-2"
-                onClick={() => setIsOpen(false)}
-              >
-                {link.label}
-              </a>
-              <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-            </li>
-          ))}
+          {links.map((link) => {
+            const handleMobileClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+              e.preventDefault();
+              setIsOpen(false);
+              
+              // Update active link immediately
+              setActiveLink(link.id);
+              
+              // Wait for menu to close and layout to settle
+              setTimeout(() => {
+                requestAnimationFrame(() => {
+                  requestAnimationFrame(() => {
+                    const element = document.getElementById(link.id);
+                    if (element) {
+                      const navbarHeight = 80; // Height of navbar (h-20 = 80px)
+                      
+                      // Force a reflow to ensure all layout changes are applied
+                      void element.offsetHeight;
+                      
+                      // Get current position after layout has stabilized
+                      const rect = element.getBoundingClientRect();
+                      const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
+                      const elementTop = rect.top + currentScrollY;
+                      const offsetPosition = elementTop - navbarHeight;
+                      
+                      // Scroll to position
+                      window.scrollTo({
+                        top: Math.max(0, offsetPosition),
+                        behavior: 'smooth'
+                      });
+                      
+                      // Update URL hash after scroll completes
+                      setTimeout(() => {
+                        window.history.pushState(null, '', `#${link.id}`);
+                      }, 300);
+                    }
+                  });
+                });
+              }, 200);
+            };
+            
+            return (
+              <li key={link.id} className="group relative overflow-hidden">
+                <a
+                  href={`#${link.id}`}
+                  onClick={handleMobileClick}
+                  className="block text-foreground font-medium py-3 transform transition-all duration-300 group-hover:pl-2"
+                >
+                  {link.label}
+                </a>
+                <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+              </li>
+            );
+          })}
 
           {/* Language Toggle Button Mobile */}
           <li className="pt-4">

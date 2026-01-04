@@ -28,7 +28,7 @@ export default function BusinessAreasDropdown({
 
   return (
     <div
-      className={`absolute top-full ${isRTL ? 'right-0' : 'left-1/2'} mt-2 w-[600px] bg-white rounded-xl shadow-2xl overflow-hidden z-50 ${
+      className={`absolute top-full left-1/2 mt-2 w-[600px] bg-white rounded-xl shadow-2xl overflow-hidden z-50 ${
         isOpen
           ? "opacity-100 pointer-events-auto"
           : "opacity-0 pointer-events-none"
@@ -36,9 +36,9 @@ export default function BusinessAreasDropdown({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       style={{
-        transform: isOpen 
-          ? (isRTL ? 'translateY(0)' : 'translate(-50%, 0)')
-          : (isRTL ? 'translateY(-8px)' : 'translate(-50%, -8px)'),
+               transform: isOpen 
+                 ? 'translateX(-50%) translateY(0)'
+                 : 'translateX(-50%) translateY(-8px)',
         transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
       }}
     >

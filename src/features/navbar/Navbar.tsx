@@ -199,6 +199,7 @@ export default function Navbar() {
                     if (isBusinessAreas) setShowBusinessAreasDropdown(false);
                     if (isCompanies) setShowCompaniesDropdown(false);
                   }}
+                  disableHoverBorder={isBusinessAreas || isCompanies} // Disable border for dropdown links
                 >
                   {/* Business Areas Dropdown */}
                   {isBusinessAreas && (
@@ -209,7 +210,7 @@ export default function Navbar() {
                       onMouseLeave={() => setShowBusinessAreasDropdown(false)}
                     />
                   )}
-                  
+
                   {/* Companies Dropdown */}
                   {isCompanies && (
                     <CompaniesDropdown

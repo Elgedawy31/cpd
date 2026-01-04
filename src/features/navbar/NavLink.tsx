@@ -11,6 +11,7 @@ interface NavLinkProps {
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
   children?: ReactNode;
+  disableHoverBorder?: boolean; // New prop
 }
 
 export default function NavLink({
@@ -22,6 +23,7 @@ export default function NavLink({
   onMouseEnter,
   onMouseLeave,
   children,
+  disableHoverBorder,
 }: NavLinkProps) {
   const hoverTimeout = useRef<NodeJS.Timeout | null>(null);
 
@@ -55,11 +57,10 @@ export default function NavLink({
       >
         {label}
       </a>
-      <span className={`absolute left-0 -bottom-1 bg-primary transition-all duration-300 h-0.5 ${
-        isActive ? "w-full" : "w-0 group-hover:w-full"
-      }`}></span>
-      {children}
-    </li>
-  );
+      <span className={`absolute left-0 -bottom-1 ${!scrolled && isActive ? "bg-white" : "bg-primary"} transition-all duration-300 h-0.5 ${
+             isActive ? "w-full" : (disableHoverBorder ? "w-0" : "w-0 group-hover:w-full")
+           }`}></span>
+             {children}
+           </li>
+         );
 }
-

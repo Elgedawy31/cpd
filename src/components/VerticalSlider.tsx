@@ -116,8 +116,17 @@ export default function VerticalSlider({
             minHeight: `${items.length * 72}px`,
           }}
         >
-          {/* Background Line - subtle light gray */}
+          {/* Background Line - subtle light gray (full height) */}
           <div className="absolute top-0 bottom-0 left-0 w-0.5 bg-border/60" />
+
+          {/* Filled Background - from top to active item (like current section) */}
+          <div
+            className="absolute left-0 w-0.5 bg-foreground transition-all duration-500 ease-out"
+            style={{
+              top: "0%",
+              height: `${indicatorTop}%`,
+            }}
+          />
 
           {/* Active item square marker - properly centered */}
           <div

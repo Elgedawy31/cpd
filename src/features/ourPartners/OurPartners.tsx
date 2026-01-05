@@ -95,20 +95,20 @@ export default function OurPartners() {
           {/* Left Side - Text Content */}
           <div className={`${isRTL ? "lg:order-2" : "lg:order-1"} max-w-2xl`}>
             {/* Top Label */}
-            <div className="mb-6">
+            <div className="mb-3">
               <span className="text-xs sm:text-sm font-normal uppercase tracking-wider text-foreground">
                 {t("title").toUpperCase()}
               </span>
             </div>
             
             {/* Main Headline */}
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-8 leading-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-foreground mb-4 leading-tight">
               {t("subtitle")}
             </h2>
             
             {/* Descriptive Paragraph */}
-            <p className="text-base sm:text-lg text-muted-foreground font-normal leading-relaxed">
-              {t("subtitle")}
+            <p className="text-sm sm:text-base text-muted-foreground font-normal leading-relaxed">
+              {t("description")}
             </p>
           </div>
 

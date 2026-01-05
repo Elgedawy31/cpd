@@ -1,25 +1,26 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-import { useEffect } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/autoplay";
-import "swiper/css/navigation";
-import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import { useTranslations, useLocale } from "next-intl";
+import { useState } from "react";
 import CustomHeader from "@/components/CustomHeader";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Plus, X } from "lucide-react";
+
+type CompanyCard = {
+  key: string;
+  title: string;
+  description: string;
+  url: string;
+  logo: string;
+};
+
 export default function OurCompanies() {
   const t = useTranslations("companies");
-  useEffect(() => {
-    AOS.init({ duration: 1000, once: true, mirror: false });
-  }, []);
+  const locale = useLocale();
+  const isRTL = locale === "ar";
+  const [selectedCompany, setSelectedCompany] = useState<CompanyCard | null>(null);
 
-  const cards = [
+  const cards: CompanyCard[] = [
     {
       key: "cpv",
       title: t("cpv.title"),
@@ -55,64 +56,156 @@ export default function OurCompanies() {
       url: "https://www.dlalat.com/",
       logo: "/ourCompanies/dlalatDark.png",
     },
-
-
   ];
+
+  const handleCardClick = (card: CompanyCard) => {
+    if (selectedCompany?.key === card.key) {
+      setSelectedCompany(null);
+    } else {
+      setSelectedCompany(card);
+    }
+  };
+
+  const handleClosePanel = () => {
+    setSelectedCompany(null);
+  };
 
   return (
     <section
       id="companies"
       className="relative w-full py-12 bg-linear-to-b from-primary-50/60 via-primary-100 to-primary-50/60 "
     >
-           <CustomHeader title={t('title')} subTitle={t('subtitle')} />
-<div   className="container m-auto px-6 lg:px-12">
-   <Swiper
-      modules={[Autoplay, Pagination, Navigation]}
-      spaceBetween={15}
-      slidesPerView={1}
-      navigation={true} 
-      autoplay={{ delay: 3500, disableOnInteraction: false }}
-      breakpoints={{
-        518: { slidesPerView: 2 },
-        768: { slidesPerView: 3 },
-      }}
-      className="mySwiper"
-    >
-      {cards.map((card,index) => (
-        <SwiperSlide key={card.key} >
-          <div className="d-flex flex-column align-items-center justify-start cursor-pointer"
-          data-aos="fade-up"
-     data-aos-easing="ease-out-cubic"
-     data-aos-duration={`${(index+1) * 250}`}
-          >
-            <div className="border-b  border-border p-3  rounded-xl shadow-md relative pt-6 pb-8 ">
-              <Image
-              fill
-                src={card.logo}
-                alt={card.title}
-                className="img-fluid"
-                style={{ maxHeight: "100px", objectFit: "contain" }}
-              />
+      <CustomHeader title={t("title")} subTitle={t("subtitle")} />
+      
+      <div className="max-w-7xl  mx-auto px-6 lg:px-12">
+        {/* Company Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mb-8">
+          {cards.map((card) => (
+            <div
+              key={card.key}
+              onClick={() => handleCardClick(card)}
+              className={`
+                relative  rounded-xl p-6 
+                hover:shadow-lg
+                border border-primary/10
+                cursor-pointer transition-all duration-300 ease-in-out 
+                hover:scale-[1.02]
+                ${selectedCompany?.key === card.key 
+                  ? " scale-[1.02] border-primary/20" 
+                  : ""
+                }
+              `}
+            >
+              {/* Logo Container */}
+              <div className="relative w-full h-32 mb-4 flex items-center justify-center">
+                <Image
+                  src={card.logo}
+                  alt={card.title}
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 20vw"
+                />
+              </div>
+              {/* Interaction Indicator */}
+              <div className="flex justify-end mt-auto pt-2">
+                {selectedCompany?.key === card.key ? (
+                  <div className="h-0.5 w-5 bg-primary rounded-full" />
+                ) : (
+                  <Plus className="w-5 h-5 text-muted-foreground" />
+                )}
+              </div>
             </div>
-            <p className="mt-3 text-center text-md  font-normal text-muted-foreground py-2 w-[75%] m-auto">{card.description}</p>
-            <a href={card.url} target="_blank" rel="noopener noreferrer" className=" text-md font-medium text-primary hover:opacity-75 flex justify-center px-5 align-center mt-2">
-       <span className=" flex gap-1 items-center">
-          <span>{t('visit')}</span>  
-          {
-            t('visit')=='زيارة الموقع'?
-             <ChevronLeft className="text-primary w-5 h-7 mt-1 " />
-             :
-             <ChevronRight className="text-primary w-5 h-7 mt-1 " />
-          }
-          
-       </span>
-            </a>
-          </div>
-        </SwiperSlide>
-      ))}
-    </Swiper>
-</div>
-    
+          ))}
+        </div>
+
+        {/* Bottom Detail Card */}
+        <div
+          className={`
+            relative bg-primary-100/90 border border-border rounded-xl shadow-lg
+            transition-all duration-500 ease-in-out overflow-hidden
+            ${selectedCompany 
+              ? "max-h-[500px] opacity-100 mt-8" 
+              : "max-h-0 opacity-0 mt-0"
+            }
+          `}
+        >
+          {selectedCompany && (
+            <div className="p-8">
+              <div className="flex flex-col lg:flex-row gap-8 items-start">
+                {/* Close Button */}
+                <button
+                  onClick={handleClosePanel}
+                  className={`
+                    absolute top-4 ${isRTL ? "left-4" : "right-4"}
+                    w-8 h-8 flex items-center justify-center
+                    rounded-full bg-background/80 hover:bg-background
+                    transition-colors duration-200
+                    border border-border z-10
+                  `}
+                  aria-label="Close"
+                >
+                  <X className="w-5 h-5 text-foreground" />
+                </button>
+
+                {/* Left Side - Logo and Name */}
+                <div className={`
+                  flex flex-col items-center lg:items-start
+                  ${isRTL ? "lg:ml-8" : "lg:mr-8"}
+                  shrink-0
+                  ${isRTL ? "lg:order-2" : "lg:order-1"}
+                `}>
+                  <div className="relative w-32 h-32 mb-4">
+                    <Image
+                      src={selectedCompany.logo}
+                      alt={selectedCompany.title}
+                      fill
+                      className="object-contain"
+                      sizes="128px"
+                    />
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground text-center lg:text-start">
+                    {selectedCompany.title}
+                  </h3>
+                </div>
+
+                {/* Right Side - Description and Link */}
+                <div className={`
+                  flex-1 flex flex-col justify-between
+                  ${isRTL ? "lg:order-1" : "lg:order-2"}
+                `}>
+                  <div>
+                    <h4 className="text-2xl font-semibold text-foreground mb-4">
+                      {selectedCompany.title}
+                    </h4>
+                    <p className="text-base text-muted-foreground leading-relaxed mb-6">
+                      {selectedCompany.description}
+                    </p>
+                  </div>
+                  
+                  <a
+                    href={selectedCompany.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`
+                      inline-flex items-center gap-2
+                      text-base font-medium text-primary
+                      hover:opacity-75 transition-opacity duration-200
+                      group
+                    `}
+                  >
+                    <span>{t("visit")}</span>
+                    {isRTL ? (
+                      <ChevronLeft className="w-5 h-5 transition-transform group-hover:translate-x-[-4px]" />
+                    ) : (
+                      <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                    )}
+                  </a>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     </section>
   );
 }

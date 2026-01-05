@@ -10,7 +10,7 @@ export default function OurPartners() {
   const locale = useLocale();
   const isRTL = locale === "ar";
 
-  const [allLogos, setAllLogos] = useState<{ logo: string }[]>([]);
+  const [allLogos, setAllLogos] = useState<{ logo: string; isValid: boolean }[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
@@ -21,18 +21,28 @@ export default function OurPartners() {
   }, []);
 
   function getPartnerLogos() {
-    const logos = [] as { logo: string }[];
-    for (let i = 1; i <= 40; i++) {
+    const logos = [] as { logo: string; isValid: boolean }[];
+    // Start from 2 since Image_01.png doesn't exist, go up to 41
+    for (let i = 2; i <= 41; i++) {
       const twoDigit = String(i).padStart(2, "0");
-      logos.push({ logo: `/ourPartners/Image_${twoDigit}.png` });
+      logos.push({ logo: `/ourPartners/Image_${twoDigit}.png`, isValid: true });
     }
     setAllLogos(logos);
   }
 
-  // Group logos into pages of 9 (3x3 grid)
+  const handleImageError = (logoPath: string) => {
+    setAllLogos((prev) => {
+      return prev.map((logo) => 
+        logo.logo === logoPath ? { ...logo, isValid: false } : logo
+      );
+    });
+  };
+
+  // Filter out invalid logos and group into pages of 9 (3x3 grid)
+  const validLogos = allLogos.filter((logo) => logo.isValid);
   const logosPerPage = 9;
-  const totalPages = Math.ceil(allLogos.length / logosPerPage);
-  const currentLogos = allLogos.slice(
+  const totalPages = Math.ceil(validLogos.length / logosPerPage);
+  const currentLogos = validLogos.slice(
     currentPage * logosPerPage,
     (currentPage + 1) * logosPerPage
   );
@@ -160,6 +170,7 @@ export default function OurPartners() {
                     className="object-contain p-2"
                     sizes="(max-width: 768px) 33vw, 150px"
                     loading="lazy"
+                    onError={() => handleImageError(logo.logo)}
                   />
                 </div>
               ))}

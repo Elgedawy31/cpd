@@ -21,7 +21,7 @@ export default function Footer() {
   console.log(isRTL)
 
   return (
-    <footer className="w-full bg-[#0F0F0F] text-white py-12 px-6 md:px-12 transition-colors duration-300">
+    <footer className="w-full bg-[#0F0F0F] text-white py-8 px-6 md:px-12 transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         {/* Centered CPD Title */}
         <div className="text-center mb-12">

@@ -95,6 +95,40 @@
     "subtitle": "Join our powerful cloud ecosystem",
     "description": "Cast Ai seamlessly integrates with key technology, letting your custom optimize Kubernetes const management"
   },
+  "businessAreas": {
+    "title": "Business Areas",
+    "subtitle": "Driving development through strategic expertise",
+    "areas": [
+      {
+        "name": "ENERGY",
+        "description": "Comprehensive energy solutions and sustainable power systems"
+      },
+      {
+        "name": "METAL CASTING",
+        "description": "Advanced metal casting technologies and manufacturing solutions"
+      },
+      {
+        "name": "MINING",
+        "description": "Innovative mining solutions and resource management"
+      },
+      {
+        "name": "PIGMENTS AND PAINTS",
+        "description": "High-quality pigments and paint solutions for industrial applications"
+      },
+      {
+        "name": "SCOUR",
+        "description": "Specialized scour protection and erosion control systems"
+      },
+      {
+        "name": "WATER FILTRATION",
+        "description": "Advanced water filtration and purification technologies"
+      },
+      {
+        "name": "OTHER INDUSTRIES",
+        "description": "Diverse solutions across multiple industrial sectors"
+      }
+    ]
+  },
 
 
 

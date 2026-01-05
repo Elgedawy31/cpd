@@ -6,6 +6,7 @@ import Navbar from "@/features/navbar/Navbar";
 import OurCompanies from "@/features/ourCompanies/OurCompanies";
 import OurPartners from "@/features/ourPartners/OurPartners";
 import WhyChooseUs from "@/features/whyChooseUs/WhyChooseUs";
+import BusinessAreas from "@/features/businessAreas/BusinessAreas";
 
 export default function HomePage() {
   return (
@@ -13,6 +14,7 @@ export default function HomePage() {
       <Navbar />
       <Hero />
       <AboutSection />
+      <BusinessAreas />
       <OurCompanies />
       <WhyChooseUs/> 
       <OurPartners/> 

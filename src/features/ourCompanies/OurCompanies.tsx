@@ -73,7 +73,7 @@ export default function OurCompanies() {
   return (
     <section
       id="companies"
-      className="relative w-full py-12 bg-linear-to-b from-primary-50/60 via-primary-100 to-primary-50/60 "
+      className="relative w-full py-8 bg-linear-to-b from-primary-50/60 via-primary-100 to-primary-50/60 "
     >
       <CustomHeader title={t("title")} subTitle={t("subtitle")} />
       

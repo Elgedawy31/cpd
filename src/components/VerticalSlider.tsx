@@ -96,19 +96,25 @@ export default function VerticalSlider({
   // Calculate positions for the progress indicator
   // Each item takes equal space, accounting for spacing
   const itemHeight = 100 / items.length; // Percentage height per item
-  const indicatorTop = activeIndex * itemHeight + (itemHeight / 2); // Center of active item
+  // Position square at the top of the label (not centered)
+  // Add small offset to align with text baseline (approximately 5% of item height for text top)
+  const textTopOffset = itemHeight * 0.1; // Small offset to align with top of text
+  const indicatorTop = activeIndex * itemHeight + textTopOffset;
   
   // Calculate progress bar: from active item to next item (or end)
   const nextItemTop = activeIndex < items.length - 1 
-    ? (activeIndex + 1) * itemHeight + (itemHeight / 2)
+    ? (activeIndex + 1) * itemHeight + textTopOffset
     : 100; // If last item, go to end
   const progressBarHeight = nextItemTop - indicatorTop;
   const progressBarCurrentHeight = (progress / 100) * progressBarHeight;
+  
+  // For filled background, go to the top of active item
+  const filledHeight = indicatorTop;
 
   return (
     <div className={`relative flex ${isRTL ? "flex-row-reverse" : "flex-row"} items-start ${className}`}>
       {/* Vertical Progress Line */}
-      <div className={`relative ${isRTL ? "ml-8" : "mr-8"} flex-shrink-0`}>
+      <div className={`relative ${isRTL ? "ml-8" : "mr-8"} shrink-0`}>
         {/* Container for the line - height based on number of items */}
         <div
           className="relative"
@@ -124,17 +130,17 @@ export default function VerticalSlider({
             className="absolute left-0 w-0.5 bg-foreground transition-all duration-500 ease-out"
             style={{
               top: "0%",
-              height: `${indicatorTop}%`,
+              height: `${filledHeight}%`,
             }}
           />
 
-          {/* Active item square marker - properly centered */}
+          {/* Active item square marker - aligned with top of text */}
           <div
             className="absolute w-3 h-3 bg-foreground transition-all duration-500 ease-out"
             style={{
               top: `${indicatorTop}%`,
               left: "0",
-              transform: "translate(-50%, -50%)",
+              transform: "translate(-50%, 0)",
             }}
           />
 

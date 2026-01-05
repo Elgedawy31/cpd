@@ -73,7 +73,7 @@ export default function OurPartners() {
   return (
     <section
       id="partners"
-      className="relative w-full py-16 bg-white"
+      className="relative w-full py-16 bg-linear-to-b from-primary-50/60 via-primary-100 to-primary-50/60"
     >
       <style jsx>{`
         @keyframes fade-in {

@@ -1,60 +1,23 @@
 "use client";
 
 import { useTranslations, useLocale } from "next-intl";
-import React, { useEffect, useRef, useState } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import CustomHeader from "@/components/CustomHeader";
+import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function OurPartners() {
   const t = useTranslations("Partners");
-  const locale = useLocale(); 
-  const isRTL = locale === "ar"; 
-  
-  const [cards, setCards] = useState<{ logo: string }[]>([]);
-  const [isInView, setIsInView] = useState(false);
-  const [isIdle, setIsIdle] = useState(false);
-  const sectionRef = useRef<HTMLElement | null>(null);
+  const locale = useLocale();
+  const isRTL = locale === "ar";
+
+  const [allLogos, setAllLogos] = useState<{ logo: string }[]>([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    AOS.init({ duration: 600, once: true, mirror: false });
     getPartnerLogos();
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const win = window as Window & {
-      requestIdleCallback?: (
-        callback: IdleRequestCallback,
-        options?: { timeout?: number }
-      ) => number;
-      cancelIdleCallback?: (handle: number) => void;
-    };
-    if (win.requestIdleCallback) {
-      const id = win.requestIdleCallback(() => setIsIdle(true), {
-        timeout: 1200,
-      });
-      return () => win.cancelIdleCallback && win.cancelIdleCallback(id);
-    }
-    const t = window.setTimeout(() => setIsIdle(true), 800);
-    return () => window.clearTimeout(t);
-  }, []);
-
-  useEffect(() => {
-    if (!sectionRef.current) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        if (entry.isIntersecting) {
-          setIsInView(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "200px" }
-    );
-    observer.observe(sectionRef.current);
-    return () => observer.disconnect();
   }, []);
 
   function getPartnerLogos() {
@@ -63,80 +26,162 @@ export default function OurPartners() {
       const twoDigit = String(i).padStart(2, "0");
       logos.push({ logo: `/ourPartners/Image_${twoDigit}.png` });
     }
-    setCards(logos);
+    setAllLogos(logos);
   }
+
+  // Group logos into pages of 9 (3x3 grid)
+  const logosPerPage = 9;
+  const totalPages = Math.ceil(allLogos.length / logosPerPage);
+  const currentLogos = allLogos.slice(
+    currentPage * logosPerPage,
+    (currentPage + 1) * logosPerPage
+  );
+
+  const handleNext = () => {
+    setCurrentPage((prev) => (prev + 1) % totalPages);
+  };
+
+  const handlePrev = () => {
+    setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages);
+  };
+
+  // Touch handlers for swipe
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      if (isRTL) handlePrev();
+      else handleNext();
+    }
+    if (isRightSwipe) {
+      if (isRTL) handleNext();
+      else handlePrev();
+    }
+  };
 
   return (
     <section
       id="partners"
-      className="relative w-full py-8 bg-linear-to-b from-primary-50/60 via-primary-100 to-primary-50/60"
-      ref={sectionRef}
+      className="relative w-full py-16 bg-white"
     >
-      <CustomHeader title={t("title")} subTitle={t("subtitle")} />
-
-      <div 
-    data-aos="fade-up"
-    className="container mx-auto px-6 lg:px-12 overflow-hidden" style={{ contentVisibility: "auto", containIntrinsicSize: "300px" }}>
-        {isInView && isIdle ? (
-          <div
-            className={`flex ${
-              isRTL ? "animate-scroll-rtl" : "animate-scroll-ltr"
-            } gap-10 whitespace-nowrap`}
-          >
-            {[...cards, ...cards].map((card, index) => (
-              <div key={index} className="inline-block mx-6">
-                <div className="border-b border-border p-3 rounded-xl shadow-md bg-card transition-all duration-100">
-                  <div className="relative w-[120px] h-[100px] flex items-center justify-center">
-                    <Image
-                      src={card.logo}
-                      alt={`partner ${index + 1}`}
-                      fill
-                      style={{ objectFit: "contain" }}
-                      loading="lazy"
-                      decoding="async"
-                      unoptimized
-                      sizes="120px"
-                    />
-                  </div>
-                </div>
-              </div>
-            ))}
+      <style jsx>{`
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fade-in {
+          animation: fade-in 0.4s ease-out;
+        }
+      `}</style>
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Left Side - Text Content */}
+          <div className={`${isRTL ? "lg:order-2" : "lg:order-1"} max-w-2xl`}>
+            {/* Top Label */}
+            <div className="mb-6">
+              <span className="text-xs sm:text-sm font-normal uppercase tracking-wider text-foreground">
+                {t("title").toUpperCase()}
+              </span>
+            </div>
+            
+            {/* Main Headline */}
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-8 leading-tight">
+              {t("subtitle")}
+            </h2>
+            
+            {/* Descriptive Paragraph */}
+            <p className="text-base sm:text-lg text-muted-foreground font-normal leading-relaxed">
+              {t("subtitle")}
+            </p>
           </div>
-        ) : (
-          <div className="h-[140px] w-full" />
-        )}
 
-        <style jsx>{`
-          @keyframes scroll-ltr {
-            0% {
-              transform: translateX(0);
-            }
-            100% {
-              transform: translateX(-50%);
-            }
-          }
+          {/* Right Side - Logo Grid with Swipe */}
+          <div
+            className={`relative ${isRTL ? "lg:order-1" : "lg:order-2"}`}
+            ref={containerRef}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            {/* Navigation Buttons */}
+            <div className="flex justify-end gap-2 mb-4">
+              <button
+                onClick={handlePrev}
+                className="w-10 h-10 flex items-center justify-center rounded-full border border-border bg-background hover:bg-muted transition-colors"
+                aria-label="Previous"
+              >
+                {isRTL ? (
+                  <ChevronRight className="w-5 h-5 text-foreground" />
+                ) : (
+                  <ChevronLeft className="w-5 h-5 text-foreground" />
+                )}
+              </button>
+              <button
+                onClick={handleNext}
+                className="w-10 h-10 flex items-center justify-center rounded-full border border-border bg-background hover:bg-muted transition-colors"
+                aria-label="Next"
+              >
+                {isRTL ? (
+                  <ChevronLeft className="w-5 h-5 text-foreground" />
+                ) : (
+                  <ChevronRight className="w-5 h-5 text-foreground" />
+                )}
+              </button>
+            </div>
 
-          @keyframes scroll-rtl {
-            0% {
-              transform: translateX(0);
-            }
-            100% {
-              transform: translateX(50%);
-            }
-          }
+            {/* Logo Grid */}
+            <div className="grid grid-cols-3 gap-4 relative">
+              {currentLogos.map((logo, index) => (
+                <div
+                  key={`${currentPage}-${index}`}
+                  className="relative bg-white border border-border rounded-lg p-4 aspect-square flex items-center justify-center transition-all duration-300 hover:shadow-md hover:scale-105 animate-fade-in"
+                >
+                  <Image
+                    src={logo.logo}
+                    alt={`Partner ${currentPage * logosPerPage + index + 1}`}
+                    fill
+                    className="object-contain p-2"
+                    sizes="(max-width: 768px) 33vw, 150px"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+            </div>
 
-          .animate-scroll-ltr {
-            display: inline-flex;
-            animation: scroll-ltr 60s linear infinite;
-            width: max-content;
-          }
-
-          .animate-scroll-rtl {
-            display: inline-flex;
-            animation: scroll-rtl 60s linear infinite;
-            width: max-content;
-          }
-        `}</style>
+            {/* Page Indicators */}
+            <div className="flex justify-center gap-2 mt-6">
+              {Array.from({ length: totalPages }).map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentPage(index)}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    currentPage === index
+                      ? "w-8 bg-primary"
+                      : "w-2 bg-border hover:bg-primary/50"
+                  }`}
+                  aria-label={`Go to page ${index + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

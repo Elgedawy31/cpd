@@ -62,14 +62,8 @@ export default function VerticalSlider({
 
           if (controlledActiveIndex === undefined) {
             setInternalActiveIndex(nextIndex);
-            onItemChange?.(nextIndex);
-          } else {
-            // In controlled mode, defer parent state update to avoid
-            // React warning about setState during another component's render.
-            window.setTimeout(() => {
-              onItemChange?.(nextIndex);
-            }, 0);
           }
+          onItemChange?.(nextIndex);
 
           return 0;
         }

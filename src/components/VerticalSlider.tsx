@@ -88,7 +88,15 @@ export default function VerticalSlider({
   // Calculate positions for the progress indicator
   // Distribute markers evenly from top (0%) to bottom (100%)
   const step = items.length > 1 ? 100 / (items.length - 1) : 0;
-  const indicatorTop = step * activeIndex;
+  const baseTop = step * activeIndex;
+
+  // Custom per-step offsets for fine visual alignment with labels.
+  // You can tweak these numbers later if you change fonts/spacing.
+  // Example for up to 7 items: index -> offset in percentage points.
+  const markerOffsets: number[] = [2, 0.5, -1, -2, -3.5, -4.5, -6];
+  const customOffset = markerOffsets[activeIndex] ?? 0;
+
+  const markerTop = Math.min(100, Math.max(0, baseTop + customOffset));
   // Progress from top (0%) to bottom (100%)
   const progressHeight = progress; // 0–100
 
@@ -110,7 +118,7 @@ export default function VerticalSlider({
           <div
             className="absolute w-3 h-3 bg-foreground transition-all duration-500 ease-out"
             style={{
-              top: `${indicatorTop}%`,
+              top: `${markerTop}%`,
               left: "0",
               transform: "translate(-50%, 0)",
             }}

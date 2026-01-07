@@ -93,7 +93,14 @@ export default function HorizontalSlider({
   // Distribute markers evenly from left (0%) to right (100%)
   const step = items.length > 1 ? 100 / (items.length - 1) : 0;
   const baseLeft = step * activeIndex;
-  const markerLeft = Math.min(100, Math.max(0, baseLeft));
+
+  // Custom per-step offsets for fine visual alignment with labels.
+  // You can tweak these numbers later similar to VerticalSlider.
+  // Example for up to 7 items: index -> offset in percentage points.
+  const markerOffsets: number[] = [8, -9, -2, -3, -4, -5, -6];
+  const customOffset = markerOffsets[activeIndex] ?? 0;
+
+  const markerLeft = Math.min(100, Math.max(0, baseLeft + customOffset));
 
   return (
     <div className={`w-full ${className}`}>

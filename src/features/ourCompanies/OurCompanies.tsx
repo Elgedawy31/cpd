@@ -163,9 +163,6 @@ export default function OurCompanies() {
                       sizes="128px"
                     />
                   </div>
-                  <h3 className="text-xl font-bold text-foreground text-center lg:text-start">
-                    {selectedCompany.title}
-                  </h3>
                 </div>
 
                 {/* Right Side - Description and Link */}

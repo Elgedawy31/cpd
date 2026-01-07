@@ -112,7 +112,7 @@ export default function VerticalSlider({
           }}
         >
           {/* Background Line - subtle light gray (full height) */}
-          <div className="absolute top-0 bottom-0 left-0 w-0.5 bg-border/60" />
+          <div className="absolute top-0 bottom-0 left-0 w-0.5 bg-muted-foreground/20" />
 
           {/* Active item square marker - aligned with top of text */}
           <div

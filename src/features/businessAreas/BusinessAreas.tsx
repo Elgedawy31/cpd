@@ -11,13 +11,12 @@ export default function BusinessAreas() {
 
   const areas = t.raw("areas") as Array<{
     name: string;
-    description: string;
+    description?: string;
   }>;
 
   const sliderItems = areas.map((area, index) => ({
     id: `area-${index}`,
     label: area.name,
-    content: <p className="text-sm text-muted-foreground">{area.description}</p>,
   }));
 
   return (

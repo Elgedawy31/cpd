@@ -60,7 +60,11 @@ export default function MobileMenu({
           isOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <ul className="flex flex-col space-y-1 p-6">
+        <ul
+          className={`flex flex-col space-y-1 p-6 ${
+            isRTL ? "text-right" : "text-left"
+          }`}
+        >
           {links.map((link) => {
             const isActive = activeLink === link.id;
             
@@ -69,13 +73,17 @@ export default function MobileMenu({
                 <a
                   href={`#${link.id}`}
                   onClick={(e) => handleMobileClick(e, link.id)}
-                  className="block text-foreground font-medium py-3 transform transition-all duration-300 group-hover:pl-2"
+                  className={`block text-foreground font-medium py-3 transform transition-all duration-300 ${
+                    isRTL ? "group-hover:pr-2" : "group-hover:pl-2"
+                  }`}
                 >
                   {link.label}
                 </a>
-                <span className={`absolute left-0 bottom-0 h-0.5 bg-primary transition-all duration-300 ${
-                  isActive ? "w-full" : "w-0 group-hover:w-full"
-                }`}></span>
+                <span
+                  className={`absolute bottom-0 h-0.5 bg-primary transition-all duration-300 ${
+                    isRTL ? "right-0" : "left-0"
+                  } ${isActive ? "w-full" : "w-0 group-hover:w-full"}`}
+                ></span>
               </li>
             );
           })}

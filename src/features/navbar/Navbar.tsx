@@ -159,8 +159,8 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed w-full z-50 transition-all duration-300 ${
-        scrolled 
-          ? "bg-white shadow-md" 
+        scrolled || isOpen
+          ? "bg-white shadow-md"
           : "bg-transparent"
       }`}
     >

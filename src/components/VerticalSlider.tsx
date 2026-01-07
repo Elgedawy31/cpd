@@ -29,61 +29,53 @@ export default function VerticalSlider({
 }: VerticalSliderProps) {
   const [internalActiveIndex, setInternalActiveIndex] = useState(0);
   const [progress, setProgress] = useState(0);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const activeIndexRef = useRef(0);
 
   const activeIndex =
     controlledActiveIndex !== undefined
       ? controlledActiveIndex
       : internalActiveIndex;
 
+  // Keep ref in sync with latest active index to avoid stale closures
+  useEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
+
   useEffect(() => {
     if (!autoAdvance || items.length === 0) return;
 
     // Reset progress when active index changes
     setProgress(0);
-
-    // Clear existing intervals
-    if (intervalRef.current) clearInterval(intervalRef.current);
     if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
 
     // Progress animation (0 to 100% over the interval duration)
     const progressStep = 100 / (autoAdvanceInterval / 50); // Update every 50ms
     progressIntervalRef.current = setInterval(() => {
       setProgress((prev) => {
-        if (prev >= 100) {
+        const nextProgress = Math.min(prev + progressStep, 100);
+
+        // When progress reaches 100%, move marker to next item and reset ONCE
+        if (nextProgress >= 100) {
+          const currentIndex = activeIndexRef.current;
+          const nextIndex = (currentIndex + 1) % items.length;
+
+          if (controlledActiveIndex === undefined) {
+            setInternalActiveIndex(nextIndex);
+          }
+          onItemChange?.(nextIndex);
+
           return 0;
         }
-        return Math.min(prev + progressStep, 100);
+
+        return nextProgress;
       });
     }, 50);
 
-    // Auto-advance to next item
-    intervalRef.current = setInterval(() => {
-      if (controlledActiveIndex === undefined) {
-        setInternalActiveIndex((prev) => {
-          const next = (prev + 1) % items.length;
-          onItemChange?.(next);
-          return next;
-        });
-      } else {
-        const next = (activeIndex + 1) % items.length;
-        onItemChange?.(next);
-      }
-    }, autoAdvanceInterval);
-
     return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
       if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
     };
-  }, [
-    activeIndex,
-    autoAdvance,
-    autoAdvanceInterval,
-    items.length,
-    controlledActiveIndex,
-    onItemChange,
-  ]);
+  }, [autoAdvance, autoAdvanceInterval, items.length, controlledActiveIndex, onItemChange]);
 
   const handleItemClick = (index: number) => {
     if (controlledActiveIndex === undefined) {
@@ -94,22 +86,11 @@ export default function VerticalSlider({
   };
 
   // Calculate positions for the progress indicator
-  // Each item takes equal space, accounting for spacing
-  const itemHeight = 100 / items.length; // Percentage height per item
-  // Position square at the top of the label (not centered)
-  // Add small offset to align with text baseline (approximately 5% of item height for text top)
-  const textTopOffset = itemHeight * 0.1; // Small offset to align with top of text
-  const indicatorTop = activeIndex * itemHeight + textTopOffset;
-  
-  // Calculate progress bar: from active item to next item (or end)
-  const nextItemTop = activeIndex < items.length - 1 
-    ? (activeIndex + 1) * itemHeight + textTopOffset
-    : 100; // If last item, go to end
-  const progressBarHeight = nextItemTop - indicatorTop;
-  const progressBarCurrentHeight = (progress / 100) * progressBarHeight;
-  
-  // For filled background, go to the top of active item
-  const filledHeight = indicatorTop;
+  // Distribute markers evenly from top (0%) to bottom (100%)
+  const step = items.length > 1 ? 100 / (items.length - 1) : 0;
+  const indicatorTop = step * activeIndex;
+  // Progress from top (0%) to bottom (100%)
+  const progressHeight = progress; // 0–100
 
   return (
     <div className={`relative flex ${isRTL ? "flex-row-reverse" : "flex-row"} items-start ${className}`}>
@@ -130,7 +111,7 @@ export default function VerticalSlider({
             className="absolute left-0 w-0.5 bg-foreground transition-all duration-500 ease-out"
             style={{
               top: "0%",
-              height: `${filledHeight}%`,
+              height: `${indicatorTop}%`,
             }}
           />
 
@@ -149,8 +130,8 @@ export default function VerticalSlider({
             <div
               className="absolute left-0 w-0.5 bg-foreground/50 transition-all duration-75 ease-linear"
               style={{
-                top: `${indicatorTop}%`,
-                height: `${progressBarCurrentHeight}%`,
+                top: "0%",
+                height: `${progressHeight}%`,
                 transform: "translateX(-50%)",
               }}
             />

@@ -87,15 +87,6 @@ export default function HeroSection() {
           height: "100%",
         }}
       >
-        {/* Fallback image - shown behind video as backup */}
-        <Image
-          src="/hero-bg.jpg"
-          alt="Hero Background"
-          fill
-          className="absolute top-0 left-0 w-full h-full object-cover brightness-75"
-          priority
-          aria-hidden="true"
-        />
         <video
           autoPlay
           loop

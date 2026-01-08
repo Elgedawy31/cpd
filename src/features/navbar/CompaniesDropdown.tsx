@@ -28,7 +28,7 @@ export default function CompaniesDropdown({
 
   return (
     <div
-      className={`absolute top-full left-1/2 mt-2 w-[700px] bg-white rounded-xl shadow-2xl overflow-hidden z-50 ${
+      className={`absolute top-full left-1/2 mt-2 w-[600px] bg-white rounded-xl shadow-2xl overflow-hidden z-50 ${
         isOpen
           ? "opacity-100 pointer-events-auto"
           : "opacity-0 pointer-events-none"

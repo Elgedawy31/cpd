@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 
 interface CompaniesDropdownProps {
@@ -15,6 +16,8 @@ export default function CompaniesDropdown({
   onMouseEnter,
   onMouseLeave,
 }: CompaniesDropdownProps) {
+  const t = useTranslations("navbar");
+
   const companyLogos = [
     "/ourCompanies/cpv-logo.png",
     "/ourCompanies/domApp-logo.png",
@@ -39,7 +42,15 @@ export default function CompaniesDropdown({
         transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
       }}
     >
-      <div className="p-4">
+      <div className="p-8">
+        {/* Header */}
+        <h3 className={`text-2xl font-bold text-foreground mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
+          {t("companiesTitle")}
+        </h3>
+        <p className={`text-sm text-muted-foreground leading-relaxed mb-6 ${isRTL ? 'text-right' : 'text-left'}`}>
+          {t("companiesDescription")}
+        </p>
+        
         {/* Company Logos Grid */}
         <div className="grid grid-cols-5 gap-4">
           {companyLogos.map((imageSrc, index) => (

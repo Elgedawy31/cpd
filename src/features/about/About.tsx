@@ -17,9 +17,16 @@ export default function AboutSection() {
     AOS.init({ duration: 1000, once: true, mirror: false });
   }, []);
 
-  // Sections for Mission / Vision (can be extended later)
+  // Sections for About / Mission / Vision (can be extended later)
   const sections = useMemo(
     () => [
+      {
+        id: "about",
+        label: t("aboutTitle"),
+        title: t("aboutTitle"),
+        description: t("aboutDescription"),
+        image: "/area.webp", // placeholder image
+      },
       {
         id: "mission",
         label: t("missionTitle"),

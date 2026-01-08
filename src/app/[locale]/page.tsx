@@ -7,10 +7,12 @@ import OurCompanies from "@/features/ourCompanies/OurCompanies";
 import OurPartners from "@/features/ourPartners/OurPartners";
 import WhyChooseUs from "@/features/whyChooseUs/WhyChooseUs";
 import BusinessAreas from "@/features/businessAreas/BusinessAreas";
+import SplashScreen from "@/components/SplashScreen";
 
 export default function HomePage() {
   return (
     <main className="">
+      <SplashScreen />
       <Navbar />
       <Hero />
       <AboutSection />

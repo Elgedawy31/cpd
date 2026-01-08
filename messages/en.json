@@ -209,7 +209,20 @@
     "location5":"Gadallah Tower, 3rd & 4th Floor, Kafr El-Shaikh, Egypt",
     "location6":  "Office 17, North Ring Road, Al Wady Dist, Exit 6, Riyadh, Saudi Arabia",
     "location7":"Al Malaz, Riyadh, Saudi Arabia"
+  },
+  "loading": {
+    "title": "Loading...",
+    "description": "Please wait while we load the page."
+  },
+  "error": {
+    "title": "Something went wrong",
+    "description": "We encountered an error while loading this page.",
+    "tryAgain": "Try Again"
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you're looking for doesn't exist.",
+    "goHome": "Go Home"
   }
- 
 
 }

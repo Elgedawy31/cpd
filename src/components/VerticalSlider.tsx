@@ -63,7 +63,10 @@ export default function VerticalSlider({
           if (controlledActiveIndex === undefined) {
             setInternalActiveIndex(nextIndex);
           }
-          onItemChange?.(nextIndex);
+          // Defer callback to avoid updating parent during render
+          setTimeout(() => {
+            onItemChange?.(nextIndex);
+          }, 0);
 
           return 0;
         }

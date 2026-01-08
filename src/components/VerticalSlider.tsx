@@ -96,7 +96,7 @@ export default function VerticalSlider({
   // Custom per-step offsets for fine visual alignment with labels.
   // You can tweak these numbers later if you change fonts/spacing.
   // Example for up to 7 items: index -> offset in percentage points.
-  const markerOffsets: number[] = [2, 0.5, -1, -2, -3.5, -4.5, -6];
+  const markerOffsets: number[] = [1, -0.7, -1.5, -2.9, -5, -6, -8];
   const customOffset = markerOffsets[activeIndex] ?? 0;
 
   const markerTop = Math.min(100, Math.max(0, baseTop + customOffset));
@@ -104,14 +104,14 @@ export default function VerticalSlider({
   const progressHeight = progress; // 0–100
 
   return (
-    <div className={`relative flex ${isRTL ? "flex-row-reverse" : "flex-row"} items-start ${className}`}>
+    <div className={`relative flex ${isRTL ? "flex-row-reverse" : "flex-row"}    ${className}`}>
       {/* Vertical Progress Line */}
-      <div className={`relative ${isRTL ? "ml-8" : "mr-8"} shrink-0`}>
+      <div className={`relative  ${isRTL ? "ml-4" : "mr-4"} shrink-0`}>
         {/* Container for the line - approximate height based on items */}
         <div
           className="relative"
           style={{
-            minHeight: `${items.length * 56}px`,
+            minHeight: `${items.length * 30}px`,
           }}
         >
           {/* Background Line - subtle light gray (full height) */}
@@ -142,7 +142,7 @@ export default function VerticalSlider({
       </div>
 
       {/* Items List */}
-      <div className="flex-1 space-y-8">
+      <div className="flex-1 space-y-4">
         {items.map((item, index) => {
           const isActive = index === activeIndex;
           return (
@@ -163,7 +163,7 @@ export default function VerticalSlider({
             >
               <div
                 className={`
-                  text-xl font-bold uppercase tracking-wider mb-2
+                  text-xs font-bold uppercase tracking-wider mb-2
                   transition-all duration-500
                   ${isActive 
                     ? "text-foreground scale-100 font-bold" 

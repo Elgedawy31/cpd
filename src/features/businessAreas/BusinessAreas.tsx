@@ -52,7 +52,7 @@ export default function BusinessAreas() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <CustomHeader title={t("title")} subTitle={t("subtitle")} />
 
-        <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] items-stretch">
+        <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,1fr)] items-center">
           {/* Left: Image + content, driven by activeIndex */}
           <div className="relative overflow-hidden rounded-3xl bg-black/5 shadow-lg min-h-[320px] lg:min-h-[420px]">
             {/* Background image (placeholder for now) */}
@@ -64,10 +64,10 @@ export default function BusinessAreas() {
               className="object-cover"
             />
             {/* Gradient overlay for text readability */}
-            <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/65 via-black/35 to-black/5" />
+            <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/65 via-black/35 to-black/5 " />
 
             {/* Foreground content */}
-            <div className="relative z-10 flex h-full flex-col justify-between p-6 sm:p-8 lg:p-10 text-white">
+            <div className="relative z-10 flex  flex-col  min-h-[320px] lg:min-h-[420px] justify-end  p-6 sm:p-8 lg:p-10 text-white">
               <div className="space-y-3 sm:space-y-4">
                 <p className="text-sm uppercase tracking-[0.3em] text-white/70">
                   {t("title")}
@@ -92,7 +92,7 @@ export default function BusinessAreas() {
           </div>
 
           {/* Right: Vertical slider with area labels */}
-          <div className="relative">
+          <div className="relative ">
             <VerticalSlider
               items={sliderItems}
               activeIndex={activeIndex}

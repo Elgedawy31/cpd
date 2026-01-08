@@ -28,7 +28,7 @@ export default function SplashScreen() {
         isVisible ? "opacity-100" : "opacity-0"
       }`}
     >
-      <div className="relative w-[200px] h-[80px] animate-bounce-splash">
+      <div className="relative w-[300px] h-[150px] animate-bounce-splash">
         <Image
           src="/cpdLogo.png"
           alt="CPD Logo"

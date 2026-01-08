@@ -3,7 +3,6 @@
 import { useTranslations, useLocale } from "next-intl";
 import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function OurPartners() {
   const t = useTranslations("Partners");
@@ -46,6 +45,17 @@ export default function OurPartners() {
     currentPage * logosPerPage,
     (currentPage + 1) * logosPerPage
   );
+
+  // Auto-advance pages every 1 second
+  useEffect(() => {
+    if (totalPages <= 1) return;
+    
+    const interval = setInterval(() => {
+      setCurrentPage((prev) => (prev + 1) % totalPages);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [totalPages]);
 
   const handleNext = () => {
     setCurrentPage((prev) => (prev + 1) % totalPages);
@@ -130,32 +140,6 @@ export default function OurPartners() {
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            {/* Navigation Buttons */}
-            <div className="flex justify-end gap-2 mb-4">
-              <button
-                onClick={handlePrev}
-                className="w-10 h-10 flex items-center justify-center rounded-full border border-border bg-background hover:bg-muted transition-colors"
-                aria-label="Previous"
-              >
-                {isRTL ? (
-                  <ChevronRight className="w-5 h-5 text-foreground" />
-                ) : (
-                  <ChevronLeft className="w-5 h-5 text-foreground" />
-                )}
-              </button>
-              <button
-                onClick={handleNext}
-                className="w-10 h-10 flex items-center justify-center rounded-full border border-border bg-background hover:bg-muted transition-colors"
-                aria-label="Next"
-              >
-                {isRTL ? (
-                  <ChevronLeft className="w-5 h-5 text-foreground" />
-                ) : (
-                  <ChevronRight className="w-5 h-5 text-foreground" />
-                )}
-              </button>
-            </div>
-
             {/* Logo Grid */}
             <div className="grid grid-cols-3 gap-4 relative">
               {currentLogos.map((logo, index) => (

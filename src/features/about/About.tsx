@@ -85,21 +85,11 @@ export default function AboutSection() {
 
           {/* Right: Horizontal slider on top, text below */}
           <div
-            data-aos="fade-left"
-            className={`${isRTL ? "lg:order-first" : ""} space-y-8`}
+            data-aos="fade-left "
+            className={`${isRTL ? "lg:order-first" : ""} space-y-8 bg-r`}
           >
             {/* Horizontal slider (tabs) */}
-            <HorizontalSlider
-              items={sections.map((section) => ({
-                id: section.id,
-                label: section.label,
-              }))}
-              activeIndex={activeIndex}
-              onItemChange={setActiveIndex}
-              autoAdvance={true}
-              autoAdvanceInterval={6000}
-              isRTL={isRTL}
-            />
+            
 
             {/* Text content */}
             <div className="space-y-4">
@@ -110,6 +100,19 @@ export default function AboutSection() {
                 {activeSection.description}
               </p>
             </div>
+
+            <HorizontalSlider
+              items={sections.map((section) => ({
+                id: section.id,
+                label: section.label,
+              }))}
+              activeIndex={activeIndex}
+              onItemChange={setActiveIndex}
+              autoAdvance={true}
+              autoAdvanceInterval={6000}
+              isRTL={isRTL}
+              className="w-fit"
+            />
           </div>
         </div>
       </div>

@@ -97,7 +97,7 @@ export default function HorizontalSlider({
   // Custom per-step offsets for fine visual alignment with labels.
   // You can tweak these numbers later similar to VerticalSlider.
   // Example for up to 7 items: index -> offset in percentage points.
-  const markerOffsets: number[] = [8, -9, -2, -3, -4, -5, -6];
+  const markerOffsets: number[] = [6, -2, -7, -3, -4, -5, -6];
   const customOffset = markerOffsets[activeIndex] ?? 0;
 
   const markerLeft = Math.min(100, Math.max(0, baseLeft + customOffset));
@@ -105,7 +105,7 @@ export default function HorizontalSlider({
   return (
     <div className={`w-full ${className}`}>
       {/* Horizontal Progress Line + Marker */}
-      <div className="relative h-8 mb-4">
+      <div className="relative h-6 mb-2">
         {/* Background line */}
         <div className="absolute left-0 right-0 top-1/2 h-0.5 -translate-y-1/2 bg-muted-foreground/20" />
 
@@ -131,7 +131,7 @@ export default function HorizontalSlider({
 
       {/* Items Row */}
       <div
-        className={`flex items-center justify-between gap-4 ${
+        className={`flex items-center justify-between gap-2 ${
           isRTL ? "flex-row-reverse" : ""
         }`}
       >
@@ -143,21 +143,16 @@ export default function HorizontalSlider({
               type="button"
               onClick={() => handleItemClick(index)}
               className={`
-                group relative text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wide
-                transition-all duration-300
+                group relative text-xs font-bold uppercase tracking-wider
+                transition-all duration-500
                 ${
                   isActive
-                    ? "text-foreground"
-                    : "text-muted-foreground/70 hover:text-foreground"
+                    ? "text-foreground opacity-100 scale-100 font-bold"
+                    : "text-muted-foreground/60 opacity-50 hover:opacity-75 scale-95 group-hover:scale-100 font-semibold"
                 }
               `}
             >
-              <span
-                className={`
-                  inline-block transition-transform duration-300
-                  ${isActive ? "scale-100" : "scale-95 group-hover:scale-100"}
-                `}
-              >
+              <span className="inline-block">
                 {item.label}
               </span>
             </button>

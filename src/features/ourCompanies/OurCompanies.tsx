@@ -1,10 +1,12 @@
 "use client";
 
 import { useTranslations, useLocale } from "next-intl";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CustomHeader from "@/components/CustomHeader";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, Plus, X } from "lucide-react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 type CompanyCard = {
   key: string;
@@ -70,22 +72,52 @@ export default function OurCompanies() {
     setSelectedCompany(null);
   };
 
+  useEffect(() => {
+    AOS.init({ 
+      duration: 1000, 
+      once: true, 
+      mirror: false,
+      offset: 100,
+      easing: 'ease-out-cubic'
+    });
+  }, []);
+
+  // Re-trigger animations when selected company changes
+  useEffect(() => {
+    if (selectedCompany) {
+      const timer = setTimeout(() => {
+        AOS.refresh();
+        const animatedElements = document.querySelectorAll('[data-aos-once="false"]');
+        animatedElements.forEach((el) => {
+          el.classList.remove('aos-animate');
+        });
+        AOS.refresh();
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [selectedCompany]);
+
   return (
     <section
       id="companies"
       className="relative w-full py-8 bg-linear-to-b from-primary-50/60 via-primary-100 to-primary-50/60 "
     >
-      <CustomHeader title={t("title")} subTitle={t("subtitle")} />
+      <div data-aos="fade-down" data-aos-duration="800">
+        <CustomHeader title={t("title")} subTitle={t("subtitle")} />
+      </div>
       
-      <div className="max-w-7xl  mx-auto px-6 lg:px-12">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Company Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mb-8">
-          {cards.map((card) => (
+          {cards.map((card, index) => (
             <div
               key={card.key}
               onClick={() => handleCardClick(card)}
+              data-aos="fade-up"
+              data-aos-duration="800"
+              data-aos-delay={index * 100}
               className={`
-                relative  rounded-xl p-6 
+                relative rounded-xl p-6 
                 hover:shadow-lg
                 border border-primary/10
                 cursor-pointer transition-all duration-300 ease-in-out 
@@ -120,6 +152,7 @@ export default function OurCompanies() {
 
         {/* Bottom Detail Card */}
         <div
+          key={`detail-${selectedCompany?.key || 'none'}`}
           className={`
             relative bg-primary-100/90 border border-border rounded-xl shadow-lg
             transition-all duration-500 ease-in-out overflow-hidden
@@ -135,6 +168,10 @@ export default function OurCompanies() {
                 {/* Close Button */}
                 <button
                   onClick={handleClosePanel}
+                  data-aos="fade-in"
+                  data-aos-duration="600"
+                  data-aos-delay="200"
+                  data-aos-once="false"
                   className={`
                     absolute top-4 ${isRTL ? "left-4" : "right-4"}
                     w-8 h-8 flex items-center justify-center
@@ -148,12 +185,18 @@ export default function OurCompanies() {
                 </button>
 
                 {/* Left Side - Logo and Name */}
-                <div className={`
-                  flex flex-col items-center lg:items-start
-                  ${isRTL ? "lg:ml-8" : "lg:mr-8"}
-                  shrink-0
-                  ${isRTL ? "lg:order-2" : "lg:order-1"}
-                `}>
+                <div
+                  data-aos={isRTL ? "fade-left" : "fade-right"}
+                  data-aos-duration="800"
+                  data-aos-delay="300"
+                  data-aos-once="false"
+                  className={`
+                    flex flex-col items-center lg:items-start
+                    ${isRTL ? "lg:ml-8" : "lg:mr-8"}
+                    shrink-0
+                    ${isRTL ? "lg:order-2" : "lg:order-1"}
+                  `}
+                >
                   <div className="relative w-32 h-32 mb-4">
                     <Image
                       src={selectedCompany.logo}
@@ -166,15 +209,33 @@ export default function OurCompanies() {
                 </div>
 
                 {/* Right Side - Description and Link */}
-                <div className={`
-                  flex-1 flex flex-col justify-between
-                  ${isRTL ? "lg:order-1" : "lg:order-2"}
-                `}>
+                <div
+                  data-aos={isRTL ? "fade-right" : "fade-left"}
+                  data-aos-duration="800"
+                  data-aos-delay="400"
+                  data-aos-once="false"
+                  className={`
+                    flex-1 flex flex-col justify-between
+                    ${isRTL ? "lg:order-1" : "lg:order-2"}
+                  `}
+                >
                   <div>
-                    <h4 className="text-2xl font-semibold text-foreground mb-4">
+                    <h4
+                      data-aos="fade-up"
+                      data-aos-duration="600"
+                      data-aos-delay="500"
+                      data-aos-once="false"
+                      className="text-2xl font-semibold text-foreground mb-4"
+                    >
                       {selectedCompany.title}
                     </h4>
-                    <p className="text-base text-muted-foreground leading-relaxed mb-6">
+                    <p
+                      data-aos="fade-up"
+                      data-aos-duration="600"
+                      data-aos-delay="600"
+                      data-aos-once="false"
+                      className="text-base text-muted-foreground leading-relaxed mb-6"
+                    >
                       {selectedCompany.description}
                     </p>
                   </div>
@@ -183,6 +244,10 @@ export default function OurCompanies() {
                     href={selectedCompany.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    data-aos="fade-up"
+                    data-aos-duration="600"
+                    data-aos-delay="700"
+                    data-aos-once="false"
                     className={`
                       inline-flex items-center gap-2
                       text-base font-medium text-primary

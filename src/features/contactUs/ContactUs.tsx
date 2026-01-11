@@ -44,7 +44,13 @@ export default function ContactSection() {
   });
 
   useEffect(() => {
-    AOS.init({ duration: 1000, once: true });
+    AOS.init({ 
+      duration: 1000, 
+      once: true, 
+      mirror: false,
+      offset: 100,
+      easing: 'ease-out-cubic'
+    });
   }, []);
 
   const onSubmit = async (data: ContactFormData) => {
@@ -66,16 +72,20 @@ console.log(getValues("phone"))
         locale === "ar" ? "text-right" : "text-left"
       }`}
     >
-      <div
-        className="max-w-5xl mx-auto px-6 lg:px-12 relative z-10"
-        data-aos="fade-up"
-      >
-              <CustomHeader title={t('title')} subTitle={t('subtitle')}  />
-              <CustomDivider />
+      <div className="max-w-5xl mx-auto px-6 lg:px-12 relative z-10">
+        <div data-aos="fade-down" data-aos-duration="800">
+          <CustomHeader title={t('title')} subTitle={t('subtitle')} />
+        </div>
+        <div data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+          <CustomDivider />
+        </div>
 
         {/* Form */}
         <form
           onSubmit={handleSubmit(onSubmit)}
+          data-aos="fade-up"
+          data-aos-duration="1000"
+          data-aos-delay="300"
           className="w-full max-w-2xl mx-auto rounded-lg shadow-xl p-8 md:p-12 space-y-6 bg-background/90 backdrop-blur-sm"
         >
           {/* Name and Phone */}

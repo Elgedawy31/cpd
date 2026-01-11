@@ -18,7 +18,13 @@ export default function WhyChooseUs() {
   const t = useTranslations("whyChooseUs");
 
   useEffect(() => {
-    AOS.init({ duration: 1000, once: true, mirror: false });
+    AOS.init({ 
+      duration: 1000, 
+      once: true, 
+      mirror: false,
+      offset: 100,
+      easing: 'ease-out-cubic'
+    });
   }, []);
 
   const cards = [
@@ -69,19 +75,24 @@ export default function WhyChooseUs() {
       id="why-us"
       className="relative w-full py-8 bg-linear-to-b from-primary-50/60 via-primary-100 to-primary-50/60 "
     >
-           <CustomHeader title={t('title')} subTitle={t('subtitle')} />
+      <div data-aos="fade-down" data-aos-duration="800">
+        <CustomHeader title={t('title')} subTitle={t('subtitle')} />
+      </div>
 
-      <div
-        data-aos="fade-up"
-        className="max-w-7xl mx-auto px-6 lg:px-12 grid gap-10 sm:grid-cols-1 lg:grid-cols-2"
-      >
-        {cards.map((card) => (
-          <WhyChooseUsCard
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 grid gap-10 sm:grid-cols-1 lg:grid-cols-2">
+        {cards.map((card, index) => (
+          <div
             key={card.key}
-            icon={card.icon}
-            title={card.title}
-            description={card.description}
-          />
+            data-aos="fade-up"
+            data-aos-duration="800"
+            data-aos-delay={index * 150}
+          >
+            <WhyChooseUsCard
+              icon={card.icon}
+              title={card.title}
+              description={card.description}
+            />
+          </div>
         ))}
       </div>
     </section>

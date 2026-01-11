@@ -34,6 +34,11 @@ const locations: Location[] = [
   },
 ];
 
+interface GeographyObject {
+  rsmKey: string;
+  // Add other properties if needed based on the actual structure of a geography object
+}
+
 interface Location {
   name: string;
   lat: number;
@@ -44,14 +49,13 @@ export default function WorldDottedMap() {
   const [active, setActive] = useState<Location | null>(null);
 
   return (
-    <div className="w-full relative container mx-auto">
+    <div className="w-full relative container mx-auto max-h-[70vh]">
       <ComposableMap
-        projectionConfig={{ scale: 150 }}
-        className="w-full h-screen"
+        className="w-full h-fit relative -top-20"
       >
         {/* World shape */}
         <Geographies geography={geoUrl}>
-          {({ geographies }) =>
+          {({ geographies }: { geographies: GeographyObject[] }) =>
             geographies.map((geo) => (
               <Geography
                 key={geo.rsmKey}

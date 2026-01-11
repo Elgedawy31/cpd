@@ -255,6 +255,9 @@
     "title": "Page Not Found",
     "description": "The page you're looking for doesn't exist.",
     "goHome": "Go Home"
+  },
+  "WorldMapSection": {
+    "locations": "Our Global Locations",
+    "locationsDescription": "Explore our office locations around the world."
   }
-
 }

@@ -150,8 +150,20 @@
     "errors": {
       "name": "يجب أن يحتوي الاسم على حرفين على الأقل",
       "email": "يرجى إدخال بريد إلكتروني صحيح",
-      "message": "يجب أن تحتوي الرسالة على 10 أحرف على الأقل"
-    }
+      "message": "يجب أن تحتوي الرسالة على 10 أحرف على الأقل",
+      "phone": "يرجى إدخال رقم هاتف صحيح",
+      "subject": "يجب أن يحتوي الموضوع على 5 أحرف على الأقل",
+      "companyName": "اسم الشركة مطلوب",
+      "architecturalDesign": "التصميم المعماري مطلوب"
+    },
+    "phone": "الهاتف",
+    "phonePlaceholder": "رقم هاتفك",
+    "companyName": "اسم الشركة",
+    "companyNamePlaceholder": "اسم شركتك (اختياري)",
+    "subject": "الموضوع",
+    "subjectPlaceholder": "موضوع رسالتك",
+    "architecturalDesign": "التصميم المعماري",
+    "selectArchitecturalDesign": "اختر التصميم المعماري"
   },
 
   "footer": {

@@ -151,8 +151,20 @@
     "errors": {
       "name": "Name must be at least 2 characters",
       "email": "Please enter a valid email address",
-      "message": "Message must be at least 10 characters"
-    }
+      "message": "Message must be at least 10 characters",
+      "phone": "Please enter a valid phone number",
+      "subject": "Subject must be at least 5 characters",
+      "companyName": "Company Name is required",
+      "architecturalDesign": "Architectural Design is required"
+    },
+    "phone": "Phone",
+    "phonePlaceholder": "Your phone number",
+    "companyName": "Company Name",
+    "companyNamePlaceholder": "Your company name (optional)",
+    "subject": "Subject",
+    "subjectPlaceholder": "Subject of your message",
+    "architecturalDesign": "Architectural Design",
+    "selectArchitecturalDesign": "Select Architectural Design"
   },
   "footer": {
     "description": "We deliver integrated, reliable, and high-quality solutions that transform expertise into measurable results.",

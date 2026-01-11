@@ -106,17 +106,33 @@ export default function WorldDottedMap() {
             {/* Pulse */}
             <circle r={6} fill="rgba(var(--shadow-color-rgb),0.15)" />
             <circle r={3} fill="var(--color-primary)/10" />
+            {active?.name === loc.name && (
+              <g className="animate-in fade-in zoom-in absolute z-50">
+                <rect
+                  x="-75"
+                  y="-40"
+                  width="150"
+                  height="35"
+                  rx="5"
+                  fill="white"
+                  className="shadow-md"
+                />
+                <text
+                  x="-65"
+                  y="-20"
+                  className="text-[10px] fill-gray-600 font-bold"
+                >
+                  {loc.name}
+                </text>
+                <text x="-65" y="-8" className="text-[8px] fill-gray-500">
+                  {loc.address}
+                </text>
+              </g>
+            )}
           </Marker>
         ))}
       </ComposableMap>
 
-      {/* Tooltip Card */}
-      {active && (
-        <div className="absolute right-10 bottom-10 bg-white shadow-lg rounded-lg p-4 text-sm">
-          <strong>{active.name}</strong>
-          <div className="opacity-70 mt-1">{active.address}</div>
-        </div>
-      )}
     </div>
   );
 }

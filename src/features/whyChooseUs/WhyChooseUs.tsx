@@ -12,6 +12,7 @@ import {
   Layers3,
 } from "lucide-react";
 import CustomHeader from "@/components/CustomHeader";
+import WhyChooseUsCard from "@/components/WhyChooseUsCard";
 
 export default function WhyChooseUs() {
   const t = useTranslations("whyChooseUs");
@@ -75,23 +76,12 @@ export default function WhyChooseUs() {
         className="max-w-7xl mx-auto px-6 lg:px-12 grid gap-10 sm:grid-cols-1 lg:grid-cols-2"
       >
         {cards.map((card) => (
-          <div
+          <WhyChooseUsCard
             key={card.key}
-            className="group relative bg-card border border-border rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 p-8 text-left hover:bg-primary/5 hover:-translate-y-2"
-          >
-            <div className="flex flex-col items-start space-y-4">
-              {card.icon}
-              <h3 className="text-2xl font-bold text-primary group-hover:text-primary-700 transition-colors duration-500">
-                {card.title}
-              </h3>
-              <p className="text-foreground/80 leading-relaxed text-base sm:text-lg group-hover:text-foreground transition-colors duration-500">
-                {card.description}
-              </p>
-            </div>
-            <button className="mt-6 px-5 py-2 rounded-full border border-primary text-primary text-sm font-semibold hover:bg-primary hover:text-primary-foreground transition-all duration-500">
-              {t("learnMore")}
-            </button>
-          </div>
+            icon={card.icon}
+            title={card.title}
+            description={card.description}
+          />
         ))}
       </div>
     </section>

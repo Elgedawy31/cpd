@@ -36,21 +36,29 @@ export default function CompaniesDropdown({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       style={{
-               transform: isOpen 
-                 ? 'translateX(-50%) translateY(0)' 
-                 : 'translateX(-50%) translateY(-8px)',
-        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        transform: isOpen
+          ? "translateX(-50%) translateY(0)"
+          : "translateX(-50%) translateY(-8px)",
+        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
       }}
     >
       <div className="p-8">
         {/* Header */}
-        <h3 className={`text-2xl font-bold text-foreground mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
+        <h3
+          className={`text-2xl font-bold text-foreground mb-3 ${
+            isRTL ? "text-right" : "text-left"
+          }`}
+        >
           {t("companiesTitle")}
         </h3>
-        <p className={`text-sm text-muted-foreground leading-relaxed mb-6 ${isRTL ? 'text-right' : 'text-left'}`}>
+        <p
+          className={`text-sm text-muted-foreground leading-relaxed mb-6 ${
+            isRTL ? "text-right" : "text-left"
+          }`}
+        >
           {t("companiesDescription")}
         </p>
-        
+
         {/* Company Logos Grid */}
         <div className="grid grid-cols-5 gap-4">
           {companyLogos.map((imageSrc, index) => (
@@ -59,10 +67,12 @@ export default function CompaniesDropdown({
               className="relative h-[70px] bg-gray-50 rounded-lg overflow-hidden group/item transition-all duration-300 hover:scale-110 hover:shadow-lg border border-gray-100"
               style={{
                 opacity: isOpen ? 1 : 0,
-                transform: isOpen 
-                  ? 'translateY(0) scale(1)' 
-                  : 'translateY(10px) scale(0.95)',
-                transition: `all 0.4s cubic-bezier(0.16, 1, 0.3, 1) ${index * 60}ms`,
+                transform: isOpen
+                  ? "translateY(0) scale(1)"
+                  : "translateY(10px) scale(0.95)",
+                transition: `all 0.4s cubic-bezier(0.16, 1, 0.3, 1) ${
+                  index * 60
+                }ms`,
               }}
             >
               <Image
@@ -75,9 +85,6 @@ export default function CompaniesDropdown({
           ))}
         </div>
       </div>
-      
-      
     </div>
   );
 }
-

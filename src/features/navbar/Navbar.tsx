@@ -222,6 +222,10 @@ export default function Navbar() {
                       isRTL={isRTL}
                       onMouseEnter={() => setShowCompaniesDropdown(true)}
                       onMouseLeave={() => setShowCompaniesDropdown(false)}
+                      onCompanyClick={(key) => {
+                        // Scroll to section is handled in dropdown
+                        setShowCompaniesDropdown(false);
+                      }}
                     />
                   )}
                 </NavLink>

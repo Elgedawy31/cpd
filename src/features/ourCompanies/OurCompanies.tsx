@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations, useLocale } from "next-intl";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import CustomHeader from "@/components/CustomHeader";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, Plus, X } from "lucide-react";
@@ -22,7 +22,7 @@ export default function OurCompanies() {
   const isRTL = locale === "ar";
   const [selectedCompany, setSelectedCompany] = useState<CompanyCard | null>(null);
 
-  const cards: CompanyCard[] = [
+  const cards: CompanyCard[] = useMemo(() => [
     {
       key: "cpv",
       title: t("cpv.title"),
@@ -58,7 +58,7 @@ export default function OurCompanies() {
       url: "https://www.dlalat.com/",
       logo: "/ourCompanies/dlalatDark.png",
     },
-  ];
+  ], [t]);
 
   const handleCardClick = (card: CompanyCard) => {
     if (selectedCompany?.key === card.key) {
@@ -71,6 +71,54 @@ export default function OurCompanies() {
   const handleClosePanel = () => {
     setSelectedCompany(null);
   };
+
+  // Check URL hash for company key on mount and when hash changes
+  useEffect(() => {
+    const checkHashForCompany = () => {
+      if (typeof window !== "undefined") {
+        const hash = window.location.hash;
+        if (hash.includes("companies")) {
+          // Remove # from hash and split
+          const hashWithoutHash = hash.replace('#', '');
+          const parts = hashWithoutHash.split("?");
+          if (parts.length > 1) {
+            const urlParams = new URLSearchParams(parts[1]);
+            const companyKey = urlParams.get("company");
+            if (companyKey) {
+              const company = cards.find(card => card.key === companyKey);
+              if (company) {
+                setSelectedCompany(company);
+              }
+            }
+          }
+        }
+      }
+    };
+
+    checkHashForCompany();
+
+    // Listen for hash changes
+    const handleHashChange = () => {
+      checkHashForCompany();
+    };
+
+    // Listen for custom companyChange event
+    const handleCompanyChange = (event: CustomEvent<{ key: string }>) => {
+      const companyKey = event.detail.key;
+      const company = cards.find(card => card.key === companyKey);
+      if (company) {
+        setSelectedCompany(company);
+      }
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+    window.addEventListener("companyChange", handleCompanyChange as EventListener);
+    
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+      window.removeEventListener("companyChange", handleCompanyChange as EventListener);
+    };
+  }, [cards]);
 
   useEffect(() => {
     AOS.init({ 

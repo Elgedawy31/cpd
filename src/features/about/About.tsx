@@ -74,9 +74,9 @@ export default function AboutSection() {
             <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/60 via-black/30 to-black/10" />
 
             <div className="relative z-10 h-full flex flex-col justify-end p-6 sm:p-8 text-white">
-              <p className="text-sm uppercase tracking-[0.3em] text-white/70 mb-2">
+              {/* <p className="text-sm uppercase tracking-[0.3em] text-white/70 mb-2">
                 {t("title")}
-              </p>
+              </p> */}
               <h3 className="text-3xl sm:text-4xl font-semibold tracking-tight">
                 {activeSection.title}
               </h3>

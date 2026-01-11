@@ -12,16 +12,19 @@ export default function WhyChooseUsCard({
   description,
 }: WhyChooseUsCardProps) {
   return (
-    <div className="flex flex-col items-start p-6 bg-background rounded-xl shadow-lg border border-border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer group">
-      <div className="mb-4 text-primary transition-transform duration-300 group-hover:scale-110">
-        {icon}
+    <div className="relative flex flex-col items-start p-6 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/20 transition-all duration-700 hover:shadow-primary/30 hover:scale-[1.03] group overflow-hidden animate-fade-in cursor-pointer">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100"></div>
+      <div className="relative z-10">
+        <div className="mb-6 p-4">
+          {icon}
+        </div>
+        <h3 className="text-3xl font-extrabold text-foreground mb-4 leading-tight group-hover:text-primary transition-colors duration-700">
+          {title}
+        </h3>
+        <p className="text-muted-foreground text-lg leading-relaxed">
+          {description}
+        </p>
       </div>
-      <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors duration-300">
-        {title}
-      </h3>
-      <p className="text-muted-foreground text-sm leading-relaxed">
-        {description}
-      </p>
     </div>
   );
 }

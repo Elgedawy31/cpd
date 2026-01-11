@@ -29,6 +29,35 @@ export default function BusinessAreas() {
   const [activeIndex, setActiveIndex] = useState(0);
   const activeArea = areas[activeIndex] ?? areas[0];
 
+  // Check URL hash for area index on mount and when hash changes
+  useEffect(() => {
+    const checkHashForArea = () => {
+      if (typeof window !== "undefined") {
+        const hash = window.location.hash;
+        if (hash.includes("businessAreas")) {
+          const urlParams = new URLSearchParams(hash.split("?")[1] || "");
+          const areaIndex = urlParams.get("area");
+          if (areaIndex !== null) {
+            const index = parseInt(areaIndex, 10);
+            if (!isNaN(index) && index >= 0 && index < areas.length) {
+              setActiveIndex(index);
+            }
+          }
+        }
+      }
+    };
+
+    checkHashForArea();
+
+    // Listen for hash changes
+    const handleHashChange = () => {
+      checkHashForArea();
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, [areas.length]);
+
   useEffect(() => {
     AOS.init({ 
       duration: 1000, 

@@ -208,6 +208,10 @@ export default function Navbar() {
                       isRTL={isRTL}
                       onMouseEnter={() => setShowBusinessAreasDropdown(true)}
                       onMouseLeave={() => setShowBusinessAreasDropdown(false)}
+                      onAreaClick={(index) => {
+                        // Scroll to section is handled in dropdown
+                        setShowBusinessAreasDropdown(false);
+                      }}
                     />
                   )}
 

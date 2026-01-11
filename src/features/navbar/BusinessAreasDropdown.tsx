@@ -8,6 +8,7 @@ interface BusinessAreasDropdownProps {
   isRTL: boolean;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
+  onAreaClick?: (areaIndex: number) => void;
 }
 
 export default function BusinessAreasDropdown({
@@ -15,6 +16,7 @@ export default function BusinessAreasDropdown({
   isRTL,
   onMouseEnter,
   onMouseLeave,
+  onAreaClick,
 }: BusinessAreasDropdownProps) {
   const t = useTranslations("navbar");
   const tBusinessAreas = useTranslations("businessAreas");
@@ -24,6 +26,32 @@ export default function BusinessAreasDropdown({
     tags: string[];
     image: string;
   }>;
+
+  const handleAreaClick = (index: number) => {
+    // Scroll to businessAreas section
+    const element = document.getElementById("businessAreas");
+    if (element) {
+      const navbarHeight = 80;
+      const rect = element.getBoundingClientRect();
+      const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
+      const elementTop = rect.top + currentScrollY;
+      const offsetPosition = elementTop - navbarHeight;
+      
+      window.scrollTo({
+        top: Math.max(0, offsetPosition),
+        behavior: 'smooth'
+      });
+      
+      // Set hash with area index
+      window.history.pushState(null, '', `#businessAreas?area=${index}`);
+      
+      // Call the callback if provided
+      onAreaClick?.(index);
+      
+      // Close dropdown
+      onMouseLeave();
+    }
+  };
 
   return (
     <div
@@ -55,7 +83,8 @@ export default function BusinessAreasDropdown({
           {businessAreas.map((area, index) => (
             <div
               key={area.name}
-              className="relative aspect-square bg-gray-50 rounded-lg overflow-hidden group/item transition-all duration-300 hover:scale-110 hover:shadow-lg border border-gray-100"
+              onClick={() => handleAreaClick(index)}
+              className="relative aspect-square bg-gray-50 rounded-lg overflow-hidden group/item transition-all duration-300 hover:scale-110 hover:shadow-lg border border-gray-100 cursor-pointer"
               style={{
                 opacity: isOpen ? 1 : 0,
                 transform: isOpen 
@@ -71,7 +100,7 @@ export default function BusinessAreasDropdown({
                 className="object-cover transition-transform duration-300 group-hover/item:scale-105"
               />
               {/* Gradient overlay for text readability */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent" />
               {/* Area name in bottom left */}
               <div className={`absolute bottom-0 left-0 right-0 p-2 ${isRTL ? 'text-right' : 'text-left'}`}>
                 <p className="text-xs font-semibold text-white drop-shadow-lg line-clamp-2">

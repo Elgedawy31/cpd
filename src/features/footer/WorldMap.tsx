@@ -172,17 +172,34 @@ function LocationPopover({ location, group, position, containerRef, isOpen, onCl
   // Determine flag based on location
   const getFlagSrc = (loc?: Location, grp?: LocationGroup) => {
     if (grp) {
-      // Group is always Saudi Arabia
-      return "/ar.png";
+      // Check if group is Saudi Arabia or Egypt
+      const isSaudiArabia = grp.locations.some(
+        gloc => saudiArabiaLocations.some(
+          saLoc => saLoc.name === gloc.name && saLoc.lat === gloc.lat && saLoc.lng === gloc.lng
+        )
+      );
+      const isEgypt = grp.locations.some(
+        gloc => egyptLocations.some(
+          egLoc => egLoc.name === gloc.name && egLoc.lat === gloc.lat && egLoc.lng === gloc.lng
+        )
+      );
+      if (isSaudiArabia) return "/ar.png";
+      if (isEgypt) return "/eg.webp";
+      return "/netherland.webp";
     }
     if (loc) {
-      // Check if location is in Saudi Arabia locations
+      // Check if location is in Saudi Arabia or Egypt locations
       const isSaudiArabia = saudiArabiaLocations.some(
         saLoc => saLoc.name === loc.name && saLoc.lat === loc.lat && saLoc.lng === loc.lng
       );
-      return isSaudiArabia ? "/ar.png" : "/en.png";
+      const isEgypt = egyptLocations.some(
+        egLoc => egLoc.name === loc.name && egLoc.lat === loc.lat && egLoc.lng === loc.lng
+      );
+      if (isSaudiArabia) return "/ar.png";
+      if (isEgypt) return "/eg.webp";
+      return "/netherland.webp";
     }
-    return "/en.png";
+    return "/netherland.webp";
   };
 
   const content = location ? (
@@ -340,6 +357,25 @@ export default function WorldDottedMap() {
             r={3} 
             fill="var(--color-primary)"
             onMouseEnter={(e) => handleGroupMarkerEnter(saudiArabiaGroup, e)}
+            onMouseLeave={handleMarkerLeave}
+          />
+        </Marker>
+
+        {/* Egypt Grouped Marker */}
+        <Marker
+          coordinates={[egyptGroup.lng, egyptGroup.lat]}
+        >
+          {/* Pulse */}
+          <circle 
+            r={6} 
+            fill="rgba(var(--shadow-color-rgb),0.15)" 
+            onMouseEnter={(e) => handleGroupMarkerEnter(egyptGroup, e)}
+            onMouseLeave={handleMarkerLeave}
+          />
+          <circle 
+            r={3} 
+            fill="var(--color-primary)"
+            onMouseEnter={(e) => handleGroupMarkerEnter(egyptGroup, e)}
             onMouseLeave={handleMarkerLeave}
           />
         </Marker>

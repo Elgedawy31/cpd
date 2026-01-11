@@ -8,7 +8,6 @@ import OurPartners from "@/features/ourPartners/OurPartners";
 import WhyChooseUs from "@/features/whyChooseUs/WhyChooseUs";
 import BusinessAreas from "@/features/businessAreas/BusinessAreas";
 import SplashScreen from "@/components/SplashScreen";
-import CustomHeader from "@/components/CustomHeader";
 import { useTranslations, useLocale } from "next-intl";
 import WorldOutlineMap from "@/features/footer/WorldMap";
 

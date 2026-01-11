@@ -17,14 +17,13 @@ export default function BusinessAreasDropdown({
   onMouseLeave,
 }: BusinessAreasDropdownProps) {
   const t = useTranslations("navbar");
+  const tBusinessAreas = useTranslations("businessAreas");
 
-  const partnerImages = [
-    "/ourPartners/Image_02.png",
-    "/ourPartners/Image_03.png",
-    "/ourPartners/Image_05.png",
-    "/ourPartners/Image_07.png",
-    "/ourPartners/Image_08.png",
-  ];
+  const businessAreas = tBusinessAreas.raw("areas") as Array<{
+    name: string;
+    tags: string[];
+    image: string;
+  }>;
 
   return (
     <div
@@ -51,11 +50,11 @@ export default function BusinessAreasDropdown({
           {t("businessAreasDescription")}
         </p>
         
-        {/* Partner Images Grid */}
+        {/* Business Areas Images Grid */}
         <div className="grid grid-cols-5 gap-4">
-          {partnerImages.map((imageSrc, index) => (
+          {businessAreas.map((area, index) => (
             <div
-              key={index}
+              key={area.name}
               className="relative aspect-square bg-gray-50 rounded-lg overflow-hidden group/item transition-all duration-300 hover:scale-110 hover:shadow-lg border border-gray-100"
               style={{
                 opacity: isOpen ? 1 : 0,
@@ -66,11 +65,19 @@ export default function BusinessAreasDropdown({
               }}
             >
               <Image
-                src={imageSrc}
-                alt={`Partner ${index + 1}`}
+                src={area.image}
+                alt={area.name}
                 fill
-                className="object-contain p-3 transition-transform duration-300 group-hover/item:scale-105"
+                className="object-cover transition-transform duration-300 group-hover/item:scale-105"
               />
+              {/* Gradient overlay for text readability */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+              {/* Area name in bottom left */}
+              <div className={`absolute bottom-0 left-0 right-0 p-2 ${isRTL ? 'text-right' : 'text-left'}`}>
+                <p className="text-xs font-semibold text-white drop-shadow-lg line-clamp-2">
+                  {area.name}
+                </p>
+              </div>
             </div>
           ))}
         </div>

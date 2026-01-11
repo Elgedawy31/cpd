@@ -110,7 +110,8 @@
           "Design Review",
           "Site Inspection",
           "Quality Control"
-        ]
+        ],
+        "image": "/Risk managment.jpg"
       },
       {
         "name": "Facade Design",
@@ -121,7 +122,8 @@
           "Structural Glazing",
           "Domes",
           "Louvres"
-        ]
+        ],
+        "image": "/Facade Design.jpg"
       },
       {
         "name": "Engineering Services",
@@ -129,7 +131,8 @@
           "Architectural Design",
           "Structural Analysis & Design",
           "Risk Management"
-        ]
+        ],
+        "image": "/Engineering Service.avif"
       },
       {
         "name": "Software Solutions",
@@ -138,7 +141,8 @@
           "UI/UX",
           "Cyber Security",
           "Android/iOS App"
-        ]
+        ],
+        "image": "/Software Design.jpg"
       },
       {
         "name": "Software Distribution",
@@ -147,7 +151,8 @@
           "Data Security",
           "Customer Support",
           "AI Solutions"
-        ]
+        ],
+        "image": "/Software distribution.jpg"
       }
     ]
   },

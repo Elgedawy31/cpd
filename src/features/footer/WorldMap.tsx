@@ -13,24 +13,46 @@ const geoUrl =
 
 const locations: Location[] = [
   {
-    name: "Rotterdam, NL",
-    lat: 51.9233814,
-    lng: 4.4742916,
+    name: "Rotterdam Office",
+    address: "10th Floor, Weena 290, Rotterdam, Netherlands",
+    lat: 51.9244,
+    lng: 4.4777,
   },
   {
-    name: "Cairo, EG",
+    name: "Nasr City – Samir Abd El-Raouf (21)",
     lat: 30.0522681,
     lng: 31.3463478,
+    address: "Samir Abd El-Raouf, Al Manteqah Al Thamenah, Nasr City, Cairo, Egypt",
   },
   {
-    name: "Riyadh, SA",
+    name: "8th District, Nasr City, Cairo",
+    lat: 30.0522600,
+    lng: 31.3463400,
+    address: "8th District, 21 Samir Abd El-Raouf St, 2nd Floor, Nasr City, Cairo, Egypt",
+  },
+  {
+    name: "Al-Mottaheda Tower, Kafr El-Shaikh",
+    lat: 31.5610792,
+    lng: 31.0813185,
+    address: "Al-Mottaheda Tower, 2nd & 9th Floor, Kafr El-Shaikh, Egypt",
+  },
+  {
+    name: "Gadallah Tower, Kafr El-Shaikh",
+    lat: 31.5584737,
+    lng: 31.0816364,
+    address: "Gadallah Tower, 3rd & 4th Floor, Kafr El-Shaikh, Egypt",
+  },
+  {
+    name: "Al Malaz, Riyadh",
     lat: 24.6624446,
     lng: 46.7287761,
+    address: "Al Malaz, Riyadh, Saudi Arabia",
   },
   {
-    name: "Melbourne, AU",
-    lat: -37.8136,
-    lng: 144.9631,
+    name: "Office 17, North Ring Road, Riyadh",
+    lat: 24.7666484,
+    lng: 46.7050514,
+    address: "Office 17, North Ring Road, Al Wady Dist, Exit 6, Riyadh, Saudi Arabia",
   },
 ];
 
@@ -43,15 +65,16 @@ interface Location {
   name: string;
   lat: number;
   lng: number;
+  address: string;
 }
 
 export default function WorldDottedMap() {
   const [active, setActive] = useState<Location | null>(null);
 
   return (
-    <div className="w-full relative container mx-auto max-h-[70vh]">
+    <div className="w-full relative  max-h-[70vh]">
       <ComposableMap
-        className="w-full h-fit relative -top-20"
+        className="w-full h-[70vh] relative -top-20"
       >
         {/* World shape */}
         <Geographies geography={geoUrl}>
@@ -60,7 +83,7 @@ export default function WorldDottedMap() {
               <Geography
                 key={geo.rsmKey}
                 geography={geo}
-                fill="var(--color-background)"
+                fill="var(--color-muted)"
                 stroke="none"
                 style={{
                   default: { outline: "none" },
@@ -91,9 +114,10 @@ export default function WorldDottedMap() {
       {active && (
         <div className="absolute right-10 bottom-10 bg-white shadow-lg rounded-lg p-4 text-sm">
           <strong>{active.name}</strong>
-          <div className="opacity-70 mt-1">Office location</div>
+          <div className="opacity-70 mt-1">{active.address}</div>
         </div>
       )}
     </div>
   );
 }
+

@@ -9,6 +9,7 @@ import CustomHeader from "@/components/CustomHeader";
 type BusinessArea = {
   name: string;
   tags: string[];
+  image: string;
 };
 
 export default function BusinessAreas() {
@@ -39,7 +40,7 @@ export default function BusinessAreas() {
           <div className="relative overflow-hidden rounded-3xl bg-black/5 shadow-lg min-h-[320px] lg:min-h-[420px]">
             {/* Background image (placeholder for now) */}
             <Image
-              src="/area.webp"
+              src={activeArea?.image ?? "/area.webp"}
               alt={activeArea?.name ?? "Business area"}
               fill
               priority={false}

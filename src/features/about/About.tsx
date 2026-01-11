@@ -25,21 +25,21 @@ export default function AboutSection() {
         label: t("aboutTitle"),
         title: t("aboutTitle"),
         description: t("aboutDescription"),
-        image: "/area.webp", // placeholder image
+        image: "/About.jpg", // placeholder image
       },
       {
         id: "mission",
         label: t("missionTitle"),
         title: t("missionTitle"),
         description: t("missionDescription"),
-        image: "/area.webp", // placeholder image
+        image: "/Mission.jpg", // placeholder image
       },
       {
         id: "vision",
         label: t("visionTitle"),
         title: t("visionTitle"),
         description: t("visionDescription"),
-        image: "/area.webp", // placeholder image
+        image: "/Vision.jpg", // placeholder image
       },
     ],
     [t]

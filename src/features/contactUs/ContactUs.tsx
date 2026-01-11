@@ -5,7 +5,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useEffect } from "react";
 import { Send, Loader2, CheckCircle, Mail, User, MessageSquare, Phone, Building, Tag } from "lucide-react";
-import PhoneInput from 'react-phone-number-input';
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -19,7 +19,7 @@ export default function ContactSection() {
 
   const contactSchema = z.object({
     name: z.string().min(2, t("errors.name")),
-    phone: z.string().min(1, t("errors.phone")),
+    phone: z.string().refine((value) => isValidPhoneNumber(value || ""), t("errors.phone")),
     email: z.string().email(t("errors.email")),
     companyName: z.string().min(2, t("errors.companyName")),
     subject: z.string().min(5, t("errors.subject")),
@@ -101,7 +101,7 @@ console.log(getValues("phone"))
                 <Phone size={18} /> {t("phone")}
               </label>
               <PhoneInput
-                defaultCountry="US"
+                defaultCountry="SA"
                 placeholder={t("phonePlaceholder")}
                 value={getValues("phone")}
                 onChange={(value) => setValue("phone", value || "")}

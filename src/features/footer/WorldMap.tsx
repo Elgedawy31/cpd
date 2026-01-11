@@ -294,12 +294,11 @@ export default function WorldDottedMap() {
   };
 
   return (
-    <div ref={mapContainerRef} className="w-full relative max-h-[70vh]">
+    <div ref={mapContainerRef} className="w-full relative ">
       <ComposableMap
-        className="w-full h-[70vh] relative -top-20"
+        className="w-full  relative"
         projectionConfig={{
-          scale: 150,
-          center: [0, 0]
+          center: [15, 0]
         }}>
         {/* World shape */}
         <Geographies geography={geoUrl}>

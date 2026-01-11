@@ -29,7 +29,6 @@ export default function HomePage() {
       <OurPartners/> 
       <ContactSection />
       <div className={` ${isRTL ? "text-right" : "text-left"}`}>
-        <CustomHeader title={t("locations")} subTitle={t("locationsDescription")}/>
         <WorldOutlineMap />
       </div>
       <Footer />

@@ -8,14 +8,6 @@ import {
 } from "react-simple-maps";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import {
-  offset,
-  flip,
-  shift,
-  arrow,
-  Placement,
-  computePosition,
-} from "@floating-ui/react";
 
 const geoUrl =
   "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
@@ -111,9 +103,8 @@ interface PopoverProps {
 }
 
 function LocationPopover({ location, group, position, containerRef, isOpen, onClose }: PopoverProps) {
-  const arrowRef = useRef<HTMLDivElement>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
-  const [computedStyles, setComputedStyles] = useState<{ left: number; top: number; placement: Placement } | null>(null);
+  const [computedStyles, setComputedStyles] = useState<{ left: number; top: number; placement: "top" | "bottom" } | null>(null);
   
   useEffect(() => {
     if (!isOpen || !position || !containerRef.current) {
@@ -121,52 +112,60 @@ function LocationPopover({ location, group, position, containerRef, isOpen, onCl
       return;
     }
 
-    // Calculate position relative to container
-    const containerRect = containerRef.current.getBoundingClientRect();
-    const left = position.x - containerRect.left;
-    const top = position.y - containerRect.top;
+    const updatePosition = () => {
+      if (!popoverRef.current || !containerRef.current) return;
 
-    // Simple positioning - above the marker
-    setComputedStyles({
-      left: left,
-      top: top - 60, // Position above marker
-      placement: "top",
-    });
+      const containerRect = containerRef.current.getBoundingClientRect();
+      const popoverRect = popoverRef.current.getBoundingClientRect();
+      
+      // Calculate position relative to container
+      const markerX = position.x - containerRect.left;
+      const markerY = position.y - containerRect.top;
+      
+      // Try positioning above first (top)
+      const offset = 12;
+      const estimatedHeight = popoverRect.height || 150; // Fallback estimate
+      const estimatedWidth = popoverRect.width || 200; // Fallback estimate
+      
+      let popoverTop = markerY - estimatedHeight - offset;
+      let popoverLeft = markerX - estimatedWidth / 2;
+      let placement: "top" | "bottom" = "top";
+      
+      // Check if popover would go above viewport
+      if (popoverTop < 8) {
+        // Position below instead
+        popoverTop = markerY + offset;
+        placement = "bottom";
+      }
+      
+      // Keep popover within container bounds horizontally
+      const padding = 8;
+      if (popoverLeft < padding) {
+        popoverLeft = padding;
+      } else if (popoverLeft + estimatedWidth > containerRect.width - padding) {
+        popoverLeft = containerRect.width - estimatedWidth - padding;
+      }
+      
+      // Keep popover within container bounds vertically
+      if (popoverTop < padding) {
+        popoverTop = padding;
+      } else if (popoverTop + estimatedHeight > containerRect.height - padding) {
+        popoverTop = containerRect.height - estimatedHeight - padding;
+      }
 
-    // Then use computePosition to refine if popover ref is available
-    if (popoverRef.current) {
-      const virtualRef = {
-        getBoundingClientRect: () => ({
-          width: 0,
-          height: 0,
-          x: position.x,
-          y: position.y,
-          top: position.y,
-          left: position.x,
-          right: position.x,
-          bottom: position.y,
-        }),
-      };
-
-      computePosition(virtualRef as unknown as Element, popoverRef.current, {
-        placement: "top",
-        strategy: "absolute",
-        middleware: [
-          offset(12),
-          flip({ fallbackAxisSideDirection: "start" }),
-          shift({ padding: 8 }),
-          arrow({ element: arrowRef.current }),
-        ],
-      }).then(({ x, y, placement: computedPlacement }) => {
-        setComputedStyles({
-          left: x,
-          top: y,
-          placement: computedPlacement,
-        });
-      }).catch(() => {
-        // Fallback to simple positioning if computePosition fails
+      setComputedStyles({
+        left: popoverLeft,
+        top: popoverTop,
+        placement,
       });
-    }
+    };
+
+    // Initial position calculation
+    updatePosition();
+
+    // Update position after a short delay to get actual dimensions
+    const timer = setTimeout(updatePosition, 10);
+    return () => clearTimeout(timer);
   }, [position, isOpen, containerRef]);
 
   // Determine flag based on location
@@ -241,13 +240,13 @@ function LocationPopover({ location, group, position, containerRef, isOpen, onCl
       <div className="flex flex-col items-center p-4 bg-card rounded-xl shadow-xl text-center border border-border backdrop-blur-sm">
         {content}
       </div>
+      {/* Arrow pointing to marker */}
       <div
-        ref={arrowRef}
         className="absolute w-3 h-3 bg-card border-l border-b border-border"
         style={{
-          transform: computedStyles.placement.includes("top") ? "rotate(45deg)" : "rotate(225deg)",
-          bottom: computedStyles.placement.includes("top") ? "-6px" : "auto",
-          top: computedStyles.placement.includes("bottom") ? "-6px" : "auto",
+          transform: computedStyles.placement === "top" ? "rotate(45deg)" : "rotate(225deg)",
+          bottom: computedStyles.placement === "top" ? "-6px" : "auto",
+          top: computedStyles.placement === "bottom" ? "-6px" : "auto",
           left: "50%",
           marginLeft: "-6px",
         }}

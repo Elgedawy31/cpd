@@ -41,13 +41,7 @@ const saudiArabiaGroup: LocationGroup = {
   lng: (saudiArabiaLocations[0].lng + saudiArabiaLocations[1].lng) / 2,
 };
 
-const individualLocations: Location[] = [
-  {
-    name: "Rotterdam Office",
-    address: "10th Floor, Weena 290, Rotterdam, Netherlands",
-    lat: 51.9244,
-    lng: 4.4777,
-  },
+const egyptLocations: Location[] = [
   {
     name: "Nasr City – Samir Abd El-Raouf (21)",
     lat: 30.0522681,
@@ -71,6 +65,21 @@ const individualLocations: Location[] = [
     lat: 31.5584737,
     lng: 31.0816364,
     address: "Gadallah Tower, 3rd & 4th Floor, Kafr El-Shaikh, Egypt",
+  },
+];
+
+const egyptGroup: LocationGroup = {
+  locations: egyptLocations,
+  lat: egyptLocations.reduce((sum, loc) => sum + loc.lat, 0) / egyptLocations.length,
+  lng: egyptLocations.reduce((sum, loc) => sum + loc.lng, 0) / egyptLocations.length,
+};
+
+const individualLocations: Location[] = [
+  {
+    name: "Rotterdam Office",
+    address: "10th Floor, Weena 290, Rotterdam, Netherlands",
+    lat: 51.9244,
+    lng: 4.4777,
   },
 ];
 
@@ -160,10 +169,26 @@ function LocationPopover({ location, group, position, containerRef, isOpen, onCl
     }
   }, [position, isOpen, containerRef]);
 
+  // Determine flag based on location
+  const getFlagSrc = (loc?: Location, grp?: LocationGroup) => {
+    if (grp) {
+      // Group is always Saudi Arabia
+      return "/ar.png";
+    }
+    if (loc) {
+      // Check if location is in Saudi Arabia locations
+      const isSaudiArabia = saudiArabiaLocations.some(
+        saLoc => saLoc.name === loc.name && saLoc.lat === loc.lat && saLoc.lng === loc.lng
+      );
+      return isSaudiArabia ? "/ar.png" : "/en.png";
+    }
+    return "/en.png";
+  };
+
   const content = location ? (
     <>
       <div className="w-8 h-8 rounded-full mb-3 flex items-center justify-center overflow-hidden shrink-0">
-        <Image src="/en.png" alt="flag" width={32} height={32} className="w-full h-full object-cover rounded-full" />
+        <Image src={getFlagSrc(location)} alt="flag" width={32} height={32} className="w-full h-full object-cover rounded-full" />
       </div>
       <p className="text-sm font-bold text-card-foreground mb-1.5">{location.name}</p>
       <p className="text-xs text-muted-foreground leading-relaxed max-w-[200px]">{location.address}</p>
@@ -171,7 +196,7 @@ function LocationPopover({ location, group, position, containerRef, isOpen, onCl
   ) : group ? (
     <>
       <div className="w-8 h-8 rounded-full mb-3 flex items-center justify-center overflow-hidden shrink-0">
-        <Image src="/en.png" alt="flag" width={32} height={32} className="w-full h-full object-cover rounded-full" />
+        <Image src={getFlagSrc(undefined, group)} alt="flag" width={32} height={32} className="w-full h-full object-cover rounded-full" />
       </div>
       {group.locations.map((loc, index) => (
         <div key={index} className={index > 0 ? "mt-3 pt-3 border-t border-border" : ""}>

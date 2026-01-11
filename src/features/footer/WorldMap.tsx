@@ -7,6 +7,7 @@ import {
   Marker,
 } from "react-simple-maps";
 import { useState } from "react";
+import Image from "next/image";
 
 const geoUrl =
   "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
@@ -110,27 +111,15 @@ export default function WorldDottedMap() {
             <circle r={6} fill="rgba(var(--shadow-color-rgb),0.15)" />
             <circle r={3} fill="var(--color-primary)" />
             {active?.name === loc.name && (
-              <g className="animate-in fade-in zoom-in absolute z-50" transform={`translate(0, ${-45})`}>
-                <rect
-                  x="-75"
-                  y="-40"
-                  width="150"
-                  height="35"
-                  rx="5"
-                  fill="var(--color-background)"
-                  className="shadow-md"
-                />
-                <text
-                  x="-65"
-                  y="-20"
-                  className="text-[10px] fill-[--color-foreground] font-bold"
-                >
-                  {loc.name}
-                </text>
-                <text x="-65" y="-8" className="text-[8px] fill-[--color-muted-foreground]">
-                  {loc.address}
-                </text>
-              </g>
+              <foreignObject x="-100" y="-80" width="200" height="90">
+                <div className="flex flex-col items-center justify-center p-3 bg-card rounded-lg shadow-lg text-center min-w-[150px] max-w-[250px] border border-border">
+                  <div className="w-6 h-6 rounded-full mb-2 flex items-center justify-center overflow-hidden">
+                    <Image src="/en.png" alt="flag" width={24} height={24} className="w-full h-full object-cover rounded-full" />
+                  </div>
+                  <p className="text-xs font-bold text-card-foreground mb-1">{loc.name}</p>
+                  <p className="text-[10px] text-muted-foreground leading-tight">{loc.address}</p>
+                </div>
+              </foreignObject>
             )}
           </Marker>
         ))}

@@ -47,7 +47,7 @@ export default function BusinessAreas() {
   return (
     <section
       id="businessAreas"
-      className="relative w-full py-20 bg-linear-to-b from-primary-50/60 via-primary-100 to-primary-50/60 "
+      className="relative w-full py-8 bg-linear-to-b from-primary-50/60 via-primary-100 to-primary-50/60 "
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <CustomHeader title={t("title")} subTitle={t("subtitle")} />

@@ -51,7 +51,7 @@ export default function AboutSection() {
   return (
     <section
       id="about"
-      className={`relative w-full bg-linear-to-b from-primary-50/60 via-primary-100 to-primary-50/60 py-16 ${
+      className={`relative w-full bg-linear-to-b from-primary-50/60 via-primary-100 to-primary-50/60 py-8 ${
         isRTL ? "text-right" : "text-left"
       }`}
     >

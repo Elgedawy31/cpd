@@ -62,7 +62,7 @@ console.log(getValues("phone"))
   return (
     <section
       id="contact"
-      className={`bg-gradient-to-b from-secondary/20 to-background py-16 lg:py-24 relative overflow-hidden ${
+      className={`bg-linear-to-b from-primary-50/60 via-primary-100 to-primary-50/60 py-8 relative overflow-hidden ${
         locale === "ar" ? "text-right" : "text-left"
       }`}
     >

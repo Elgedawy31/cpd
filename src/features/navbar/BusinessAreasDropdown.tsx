@@ -37,13 +37,16 @@ export default function BusinessAreasDropdown({
       const elementTop = rect.top + currentScrollY;
       const offsetPosition = elementTop - navbarHeight;
       
+      // Set hash with area index first
+      window.location.hash = `businessAreas?area=${index}`;
+      
+      // Dispatch custom event to notify BusinessAreas component
+      window.dispatchEvent(new CustomEvent('businessAreaChange', { detail: { index } }));
+      
       window.scrollTo({
         top: Math.max(0, offsetPosition),
         behavior: 'smooth'
       });
-      
-      // Set hash with area index
-      window.history.pushState(null, '', `#businessAreas?area=${index}`);
       
       // Call the callback if provided
       onAreaClick?.(index);

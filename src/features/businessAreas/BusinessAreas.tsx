@@ -35,12 +35,17 @@ export default function BusinessAreas() {
       if (typeof window !== "undefined") {
         const hash = window.location.hash;
         if (hash.includes("businessAreas")) {
-          const urlParams = new URLSearchParams(hash.split("?")[1] || "");
-          const areaIndex = urlParams.get("area");
-          if (areaIndex !== null) {
-            const index = parseInt(areaIndex, 10);
-            if (!isNaN(index) && index >= 0 && index < areas.length) {
-              setActiveIndex(index);
+          // Remove # from hash and split
+          const hashWithoutHash = hash.replace('#', '');
+          const parts = hashWithoutHash.split("?");
+          if (parts.length > 1) {
+            const urlParams = new URLSearchParams(parts[1]);
+            const areaIndex = urlParams.get("area");
+            if (areaIndex !== null) {
+              const index = parseInt(areaIndex, 10);
+              if (!isNaN(index) && index >= 0 && index < areas.length) {
+                setActiveIndex(index);
+              }
             }
           }
         }
@@ -54,8 +59,21 @@ export default function BusinessAreas() {
       checkHashForArea();
     };
 
+    // Listen for custom businessAreaChange event
+    const handleBusinessAreaChange = (event: CustomEvent<{ index: number }>) => {
+      const index = event.detail.index;
+      if (index >= 0 && index < areas.length) {
+        setActiveIndex(index);
+      }
+    };
+
     window.addEventListener("hashchange", handleHashChange);
-    return () => window.removeEventListener("hashchange", handleHashChange);
+    window.addEventListener("businessAreaChange", handleBusinessAreaChange as EventListener);
+    
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+      window.removeEventListener("businessAreaChange", handleBusinessAreaChange as EventListener);
+    };
   }, [areas.length]);
 
   useEffect(() => {

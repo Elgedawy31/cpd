@@ -104,32 +104,50 @@
     "subtitle": "Driving development through strategic expertise",
     "areas": [
       {
-        "name": "ENERGY",
-        "description": "Comprehensive energy solutions and sustainable power systems"
+        "name": "Risk Assessment",
+        "tags": [
+          "Structure Stability",
+          "Design Review",
+          "Site Inspection",
+          "Quality Control"
+        ]
       },
       {
-        "name": "METAL CASTING",
-        "description": "Advanced metal casting technologies and manufacturing solutions"
+        "name": "Facade Design",
+        "tags": [
+          "Parametric Design",
+          "Cladding",
+          "Curtain Wall",
+          "Structural Glazing",
+          "Domes",
+          "Louvres"
+        ]
       },
       {
-        "name": "MINING",
-        "description": "Innovative mining solutions and resource management"
+        "name": "Engineering Services",
+        "tags": [
+          "Architectural Design",
+          "Structural Analysis & Design",
+          "Risk Management"
+        ]
       },
       {
-        "name": "PIGMENTS AND PAINTS",
-        "description": "High-quality pigments and paint solutions for industrial applications"
+        "name": "Software Solutions",
+        "tags": [
+          "Web Development",
+          "UI/UX",
+          "Cyber Security",
+          "Android/iOS App"
+        ]
       },
       {
-        "name": "SCOUR",
-        "description": "Specialized scour protection and erosion control systems"
-      },
-      {
-        "name": "WATER FILTRATION",
-        "description": "Advanced water filtration and purification technologies"
-      },
-      {
-        "name": "OTHER INDUSTRIES",
-        "description": "Diverse solutions across multiple industrial sectors"
+        "name": "Software Distribution",
+        "tags": [
+          "ERP/CRM Solutions",
+          "Data Security",
+          "Customer Support",
+          "AI Solutions"
+        ]
       }
     ]
   },

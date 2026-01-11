@@ -16,25 +16,7 @@ export default function BusinessAreas() {
   const locale = useLocale();
   const isRTL = locale === "ar";
 
-  // Base area labels from translations
-  const areasRaw = t.raw("areas") as Array<{
-    name: string;
-    description?: string;
-  }>;
-
-  // UI model with placeholder tags for now (you can customize later)
-  const areas: BusinessArea[] = useMemo(
-    () =>
-      areasRaw.map((area, index) => ({
-        name: area.name,
-        tags: [
-          `${area.name} Tag 1`,
-          `${area.name} Tag 2`,
-          `${area.name} Tag 3`,
-        ].slice(0, 3 - (index % 2)), // just to vary count a bit
-      })),
-    [areasRaw]
-  );
+  const areas: BusinessArea[] = t.raw("areas");
 
   const sliderItems = areas.map((area, index) => ({
     id: `area-${index}`,

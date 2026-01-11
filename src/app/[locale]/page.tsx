@@ -8,8 +8,15 @@ import OurPartners from "@/features/ourPartners/OurPartners";
 import WhyChooseUs from "@/features/whyChooseUs/WhyChooseUs";
 import BusinessAreas from "@/features/businessAreas/BusinessAreas";
 import SplashScreen from "@/components/SplashScreen";
+import CustomHeader from "@/components/CustomHeader";
+import { useTranslations, useLocale } from "next-intl";
+import WorldOutlineMap from "@/features/footer/WorldMap";
+
 
 export default function HomePage() {
+  const t = useTranslations("WorldMapSection");
+  const locale = useLocale();
+  const isRTL = locale === "ar";
   return (
     <main className="">
       <SplashScreen />
@@ -21,6 +28,10 @@ export default function HomePage() {
       <WhyChooseUs/> 
       <OurPartners/> 
       <ContactSection />
+      <div className={` ${isRTL ? "text-right" : "text-left"}`}>
+        <CustomHeader title={t("locations")} subTitle={t("locationsDescription")}/>
+        <WorldOutlineMap />
+      </div>
       <Footer />
     </main>
   );

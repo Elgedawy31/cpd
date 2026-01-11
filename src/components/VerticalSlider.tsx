@@ -96,7 +96,7 @@ export default function VerticalSlider({
   // Custom per-step offsets for fine visual alignment with labels.
   // You can tweak these numbers later if you change fonts/spacing.
   // Example for up to 7 items: index -> offset in percentage points.
-  const markerOffsets: number[] = [1, -0.7, -1.5, -2.9, -5, -6, -8];
+  const markerOffsets: number[] = [1, -2.4, -5.5, -9.9, -14];
   const customOffset = markerOffsets[activeIndex] ?? 0;
 
   const markerTop = Math.min(100, Math.max(0, baseTop + customOffset));

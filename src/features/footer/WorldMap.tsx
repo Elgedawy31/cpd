@@ -75,7 +75,10 @@ export default function WorldDottedMap() {
     <div className="w-full relative  max-h-[70vh]">
       <ComposableMap
         className="w-full h-[70vh] relative -top-20"
-      >
+        projectionConfig={{
+          scale: 150,
+          center: [0, 0]
+        }}>
         {/* World shape */}
         <Geographies geography={geoUrl}>
           {({ geographies }: { geographies: GeographyObject[] }) =>
@@ -105,26 +108,26 @@ export default function WorldDottedMap() {
           >
             {/* Pulse */}
             <circle r={6} fill="rgba(var(--shadow-color-rgb),0.15)" />
-            <circle r={3} fill="var(--color-primary)/10" />
+            <circle r={3} fill="var(--color-primary)" />
             {active?.name === loc.name && (
-              <g className="animate-in fade-in zoom-in absolute z-50">
+              <g className="animate-in fade-in zoom-in absolute z-50" transform={`translate(0, ${-45})`}>
                 <rect
                   x="-75"
                   y="-40"
                   width="150"
                   height="35"
                   rx="5"
-                  fill="white"
+                  fill="var(--color-background)"
                   className="shadow-md"
                 />
                 <text
                   x="-65"
                   y="-20"
-                  className="text-[10px] fill-gray-600 font-bold"
+                  className="text-[10px] fill-[--color-foreground] font-bold"
                 >
                   {loc.name}
                 </text>
-                <text x="-65" y="-8" className="text-[8px] fill-gray-500">
+                <text x="-65" y="-8" className="text-[8px] fill-[--color-muted-foreground]">
                   {loc.address}
                 </text>
               </g>
@@ -136,4 +139,3 @@ export default function WorldDottedMap() {
     </div>
   );
 }
-

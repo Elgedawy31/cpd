@@ -232,6 +232,18 @@ code, pre, kbd, samp {
 opacity: 0.8;
 }
 
+/* World Map Marker Pulse Animation */
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
 /* Splash Screen Bounce Animation */
 @keyframes bounce-splash {
   0%, 100% {

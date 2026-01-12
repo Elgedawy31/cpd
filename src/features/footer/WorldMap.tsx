@@ -1,17 +1,51 @@
 "use client";
 
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-  Marker,
-} from "react-simple-maps";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
-const geoUrl =
-  "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
+// SVG dimensions
+const SVG_WIDTH = 1152;
+const SVG_HEIGHT = 375;
 
+// Manual position overrides for accurate placement (in percentage of SVG dimensions)
+// Adjust these values to match your SVG's actual projection
+const manualPositions: Record<string, { xPercent: number; yPercent: number }> = {
+  'saudi-arabia': { xPercent: 58.5, yPercent: 42 },
+  'egypt': { xPercent: 55.2, yPercent: 38 },
+  'rotterdam': { xPercent: 50.2, yPercent: 28 },
+};
+
+// Convert lat/lng to pixel coordinates on the SVG
+const latLngToPixel = (
+  lat: number, 
+  lng: number, 
+  locationKey?: string
+): { x: number; y: number } => {
+  // Check if we have a manual position override by location key
+  if (locationKey && manualPositions[locationKey]) {
+    const pos = manualPositions[locationKey];
+    return {
+      x: (pos.xPercent / 100) * SVG_WIDTH,
+      y: (pos.yPercent / 100) * SVG_HEIGHT,
+    };
+  }
+  
+  // Fallback: Equirectangular projection
+  const minLng = -180;
+  const maxLng = 180;
+  const minLat = -85;
+  const maxLat = 85;
+  
+  const normalizedLng = (lng - minLng) / (maxLng - minLng);
+  const x = normalizedLng * SVG_WIDTH;
+  
+  const normalizedLat = (lat - minLat) / (maxLat - minLat);
+  const y = (1 - normalizedLat) * SVG_HEIGHT;
+  
+  return { x, y };
+};
+
+// Location data
 const saudiArabiaLocations: Location[] = [
   {
     name: "Al Malaz, Riyadh",
@@ -75,11 +109,6 @@ const individualLocations: Location[] = [
   },
 ];
 
-interface GeographyObject {
-  rsmKey: string;
-  // Add other properties if needed based on the actual structure of a geography object
-}
-
 interface Location {
   name: string;
   lat: number;
@@ -113,36 +142,74 @@ function LocationPopover({ location, group, position, containerRef, isOpen, onMo
       return;
     }
 
-    // Calculate initial position with estimated dimensions
-    const calculateInitialPosition = () => {
+    const calculatePosition = () => {
       if (!containerRef.current) return null;
       
       const containerRect = containerRef.current.getBoundingClientRect();
       const markerX = position.x - containerRect.left;
       const markerY = position.y - containerRect.top;
-      const estimatedHeight = 150;
-      const estimatedWidth = 200;
       
-      let popoverTop = markerY - estimatedHeight - 12;
-      let popoverLeft = markerX - estimatedWidth / 2;
-      let placement: "top" | "bottom" = "top";
+      // Get actual popover dimensions if available, otherwise use estimates
+      const popoverRect = popoverRef.current?.getBoundingClientRect();
+      const actualHeight = popoverRect?.height || (group ? 220 : 120);
+      const actualWidth = popoverRect?.width || 240;
       
-      if (popoverTop < 8) {
-        popoverTop = markerY + 12;
-        placement = "bottom";
+      const offset = 16;
+      const padding = 12;
+      const minSpaceAbove = markerY;
+      const minSpaceBelow = containerRect.height - markerY;
+      
+      // Smart placement: prefer bottom if marker is in upper 40% of container, otherwise prefer top
+      // But also check if there's enough space
+      let placement: "top" | "bottom" = "bottom";
+      
+      if (minSpaceAbove > minSpaceBelow) {
+        // More space above, prefer top
+        if (minSpaceAbove > actualHeight + offset + padding) {
+          placement = "top";
+        }
+      } else {
+        // More space below, prefer bottom
+        if (minSpaceBelow < actualHeight + offset + padding) {
+          // Not enough space below, try top
+          if (minSpaceAbove > actualHeight + offset + padding) {
+            placement = "top";
+          }
+        }
       }
       
-      const padding = 8;
+      // Calculate position based on placement
+      let popoverTop: number;
+      let popoverLeft = markerX - actualWidth / 2;
+      
+      if (placement === "top") {
+        popoverTop = markerY - actualHeight - offset;
+      } else {
+        popoverTop = markerY + offset;
+      }
+      
+      // Constrain horizontally
       if (popoverLeft < padding) {
         popoverLeft = padding;
-      } else if (popoverLeft + estimatedWidth > containerRect.width - padding) {
-        popoverLeft = containerRect.width - estimatedWidth - padding;
+      } else if (popoverLeft + actualWidth > containerRect.width - padding) {
+        popoverLeft = containerRect.width - actualWidth - padding;
       }
       
+      // Constrain vertically - if popover goes out of bounds, adjust
       if (popoverTop < padding) {
         popoverTop = padding;
-      } else if (popoverTop + estimatedHeight > containerRect.height - padding) {
-        popoverTop = containerRect.height - estimatedHeight - padding;
+        // If we're at the top edge, switch to bottom if possible
+        if (placement === "top" && markerY + offset + actualHeight + padding <= containerRect.height) {
+          popoverTop = markerY + offset;
+          placement = "bottom";
+        }
+      } else if (popoverTop + actualHeight > containerRect.height - padding) {
+        popoverTop = containerRect.height - actualHeight - padding;
+        // If we're at the bottom edge, switch to top if possible
+        if (placement === "bottom" && markerY - offset - actualHeight - padding >= 0) {
+          popoverTop = markerY - actualHeight - offset;
+          placement = "top";
+        }
       }
 
       return {
@@ -152,69 +219,30 @@ function LocationPopover({ location, group, position, containerRef, isOpen, onMo
       };
     };
 
-    // Set initial position immediately
-    const initialStyles = calculateInitialPosition();
+    // Calculate initial position immediately
+    const initialStyles = calculatePosition();
     if (initialStyles) {
       setComputedStyles(initialStyles);
     }
 
+    // Update position after render to get actual dimensions
     const updatePosition = () => {
-      if (!popoverRef.current || !containerRef.current) return;
-
-      const containerRect = containerRef.current.getBoundingClientRect();
-      const popoverRect = popoverRef.current.getBoundingClientRect();
-      
-      // Calculate position relative to container
-      const markerX = position.x - containerRect.left;
-      const markerY = position.y - containerRect.top;
-      
-      // Try positioning above first (top)
-      const offset = 12;
-      const actualHeight = popoverRect.height || 150;
-      const actualWidth = popoverRect.width || 200;
-      
-      let popoverTop = markerY - actualHeight - offset;
-      let popoverLeft = markerX - actualWidth / 2;
-      let placement: "top" | "bottom" = "top";
-      
-      // Check if popover would go above viewport
-      if (popoverTop < 8) {
-        // Position below instead
-        popoverTop = markerY + offset;
-        placement = "bottom";
+      const newStyles = calculatePosition();
+      if (newStyles) {
+        setComputedStyles(newStyles);
       }
-      
-      // Keep popover within container bounds horizontally
-      const padding = 8;
-      if (popoverLeft < padding) {
-        popoverLeft = padding;
-      } else if (popoverLeft + actualWidth > containerRect.width - padding) {
-        popoverLeft = containerRect.width - actualWidth - padding;
-      }
-      
-      // Keep popover within container bounds vertically
-      if (popoverTop < padding) {
-        popoverTop = padding;
-      } else if (popoverTop + actualHeight > containerRect.height - padding) {
-        popoverTop = containerRect.height - actualHeight - padding;
-      }
-
-      setComputedStyles({
-        left: popoverLeft,
-        top: popoverTop,
-        placement,
-      });
     };
 
     // Update position after render to get actual dimensions
     const timer = setTimeout(updatePosition, 10);
-    return () => clearTimeout(timer);
-  }, [position, isOpen, containerRef]);
+    
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [position, isOpen, containerRef, location, group]);
 
-  // Determine flag based on location
   const getFlagSrc = (loc?: Location, grp?: LocationGroup) => {
     if (grp) {
-      // Check if group is Saudi Arabia or Egypt
       const isSaudiArabia = grp.locations.some(
         gloc => saudiArabiaLocations.some(
           saLoc => saLoc.name === gloc.name && saLoc.lat === gloc.lat && saLoc.lng === gloc.lng
@@ -230,14 +258,12 @@ function LocationPopover({ location, group, position, containerRef, isOpen, onMo
       return "/netherland.webp";
     }
     if (loc) {
-      // Check if location is in Saudi Arabia or Egypt locations
       const isSaudiArabia = saudiArabiaLocations.some(
         saLoc => saLoc.name === loc.name && saLoc.lat === loc.lat && saLoc.lng === loc.lng
       );
       const isEgypt = egyptLocations.some(
         egLoc => egLoc.name === loc.name && egLoc.lat === loc.lat && egLoc.lng === loc.lng
       );
-      // Check if it's an individual location (like Rotterdam)
       const isIndividual = individualLocations.some(
         indLoc => indLoc.name === loc.name && indLoc.lat === loc.lat && indLoc.lng === loc.lng
       );
@@ -273,12 +299,20 @@ function LocationPopover({ location, group, position, containerRef, isOpen, onMo
 
   if (!isOpen || !content || !position || !containerRef.current) return null;
   
-  // Use computed styles if available, otherwise use initial estimate
-  const styles = computedStyles || {
-    left: position.x - (containerRef.current?.getBoundingClientRect().left || 0) - 100,
-    top: position.y - (containerRef.current?.getBoundingClientRect().top || 0) - 150,
-    placement: "top" as const,
-  };
+  // Fallback styles if computedStyles not ready yet
+  const styles = computedStyles || (() => {
+    const containerRect = containerRef.current?.getBoundingClientRect();
+    if (!containerRect) {
+      return { left: 0, top: 0, placement: "bottom" as const };
+    }
+    const markerX = position.x - containerRect.left;
+    const markerY = position.y - containerRect.top;
+    return {
+      left: Math.max(12, Math.min(markerX - 120, containerRect.width - 252)),
+      top: markerY + 16,
+      placement: "bottom" as const,
+    };
+  })();
 
   return (
     <div
@@ -286,6 +320,7 @@ function LocationPopover({ location, group, position, containerRef, isOpen, onMo
       style={{
         left: `${styles.left}px`,
         top: `${styles.top}px`,
+        pointerEvents: "auto",
       }}
       className="absolute z-50 animate-in fade-in-0 zoom-in-95 duration-200"
       data-popover
@@ -298,7 +333,7 @@ function LocationPopover({ location, group, position, containerRef, isOpen, onMo
         onMouseLeave();
       }}
     >
-      <div className="flex flex-col items-center p-4 bg-card rounded-xl shadow-xl text-center border border-border backdrop-blur-sm">
+      <div className="flex flex-col items-center p-4 bg-card/95 backdrop-blur-sm rounded-xl shadow-2xl text-center border border-border min-w-[200px] max-w-[280px]">
         {content}
       </div>
       {/* Arrow pointing to marker */}
@@ -316,7 +351,7 @@ function LocationPopover({ location, group, position, containerRef, isOpen, onMo
   );
 }
 
-export default function WorldDottedMap() {
+export default function WorldMap() {
   const [activeLocation, setActiveLocation] = useState<Location | null>(null);
   const [activeGroup, setActiveGroup] = useState<LocationGroup | null>(null);
   const [popoverPosition, setPopoverPosition] = useState<{ x: number; y: number } | null>(null);
@@ -331,35 +366,34 @@ export default function WorldDottedMap() {
     }
   };
 
-  const handleMarkerEnter = (loc: Location, event: React.MouseEvent<SVGCircleElement>) => {
+  const handleMarkerEnter = (loc: Location, event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
     clearLeaveTimeout();
     isHoveringPopoverRef.current = false;
     setActiveLocation(loc);
     setActiveGroup(null);
-    const circleRect = event.currentTarget.getBoundingClientRect();
+    const markerRect = event.currentTarget.getBoundingClientRect();
     setPopoverPosition({
-      x: circleRect.left + circleRect.width / 2,
-      y: circleRect.top + circleRect.height / 2,
+      x: markerRect.left + markerRect.width / 2,
+      y: markerRect.top + markerRect.height / 2,
     });
   };
 
-  const handleGroupMarkerEnter = (group: LocationGroup, event: React.MouseEvent<SVGCircleElement>) => {
+  const handleGroupMarkerEnter = (group: LocationGroup, event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
     clearLeaveTimeout();
     isHoveringPopoverRef.current = false;
     setActiveGroup(group);
     setActiveLocation(null);
-    const circleRect = event.currentTarget.getBoundingClientRect();
+    const markerRect = event.currentTarget.getBoundingClientRect();
     setPopoverPosition({
-      x: circleRect.left + circleRect.width / 2,
-      y: circleRect.top + circleRect.height / 2,
+      x: markerRect.left + markerRect.width / 2,
+      y: markerRect.top + markerRect.height / 2,
     });
   };
 
   const handleMarkerLeave = () => {
     clearLeaveTimeout();
-    // Only close if not hovering over popover
     leaveTimeoutRef.current = setTimeout(() => {
       if (!isHoveringPopoverRef.current) {
         setActiveLocation(null);
@@ -384,137 +418,187 @@ export default function WorldDottedMap() {
     }, 100);
   };
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       clearLeaveTimeout();
     };
   }, []);
 
+  // Calculate pixel positions for markers
+  const saudiArabiaPos = latLngToPixel(saudiArabiaGroup.lat, saudiArabiaGroup.lng, 'saudi-arabia');
+  const egyptPos = latLngToPixel(egyptGroup.lat, egyptGroup.lng, 'egypt');
+  const individualPositions = individualLocations.map(loc => ({
+    location: loc,
+    position: latLngToPixel(loc.lat, loc.lng, 'rotterdam'),
+  }));
+
   return (
-    <div ref={mapContainerRef} className="w-full relative ">
-      <ComposableMap
-        className="w-full  relative"
-        projectionConfig={{
-          center: [15, 0]
-        }}>
-        {/* World shape */}
-        <Geographies geography={geoUrl}>
-          {({ geographies }: { geographies: GeographyObject[] }) =>
-            geographies.map((geo) => (
-              <Geography
-                key={geo.rsmKey}
-                geography={geo}
-                fill="var(--color-muted)"
-                stroke="none"
+    <div className="container py-12 mx-auto">
+      <div ref={mapContainerRef} className="w-full relative overflow-hidden rounded-lg">
+        {/* SVG Map */}
+        <div 
+          className="w-full relative" 
+          style={{ 
+            aspectRatio: `${SVG_WIDTH} / ${SVG_HEIGHT}`,
+            maxWidth: "100%"
+          }}
+        >
+          <Image
+            src="/map.svg"
+            alt="World Map"
+            fill
+            className="object-contain"
+            style={{ 
+              objectFit: "contain",
+              objectPosition: "right center"
+            }}
+          />
+          
+          {/* Individual Location Markers */}
+          {individualPositions.map(({ location: loc, position: pos }, i) => (
+            <div
+              key={i}
+              className="absolute cursor-pointer group animate-in fade-in duration-500"
+              style={{
+                left: `${(pos.x / SVG_WIDTH) * 100}%`,
+                top: `${(pos.y / SVG_HEIGHT) * 100}%`,
+                transform: "translate(-50%, -50%)",
+              }}
+              onMouseEnter={(e) => handleMarkerEnter(loc, e)}
+              onMouseLeave={handleMarkerLeave}
+            >
+              {/* Invisible larger area for easier hover */}
+              <div
+                className="absolute"
                 style={{
-                  default: { outline: "none" },
-                  hover: { outline: "none" },
-                  pressed: { outline: "none" },
+                  width: "clamp(24px, 3vw, 32px)",
+                  height: "clamp(24px, 3vw, 32px)",
+                  transform: "translate(-50%, -50%)",
                 }}
               />
-            ))
-          }
-        </Geographies>
+              {/* Pulse circle - animated */}
+              <div
+                className="absolute rounded-full"
+                style={{
+                  width: "16px",
+                  height: "16px",
+                  backgroundColor: "color-mix(in srgb, var(--color-primary) 30%, transparent)",
+                  boxShadow: "0 0 20px color-mix(in srgb, var(--color-primary) 50%, transparent)",
+                  transform: "translate(-50%, -50%)",
+                  animation: "pulse-glow 2s ease-in-out infinite",
+                }}
+              />
+              {/* Main marker */}
+              <div
+                className="absolute rounded-full transition-all duration-200 group-hover:scale-125"
+                style={{
+                  width: "10px",
+                  height: "10px",
+                  backgroundColor: "var(--color-primary)",
+                  boxShadow: "0 0 15px color-mix(in srgb, var(--color-primary) 80%, transparent), 0 0 30px color-mix(in srgb, var(--color-primary) 40%, transparent)",
+                  transform: "translate(-50%, -50%)",
+                }}
+              />
+            </div>
+          ))}
 
-        {/* Individual Location Markers */}
-        {individualLocations.map((loc, i) => (
-          <Marker
-            key={i}
-            coordinates={[loc.lng, loc.lat]}
+          {/* Saudi Arabia Grouped Marker */}
+          <div
+            className="absolute cursor-pointer group animate-in fade-in duration-500"
+            style={{
+              left: `${(saudiArabiaPos.x / SVG_WIDTH) * 100}%`,
+              top: `${(saudiArabiaPos.y / SVG_HEIGHT) * 100}%`,
+              transform: "translate(-50%, -50%)",
+            }}
+            onMouseEnter={(e) => handleGroupMarkerEnter(saudiArabiaGroup, e)}
+            onMouseLeave={handleMarkerLeave}
           >
-            <g style={{ cursor: "pointer", pointerEvents: "all" }}>
-              {/* Invisible larger circle for easier hover */}
-              <circle 
-                r={12} 
-                fill="transparent" 
-                onMouseEnter={(e) => handleMarkerEnter(loc, e)}
-                onMouseLeave={handleMarkerLeave}
-              />
-              {/* Pulse */}
-              <circle 
-                r={6} 
-                fill="rgba(var(--shadow-color-rgb),0.15)" 
-                onMouseEnter={(e) => handleMarkerEnter(loc, e)}
-                onMouseLeave={handleMarkerLeave}
-              />
-              <circle 
-                r={3} 
-                fill="var(--color-primary)"
-                onMouseEnter={(e) => handleMarkerEnter(loc, e)}
-                onMouseLeave={handleMarkerLeave}
-              />
-            </g>
-          </Marker>
-        ))}
+            <div
+              className="absolute"
+              style={{
+                width: "clamp(24px, 3vw, 32px)",
+                height: "clamp(24px, 3vw, 32px)",
+                transform: "translate(-50%, -50%)",
+              }}
+            />
+            <div
+              className="absolute rounded-full"
+              style={{
+                width: "clamp(12px, 1.5vw, 16px)",
+                height: "clamp(12px, 1.5vw, 16px)",
+                backgroundColor: "color-mix(in srgb, var(--color-primary) 30%, transparent)",
+                boxShadow: "0 0 20px color-mix(in srgb, var(--color-primary) 50%, transparent)",
+                transform: "translate(-50%, -50%)",
+                animation: "pulse-glow 2s ease-in-out infinite",
+              }}
+            />
+            <div
+              className="absolute rounded-full transition-all duration-200 group-hover:scale-125"
+              style={{
+                width: "clamp(8px, 1vw, 10px)",
+                height: "clamp(8px, 1vw, 10px)",
+                backgroundColor: "var(--color-primary)",
+                boxShadow: "0 0 15px color-mix(in srgb, var(--color-primary) 80%, transparent), 0 0 30px color-mix(in srgb, var(--color-primary) 40%, transparent)",
+                transform: "translate(-50%, -50%)",
+              }}
+            />
+          </div>
 
-        {/* Saudi Arabia Grouped Marker */}
-        <Marker
-          coordinates={[saudiArabiaGroup.lng, saudiArabiaGroup.lat]}
-        >
-          <g style={{ cursor: "pointer", pointerEvents: "all" }}>
-            {/* Invisible larger circle for easier hover */}
-            <circle 
-              r={12} 
-              fill="transparent" 
-              onMouseEnter={(e) => handleGroupMarkerEnter(saudiArabiaGroup, e)}
-              onMouseLeave={handleMarkerLeave}
+          {/* Egypt Grouped Marker */}
+          <div
+            className="absolute cursor-pointer group animate-in fade-in duration-500"
+            style={{
+              left: `${(egyptPos.x / SVG_WIDTH) * 100}%`,
+              top: `${(egyptPos.y / SVG_HEIGHT) * 100}%`,
+              transform: "translate(-50%, -50%)",
+            }}
+            onMouseEnter={(e) => handleGroupMarkerEnter(egyptGroup, e)}
+            onMouseLeave={handleMarkerLeave}
+          >
+            <div
+              className="absolute"
+              style={{
+                width: "clamp(24px, 3vw, 32px)",
+                height: "clamp(24px, 3vw, 32px)",
+                transform: "translate(-50%, -50%)",
+              }}
             />
-            {/* Pulse */}
-            <circle 
-              r={6} 
-              fill="rgba(var(--shadow-color-rgb),0.15)" 
-              onMouseEnter={(e) => handleGroupMarkerEnter(saudiArabiaGroup, e)}
-              onMouseLeave={handleMarkerLeave}
+            <div
+              className="absolute rounded-full"
+              style={{
+                width: "clamp(12px, 1.5vw, 16px)",
+                height: "clamp(12px, 1.5vw, 16px)",
+                backgroundColor: "color-mix(in srgb, var(--color-primary) 30%, transparent)",
+                boxShadow: "0 0 20px color-mix(in srgb, var(--color-primary) 50%, transparent)",
+                transform: "translate(-50%, -50%)",
+                animation: "pulse-glow 2s ease-in-out infinite",
+              }}
             />
-            <circle 
-              r={3} 
-              fill="var(--color-primary)"
-              onMouseEnter={(e) => handleGroupMarkerEnter(saudiArabiaGroup, e)}
-              onMouseLeave={handleMarkerLeave}
+            <div
+              className="absolute rounded-full transition-all duration-200 group-hover:scale-125"
+              style={{
+                width: "clamp(8px, 1vw, 10px)",
+                height: "clamp(8px, 1vw, 10px)",
+                backgroundColor: "var(--color-primary)",
+                boxShadow: "0 0 15px color-mix(in srgb, var(--color-primary) 80%, transparent), 0 0 30px color-mix(in srgb, var(--color-primary) 40%, transparent)",
+                transform: "translate(-50%, -50%)",
+              }}
             />
-          </g>
-        </Marker>
+          </div>
+        </div>
 
-        {/* Egypt Grouped Marker */}
-        <Marker
-          coordinates={[egyptGroup.lng, egyptGroup.lat]}
-        >
-          <g style={{ cursor: "pointer", pointerEvents: "all" }}>
-            {/* Invisible larger circle for easier hover */}
-            <circle 
-              r={12} 
-              fill="transparent" 
-              onMouseEnter={(e) => handleGroupMarkerEnter(egyptGroup, e)}
-              onMouseLeave={handleMarkerLeave}
-            />
-            {/* Pulse */}
-            <circle 
-              r={6} 
-              fill="rgba(var(--shadow-color-rgb),0.15)" 
-              onMouseEnter={(e) => handleGroupMarkerEnter(egyptGroup, e)}
-              onMouseLeave={handleMarkerLeave}
-            />
-            <circle 
-              r={3} 
-              fill="var(--color-primary)"
-              onMouseEnter={(e) => handleGroupMarkerEnter(egyptGroup, e)}
-              onMouseLeave={handleMarkerLeave}
-            />
-          </g>
-        </Marker>
-      </ComposableMap>
+        {/* Professional Popover */}
+        <LocationPopover
+          location={activeLocation || undefined}
+          group={activeGroup || undefined}
+          position={popoverPosition}
+          containerRef={mapContainerRef}
+          isOpen={!!(activeLocation || activeGroup)}
+          onMouseEnter={handlePopoverEnter}
+          onMouseLeave={handlePopoverLeave}
+        />
+      </div>
 
-      {/* Professional Popover */}
-      <LocationPopover
-        location={activeLocation || undefined}
-        group={activeGroup || undefined}
-        position={popoverPosition}
-        containerRef={mapContainerRef}
-        isOpen={!!(activeLocation || activeGroup)}
-        onMouseEnter={handlePopoverEnter}
-        onMouseLeave={handlePopoverLeave}
-      />
     </div>
   );
 }

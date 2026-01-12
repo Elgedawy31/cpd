@@ -10,9 +10,9 @@ const SVG_HEIGHT = 375;
 // Manual position overrides for accurate placement (in percentage of SVG dimensions)
 // Adjust these values to match your SVG's actual projection
 const manualPositions: Record<string, { xPercent: number; yPercent: number }> = {
-  'saudi-arabia': { xPercent: 58.5, yPercent: 42 },
-  'egypt': { xPercent: 55.2, yPercent: 38 },
-  'rotterdam': { xPercent: 50.2, yPercent: 28 },
+  'saudi-arabia': { xPercent: 53.5, yPercent: 40 },
+  'egypt': { xPercent: 48.5, yPercent: 37 },
+  'rotterdam': { xPercent: 41.2, yPercent: 20 },
 };
 
 // Convert lat/lng to pixel coordinates on the SVG

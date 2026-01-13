@@ -23,7 +23,7 @@ export default function VerticalSlider({
   activeIndex: controlledActiveIndex,
   onItemChange,
   autoAdvance = true,
-  autoAdvanceInterval = 5000,
+  autoAdvanceInterval = 1500,
   className = "",
   isRTL = false,
 }: VerticalSliderProps) {
@@ -111,15 +111,15 @@ export default function VerticalSlider({
         <div
           className="relative"
           style={{
-            minHeight: `${items.length * 30}px`,
+            minHeight: `${items.length * 42}px`,
           }}
         >
           {/* Background Line - subtle light gray (full height) */}
-          <div className="absolute top-0 bottom-0 left-0 w-0.5 bg-muted-foreground/20" />
+          <div className="absolute top-0 bottom-0 left-0 w-0.5 bg-muted-foreground/10" />
 
           {/* Active item square marker - aligned with top of text */}
           <div
-            className="absolute w-3 h-3 bg-foreground transition-all duration-500 ease-out"
+            className="absolute w-2 h-2 bg-foreground transition-all duration-500 ease-out rounded-1"
             style={{
               top: `${markerTop}%`,
               left: "0",
@@ -130,7 +130,7 @@ export default function VerticalSlider({
           {/* Progress Bar - extends from active item down to next item */}
           {progress > 0 && (
             <div
-              className="absolute left-0 w-0.5 bg-foreground/50 transition-all duration-75 ease-linear"
+              className="absolute left-0 w-0.5 bg-foreground transition-all duration-75 ease-linear"
               style={{
                 top: "0%",
                 height: `${progressHeight}%`,
@@ -142,7 +142,7 @@ export default function VerticalSlider({
       </div>
 
       {/* Items List */}
-      <div className="flex-1 space-y-4">
+      <div className="flex-1 space-y-8">
         {items.map((item, index) => {
           const isActive = index === activeIndex;
           return (

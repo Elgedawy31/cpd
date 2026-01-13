@@ -143,7 +143,7 @@ export default function BusinessAreas() {
               activeIndex={activeIndex}
               onItemChange={setActiveIndex}
               autoAdvance={true}
-              autoAdvanceInterval={6000}
+              autoAdvanceInterval={3000}
               isRTL={isRTL}
             />
           </div>

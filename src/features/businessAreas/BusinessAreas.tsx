@@ -79,7 +79,7 @@ export default function BusinessAreas() {
       id="businessAreas"
       className="relative w-full py-8 bg-linear-to-b from-primary-50/60 via-primary-100 to-primary-50/60 "
     >
-      <div className="max-w-7xl mx-auto px-4 lg:px-0">
+      <div className="container mx-auto px-4 lg:px-0">
         <div>
           <CustomHeader title={t("title")} subTitle={t("subtitle")} />
         </div>

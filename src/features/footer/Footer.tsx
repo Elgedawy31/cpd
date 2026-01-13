@@ -33,7 +33,7 @@ export default function Footer() {
 
   return (
     <footer className="w-full bg-[#0F0F0F] text-white py-10 px-6 md:px-12">
-      <div className="max-w-7xl mx-auto">
+      <div className="container mx-auto">
         {/* Logo / Title */}
         <div
           className="text-center mb-12"

@@ -110,7 +110,7 @@ export default function OurPartners() {
           animation: fade-in 0.4s ease-out;
         }
       `}</style>
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+      <div className="container mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left Side - Text Content */}
           <div

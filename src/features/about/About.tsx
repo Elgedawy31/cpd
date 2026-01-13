@@ -49,7 +49,7 @@ export default function AboutSection() {
         isRTL ? "text-right" : "text-left"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 lg:px-0">
+      <div className="container mx-auto px-4 lg:px-0">
         <div>
           <CustomHeader title={t("title")} subTitle={t("subtitle")} />
         </div>

@@ -127,27 +127,26 @@ export default function OurCompanies() {
         <CustomHeader title={t("title")} subTitle={t("subtitle")} />
       </div>
       
-      <div className="max-w-7xl mx-auto mt-12">
+      <div className="max-w-7xl mx-auto px-4 lg:px-0 mt-12">
         {/* Company Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-8">
           {cards.map((card) => (
             <div
               key={card.key}
               onClick={() => handleCardClick(card)}
               className={`
-                relative rounded-xl p-6 
-                hover:shadow-lg
-                border border-primary/10
-                cursor-pointer transition-all duration-300 ease-in-out 
-                hover:scale-[1.02]
+                relative rounded-lg p-5 
+                bg-surface border border-border transition-all duration-300
+                cursor-pointer flex flex-col items-center justify-center
+                hover:shadow-md hover:border-primary/20
                 ${selectedCompany?.key === card.key 
-                  ? " scale-[1.02] border-primary/20" 
+                  ? "border-primary shadow-sm bg-primary-50/20" 
                   : ""
                 }
               `}
             >
               {/* Logo Container */}
-              <div className="relative w-full h-32 mb-4 flex items-center justify-center">
+              <div className="relative w-full h-28 flex items-center justify-center">
                 <Image
                   src={card.logo}
                   alt={card.title}
@@ -156,12 +155,12 @@ export default function OurCompanies() {
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 20vw"
                 />
               </div>
-              {/* Interaction Indicator */}
-              <div className="flex justify-end mt-auto pt-2">
+              {/* Indicator - Bottom Right */}
+              <div className={`absolute ${isRTL ? "left-3 bottom-3" : "right-3 bottom-3"}`}>
                 {selectedCompany?.key === card.key ? (
-                  <div className="h-0.5 w-5 bg-primary rounded-full" />
+                  <div className="h-0.5 w-3 bg-primary rounded-full" />
                 ) : (
-                  <Plus className="w-5 h-5 text-muted-foreground" />
+                  <Plus className="w-4 h-4 text-muted-foreground" />
                 )}
               </div>
             </div>
@@ -172,16 +171,16 @@ export default function OurCompanies() {
         <div
           key={`detail-${selectedCompany?.key || 'none'}`}
           className={`
-            relative bg-primary-100/90 border border-border rounded-xl shadow-lg
+            relative bg-surface border border-border rounded-lg shadow-lg
             transition-all duration-500 ease-in-out overflow-hidden
             ${selectedCompany 
-              ? "max-h-[500px] opacity-100 mt-8" 
+              ? "max-h-[600px] opacity-100 mt-8" 
               : "max-h-0 opacity-0 mt-0"
             }
           `}
         >
           {selectedCompany && (
-            <div className="p-8">
+            <div className="p-6 lg:p-10">
               <div className="flex flex-col lg:flex-row gap-8 items-start">
                 {/* Close Button */}
                 <button
@@ -189,16 +188,16 @@ export default function OurCompanies() {
                   className={`
                     absolute top-4 ${isRTL ? "left-4" : "right-4"}
                     w-8 h-8 flex items-center justify-center
-                    rounded-full bg-background/80 hover:bg-background
+                    rounded-full bg-background hover:bg-muted
                     transition-colors duration-200
-                    border border-border z-10
+                    border border-border z-10 shadow-sm
                   `}
                   aria-label="Close"
                 >
-                  <X className="w-5 h-5 text-foreground" />
+                  <X className="w-4 h-4 text-foreground" />
                 </button>
 
-                {/* Left Side - Logo and Name */}
+                {/* Left Side - Logo */}
                 <div
                   className={`
                     flex flex-col items-center lg:items-start
@@ -227,7 +226,7 @@ export default function OurCompanies() {
                 >
                   <div>
                     <h4
-                      className="text-2xl font-semibold text-foreground mb-4"
+                      className="text-2xl font-bold text-foreground mb-4"
                     >
                       {selectedCompany.title}
                     </h4>
@@ -244,9 +243,9 @@ export default function OurCompanies() {
                     rel="noopener noreferrer"
                     className={`
                       inline-flex items-center gap-2
-                      text-base font-medium text-primary
-                      hover:opacity-75 transition-opacity duration-200
-                      group
+                      text-base font-semibold text-primary
+                      hover:text-primary/80 transition-colors duration-200
+                      group w-fit
                     `}
                   >
                     <span>{t("visit")}</span>

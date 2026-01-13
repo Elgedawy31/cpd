@@ -9,13 +9,10 @@ import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { useTranslations, useLocale } from "next-intl";
-import CustomHeader from "@/components/CustomHeader";
-import CustomDivider from "@/components/CustomDivider";
+import { useTranslations } from "next-intl";
 
 export default function ContactSection() {
   const t = useTranslations("contact");
-  const locale = useLocale();
 
   const contactSchema = z.object({
     name: z.string().min(2, t("errors.name")),
@@ -66,32 +63,26 @@ export default function ContactSection() {
   };
 console.log(getValues("phone"))
   return (
-    <section
-      id="contact"
-      className={`bg-linear-to-b from-primary-50/60 via-primary-100 to-primary-50/60 py-8 relative overflow-hidden ${
-        locale === "ar" ? "text-right" : "text-left"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 lg:px-0 relative z-10">
-        {/* Form */}
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          data-aos="fade-up"
-          data-aos-duration="1000"
-          data-aos-delay="300"
-          className="w-full max-w-2xl mx-auto rounded-lg shadow-xl p-8 md:p-12 space-y-6"
-        >
+    <div className="w-full">
+      {/* Form */}
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        data-aos="fade-up"
+        data-aos-duration="1000"
+        data-aos-delay="300"
+        className="w-full rounded-lg shadow-xl p-6 md:p-8 space-y-4"
+      >
           {/* Name and Phone */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
-              <label className="flex items-center gap-2 text-sm font-semibold mb-2 text-foreground/80">
+              <label className="flex items-center gap-2 text-sm font-semibold mb-1.5 text-foreground/80">
                 <User size={18} /> {t("name")}
               </label>
               <input
                 type="text"
                 {...register("name")}
                 placeholder={t("namePlaceholder")}
-                className={`w-full px-4 py-3 rounded-lg border text-foreground/90 bg-surface/60 focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
+                className={`w-full px-4 py-2 rounded-lg border text-foreground/90 bg-surface/60 focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
                   errors.name ? "border-destructive" : "border-border"
                 }`}
               />
@@ -100,7 +91,7 @@ console.log(getValues("phone"))
               )}
             </div>
             <div>
-              <label className="flex items-center gap-2 text-sm font-semibold mb-2 text-foreground/80">
+              <label className="flex items-center gap-2 text-sm font-semibold mb-1.5 text-foreground/80">
                 <Phone size={18} /> {t("phone")}
               </label>
               <PhoneInput
@@ -108,7 +99,7 @@ console.log(getValues("phone"))
                 placeholder={t("phonePlaceholder")}
                 value={getValues("phone")}
                 onChange={(value) => setValue("phone", value || "")}
-                className={`w-full px-4 py-3 rounded-lg border text-foreground/90 bg-surface/60 focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
+                className={`w-full px-4 py-2 rounded-lg border text-foreground/90 bg-surface/60 focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
                   errors.phone ? "border-destructive" : "border-border"
                 }`}
               />
@@ -120,14 +111,14 @@ console.log(getValues("phone"))
 
           {/* Email */}
           <div>
-            <label className="flex items-center gap-2 text-sm font-semibold mb-2 text-foreground/80">
+            <label className="flex items-center gap-2 text-sm font-semibold mb-1.5 text-foreground/80">
               <Mail size={18} /> {t("email")}
             </label>
             <input
               type="email"
               {...register("email")}
               placeholder={t("emailPlaceholder")}
-              className={`w-full px-4 py-3 rounded-lg border text-foreground/90 bg-surface/60 focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
+              className={`w-full px-4 py-2 rounded-lg border text-foreground/90 bg-surface/60 focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
                 errors.email ? "border-destructive" : "border-border"
               }`}
             />
@@ -138,13 +129,13 @@ console.log(getValues("phone"))
 
           {/* Select Company */}
           <div>
-            <label className="flex items-center gap-2 text-sm font-semibold mb-2 text-foreground/80">
+            <label className="flex items-center gap-2 text-sm font-semibold mb-1.5 text-foreground/80">
               <Briefcase size={18} className="text-primary" /> {t("selectCompany") || "Select Company"}
             </label>
             <div className="relative">
               <select
                 {...register("architecturalDesign")}
-                className={`w-full px-4 py-3 pr-10 rounded-lg border text-foreground/90 bg-surface/60 focus:outline-none focus:ring-2 focus:ring-primary transition-all appearance-none cursor-pointer hover:border-primary/50 ${
+                className={`w-full px-4 py-2 pr-10 rounded-lg border text-foreground/90 bg-surface/60 focus:outline-none focus:ring-2 focus:ring-primary transition-all appearance-none cursor-pointer hover:border-primary/50 ${
                   errors.architecturalDesign ? "border-destructive" : "border-border"
                 }`}
               >
@@ -169,16 +160,16 @@ console.log(getValues("phone"))
           </div>
 
           {/* Company Name and Subject */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
-              <label className="flex items-center gap-2 text-sm font-semibold mb-2 text-foreground/80">
+              <label className="flex items-center gap-2 text-sm font-semibold mb-1.5 text-foreground/80">
                 <Building size={18} /> {t("companyName")}
               </label>
               <input
                 type="text"
                 {...register("companyName")}
                 placeholder={t("companyNamePlaceholder")}
-                className={`w-full px-4 py-3 rounded-lg border text-foreground/90 bg-surface/60 focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
+                className={`w-full px-4 py-2 rounded-lg border text-foreground/90 bg-surface/60 focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
                   errors.companyName ? "border-destructive" : "border-border"
                 }`}
               />
@@ -187,14 +178,14 @@ console.log(getValues("phone"))
               )}
             </div>
             <div>
-              <label className="flex items-center gap-2 text-sm font-semibold mb-2 text-foreground/80">
+              <label className="flex items-center gap-2 text-sm font-semibold mb-1.5 text-foreground/80">
                 <Tag size={18} /> {t("subject")}
               </label>
               <input
                 type="text"
                 {...register("subject")}
                 placeholder={t("subjectPlaceholder")}
-                className={`w-full px-4 py-3 rounded-lg border text-foreground/90 bg-surface/60 focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
+                className={`w-full px-4 py-2 rounded-lg border text-foreground/90 bg-surface/60 focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
                   errors.subject ? "border-destructive" : "border-border"
                 }`}
               />
@@ -206,14 +197,14 @@ console.log(getValues("phone"))
 
           {/* Message */}
           <div>
-            <label className="flex items-center gap-2 text-sm font-semibold mb-2 text-foreground/80">
+            <label className="flex items-center gap-2 text-sm font-semibold mb-1.5 text-foreground/80">
               <MessageSquare size={18} /> {t("message")}
             </label>
             <textarea
               {...register("message")}
               rows={5}
               placeholder={t("messagePlaceholder")}
-              className={`w-full px-4 py-3 rounded-lg border text-foreground/90 bg-surface/60 focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
+              className={`w-full px-4 py-2 rounded-lg border text-foreground/90 bg-surface/60 focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
                 errors.message ? "border-destructive" : "border-border"
               }`}
             />
@@ -250,7 +241,6 @@ console.log(getValues("phone"))
             </div>
           )}
         </form>
-      </div>
-    </section>
+    </div>
   );
 }

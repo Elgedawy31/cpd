@@ -433,8 +433,8 @@ export default function WorldMap() {
   }));
 
   return (
-    <div className="container py-12 mx-auto">
-      <div ref={mapContainerRef} className="w-full relative overflow-hidden rounded-lg">
+    <div className="w-full">
+      <div ref={mapContainerRef} className="w-full relative ">
         {/* SVG Map */}
         <div 
           className="w-full relative" 

@@ -107,12 +107,12 @@ export default function HorizontalSlider({
       {/* Horizontal Progress Line + Marker */}
       <div className="relative h-6 mb-2">
         {/* Background line */}
-        <div className="absolute left-0 right-0 top-1/2 h-0.5 -translate-y-1/2 bg-muted-foreground/20" />
+        <div className="absolute left-0 right-0 top-1/2 h-0.5 -translate-y-1/2 bg-muted-foreground/10" />
 
         {/* Progress bar */}
         {progress > 0 && (
           <div
-            className="absolute left-0 top-1/2 h-0.5 -translate-y-1/2 bg-foreground/50 transition-all duration-75 ease-linear"
+            className="absolute left-0 top-1/2 h-0.5 -translate-y-1/2 bg-foreground transition-all duration-75 ease-linear"
             style={{
               width: `${progress}%`,
             }}
@@ -121,7 +121,7 @@ export default function HorizontalSlider({
 
         {/* Active item marker (square) */}
         <div
-          className="absolute top-1/2 w-3 h-3 bg-foreground transition-all duration-500 ease-out"
+          className="absolute top-1/2 w-2 h-2 bg-foreground transition-all duration-500 ease-out rounded-1"
           style={{
             left: `${markerLeft}%`,
             transform: "translate(-50%, -50%)",

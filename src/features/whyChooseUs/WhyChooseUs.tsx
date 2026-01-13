@@ -66,7 +66,7 @@ export default function WhyChooseUs() {
         <CustomHeader title={t('title')} subTitle={t('subtitle')} />
       </div>
 
-      <div className="container mx-auto px-4 lg:px-0 grid gap-10 sm:grid-cols-1 lg:grid-cols-2">
+      <div className="container mx-auto px-4 lg:px-0 mt-12 grid gap-10 sm:grid-cols-1 lg:grid-cols-2">
         {cards.map((card) => (
           <div
             key={card.key}

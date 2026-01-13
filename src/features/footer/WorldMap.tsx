@@ -103,7 +103,7 @@ const egyptGroup: LocationGroup = {
 const individualLocations: Location[] = [
   {
     name: "Rotterdam Office",
-    address: "10th Floor, Weena 290, Rotterdam, Netherlands",
+    address: "10th Floor, Weena 290, City Centre, Rotterdam 3012 NJ, Netherlands",
     lat: 51.9244,
     lng: 4.4777,
   },
@@ -275,25 +275,79 @@ function LocationPopover({ location, group, position, containerRef, isOpen, onMo
     return "/netherland.webp";
   };
 
-  const content = location ? (
-    <>
-      <div className="w-8 h-8 rounded-full mb-3 flex items-center justify-center overflow-hidden shrink-0">
-        <Image src={getFlagSrc(location)} alt="flag" width={32} height={32} className="w-full h-full object-cover rounded-full" />
-      </div>
-      <p className="text-sm font-bold text-card-foreground mb-1.5">{location.name}</p>
-      <p className="text-xs text-muted-foreground leading-relaxed max-w-[200px]">{location.address}</p>
-    </>
-  ) : group ? (
+  // Extract city and country from address
+  const extractCityAndCountry = (address: string): { city: string; country: string } => {
+    const parts = address.split(',').map(p => p.trim());
+    const country = parts[parts.length - 1] || '';
+    
+    // Common city names to look for
+    const cityNames = ['Rotterdam', 'Cairo', 'Riyadh', 'Kafr El-Shaikh', 'Nasr City'];
+    let city = '';
+    
+    // Try to find city in the address parts (check from end to beginning)
+    for (let i = parts.length - 2; i >= 0; i--) {
+      const part = parts[i];
+      // Check if part contains a known city name
+      for (const cityName of cityNames) {
+        if (part.includes(cityName)) {
+          city = cityName;
+          break;
+        }
+      }
+      if (city) break;
+    }
+    
+    // If no city found, try to extract from second-to-last part
+    if (!city && parts.length >= 2) {
+      const secondLast = parts[parts.length - 2];
+      // Extract city name from part (might have postal code like "Rotterdam 3012 NJ")
+      const cityMatch = secondLast.match(/([A-Za-z\s]+?)(?:\s+\d+.*)?$/);
+      if (cityMatch && cityMatch[1]) {
+        city = cityMatch[1].trim();
+      } else if (!/^\d+/.test(secondLast) && secondLast.length < 30) {
+        city = secondLast;
+      }
+    }
+    
+    // Fallback: try third-to-last if second-to-last didn't work
+    if (!city && parts.length >= 3) {
+      const thirdLast = parts[parts.length - 3];
+      for (const cityName of cityNames) {
+        if (thirdLast.includes(cityName)) {
+          city = cityName;
+          break;
+        }
+      }
+    }
+    
+    return { city: city || 'Unknown', country };
+  };
+
+  const content = location ? (() => {
+    const { city, country } = extractCityAndCountry(location.address);
+    return (
+      <>
+        <div className="w-8 h-8 rounded-full mb-3 flex items-center justify-center overflow-hidden shrink-0">
+          <Image src={getFlagSrc(location)} alt="flag" width={32} height={32} className="w-full h-full object-cover rounded-full" />
+        </div>
+        <p className="text-sm font-bold text-card-foreground mb-1">{city}, {country}</p>
+        <p className="text-xs text-muted-foreground leading-relaxed max-w-[200px]">{location.address}</p>
+      </>
+    );
+  })() : group ? (
     <>
       <div className="w-8 h-8 rounded-full mb-3 flex items-center justify-center overflow-hidden shrink-0">
         <Image src={getFlagSrc(undefined, group)} alt="flag" width={32} height={32} className="w-full h-full object-cover rounded-full" />
       </div>
-      {group.locations.map((loc, index) => (
-        <div key={index} className={index > 0 ? "mt-3 pt-3 border-t border-border" : ""}>
-          <p className="text-sm font-bold text-card-foreground mb-1.5">{loc.name}</p>
-          <p className="text-xs text-muted-foreground leading-relaxed max-w-[200px]">{loc.address}</p>
-        </div>
-      ))}
+      {group.locations.map((loc, index) => {
+        const { city, country } = extractCityAndCountry(loc.address);
+        return (
+          <div key={index} className={index > 0 ? "mt-3 pt-3 border-t border-border" : ""}>
+            <p className="text-sm font-bold text-card-foreground mb-1">{city}, {country}</p>
+            <p className="text-xs text-muted-foreground leading-relaxed max-w-[200px]">{loc.address}</p>
+          </div>
+        );
+      })}
     </>
   ) : null;
 

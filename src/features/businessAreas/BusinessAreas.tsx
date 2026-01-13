@@ -5,8 +5,6 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import VerticalSlider from "@/components/VerticalSlider";
 import CustomHeader from "@/components/CustomHeader";
-import AOS from "aos";
-import "aos/dist/aos.css";
 
 type BusinessArea = {
   name: string;
@@ -76,37 +74,13 @@ export default function BusinessAreas() {
     };
   }, [areas.length]);
 
-  useEffect(() => {
-    AOS.init({ 
-      duration: 1000, 
-      once: true, 
-      mirror: false,
-      offset: 100,
-      easing: 'ease-out-cubic'
-    });
-  }, []);
-
-  // Re-trigger animations when active area changes
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      AOS.refresh();
-      // Force re-animation for dynamic content
-      const animatedElements = document.querySelectorAll('[data-aos-once="false"]');
-      animatedElements.forEach((el) => {
-        el.classList.remove('aos-animate');
-      });
-      AOS.refresh();
-    }, 100);
-    return () => clearTimeout(timer);
-  }, [activeIndex]);
-
   return (
     <section
       id="businessAreas"
       className="relative w-full py-8 bg-linear-to-b from-primary-50/60 via-primary-100 to-primary-50/60 "
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div data-aos="fade-down" data-aos-duration="800">
+      <div className="max-w-7xl mx-auto px-4 lg:px-0">
+        <div>
           <CustomHeader title={t("title")} subTitle={t("subtitle")} />
         </div>
 
@@ -114,10 +88,7 @@ export default function BusinessAreas() {
           {/* Left: Image + content, driven by activeIndex */}
           <div
             key={`image-container-${activeIndex}`}
-            data-aos={isRTL ? "fade-left" : "fade-right"}
-            data-aos-duration="1000"
-            data-aos-delay="200"
-            className="relative overflow-hidden rounded-3xl bg-black/5 shadow-lg min-h-[320px] lg:min-h-[420px]"
+            className="relative overflow-hidden rounded-3xl bg-black/5 shadow-lg min-h-[380px] lg:min-h-[480px]"
           >
             {/* Background image (placeholder for now) */}
             <Image
@@ -137,10 +108,6 @@ export default function BusinessAreas() {
             >
               <div
                 className="space-y-3 sm:space-y-4"
-                data-aos="fade-up"
-                data-aos-duration="800"
-                data-aos-delay="400"
-                data-aos-once="false"
               >
                 <p className="text-sm uppercase tracking-[0.3em] text-white/70">
                   {t("title")}
@@ -154,19 +121,11 @@ export default function BusinessAreas() {
               <div
                 key={`tags-${activeIndex}`}
                 className="mt-6 flex flex-wrap gap-2 max-w-3xl"
-                data-aos="fade-up"
-                data-aos-duration="800"
-                data-aos-delay="500"
-                data-aos-once="false"
               >
                 {activeArea?.tags.map((tag, idx) => (
                   <span
                     key={`${activeIndex}-${idx}`}
                     className="rounded-full border border-white/30 bg-black/20 px-3 py-1 text-xs sm:text-sm uppercase tracking-wide text-white/90 backdrop-blur-sm"
-                    data-aos="fade-up"
-                    data-aos-duration="600"
-                    data-aos-delay={`${600 + idx * 50}`}
-                    data-aos-once="false"
                   >
                     {tag}
                   </span>
@@ -178,9 +137,6 @@ export default function BusinessAreas() {
           {/* Right: Vertical slider with area labels */}
           <div
             className="relative"
-            data-aos={isRTL ? "fade-right" : "fade-left"}
-            data-aos-duration="1000"
-            data-aos-delay="300"
           >
             <VerticalSlider
               items={sliderItems}

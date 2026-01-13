@@ -101,7 +101,7 @@ export default function HeroSection() {
 
       {/* Overlay Content */}
       <div 
-        className="relative z-10 max-w-6xl mx-auto px-6 lg:px-12 flex flex-col justify-center"
+        className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 flex flex-col justify-center"
         style={{
           height: "100%",
         }}

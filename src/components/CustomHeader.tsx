@@ -2,7 +2,7 @@ import React from 'react'
 
 function CustomHeader({title , subTitle}:{title:string , subTitle?:string}) {
   return (
-    <div className="relative max-w-6xl mx-auto px-6 lg:px-12 text-center mb-16">
+    <div className="relative max-w-7xl mx-auto px-6 lg:px-12 text-center mb-16">
       {/* Decorative background elements */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>

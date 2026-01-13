@@ -72,14 +72,7 @@ console.log(getValues("phone"))
         locale === "ar" ? "text-right" : "text-left"
       }`}
     >
-      <div className="max-w-5xl mx-auto px-6 lg:px-12 relative z-10">
-        <div data-aos="fade-down" data-aos-duration="800">
-          <CustomHeader title={t('title')} subTitle={t('subtitle')} />
-        </div>
-        <div data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
-          <CustomDivider />
-        </div>
-
+      <div className="max-w-7xl mx-auto px-4 lg:px-0 relative z-10">
         {/* Form */}
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -98,7 +91,7 @@ console.log(getValues("phone"))
                 type="text"
                 {...register("name")}
                 placeholder={t("namePlaceholder")}
-                className={`w-full px-4 py-3 rounded-lg border text-foreground/90 bg-surface focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
+                className={`w-full px-4 py-3 rounded-lg border text-foreground/90 bg-surface/60 focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
                   errors.name ? "border-destructive" : "border-border"
                 }`}
               />
@@ -115,7 +108,7 @@ console.log(getValues("phone"))
                 placeholder={t("phonePlaceholder")}
                 value={getValues("phone")}
                 onChange={(value) => setValue("phone", value || "")}
-                className={`w-full px-4 py-3 rounded-lg border text-foreground/90 bg-surface focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
+                className={`w-full px-4 py-3 rounded-lg border text-foreground/90 bg-surface/60 focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
                   errors.phone ? "border-destructive" : "border-border"
                 }`}
               />
@@ -134,7 +127,7 @@ console.log(getValues("phone"))
               type="email"
               {...register("email")}
               placeholder={t("emailPlaceholder")}
-              className={`w-full px-4 py-3 rounded-lg border text-foreground/90 bg-surface focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
+              className={`w-full px-4 py-3 rounded-lg border text-foreground/90 bg-surface/60 focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
                 errors.email ? "border-destructive" : "border-border"
               }`}
             />
@@ -151,7 +144,7 @@ console.log(getValues("phone"))
             <div className="relative">
               <select
                 {...register("architecturalDesign")}
-                className={`w-full px-4 py-3 pr-10 rounded-lg border text-foreground/90 bg-surface focus:outline-none focus:ring-2 focus:ring-primary transition-all appearance-none cursor-pointer hover:border-primary/50 ${
+                className={`w-full px-4 py-3 pr-10 rounded-lg border text-foreground/90 bg-surface/60 focus:outline-none focus:ring-2 focus:ring-primary transition-all appearance-none cursor-pointer hover:border-primary/50 ${
                   errors.architecturalDesign ? "border-destructive" : "border-border"
                 }`}
               >
@@ -185,7 +178,7 @@ console.log(getValues("phone"))
                 type="text"
                 {...register("companyName")}
                 placeholder={t("companyNamePlaceholder")}
-                className={`w-full px-4 py-3 rounded-lg border text-foreground/90 bg-surface focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
+                className={`w-full px-4 py-3 rounded-lg border text-foreground/90 bg-surface/60 focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
                   errors.companyName ? "border-destructive" : "border-border"
                 }`}
               />
@@ -201,7 +194,7 @@ console.log(getValues("phone"))
                 type="text"
                 {...register("subject")}
                 placeholder={t("subjectPlaceholder")}
-                className={`w-full px-4 py-3 rounded-lg border text-foreground/90 bg-surface focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
+                className={`w-full px-4 py-3 rounded-lg border text-foreground/90 bg-surface/60 focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
                   errors.subject ? "border-destructive" : "border-border"
                 }`}
               />
@@ -220,7 +213,7 @@ console.log(getValues("phone"))
               {...register("message")}
               rows={5}
               placeholder={t("messagePlaceholder")}
-              className={`w-full px-4 py-3 rounded-lg border text-foreground/90 bg-surface focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
+              className={`w-full px-4 py-3 rounded-lg border text-foreground/90 bg-surface/60 focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
                 errors.message ? "border-destructive" : "border-border"
               }`}
             />

@@ -86,7 +86,7 @@ console.log(getValues("phone"))
           data-aos="fade-up"
           data-aos-duration="1000"
           data-aos-delay="300"
-          className="w-full max-w-2xl mx-auto rounded-lg shadow-xl p-8 md:p-12 space-y-6 bg-background/90 backdrop-blur-sm"
+          className="w-full max-w-2xl mx-auto rounded-lg shadow-xl p-8 md:p-12 space-y-6"
         >
           {/* Name and Phone */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

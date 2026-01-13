@@ -48,7 +48,7 @@ export default function LanguageDropdown({ scrolled, isRTL }: LanguageDropdownPr
     <div className="relative inline-block" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex items-center gap-2 px-3 py-1.5 rounded transition-colors duration-300 ${
+        className={`flex items-center gap-2 px-3 py-1.5 cursor-pointer rounded transition-colors duration-300 ${
           isOpen ? "bg-white/10" : ""
         } ${
           scrolled 

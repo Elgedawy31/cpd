@@ -5,8 +5,6 @@ import { useState, useEffect, useMemo } from "react";
 import CustomHeader from "@/components/CustomHeader";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, Plus, X } from "lucide-react";
-import AOS from "aos";
-import "aos/dist/aos.css";
 
 type CompanyCard = {
   key: string;
@@ -120,50 +118,22 @@ export default function OurCompanies() {
     };
   }, [cards]);
 
-  useEffect(() => {
-    AOS.init({ 
-      duration: 1000, 
-      once: true, 
-      mirror: false,
-      offset: 100,
-      easing: 'ease-out-cubic'
-    });
-  }, []);
-
-  // Re-trigger animations when selected company changes
-  useEffect(() => {
-    if (selectedCompany) {
-      const timer = setTimeout(() => {
-        AOS.refresh();
-        const animatedElements = document.querySelectorAll('[data-aos-once="false"]');
-        animatedElements.forEach((el) => {
-          el.classList.remove('aos-animate');
-        });
-        AOS.refresh();
-      }, 100);
-      return () => clearTimeout(timer);
-    }
-  }, [selectedCompany]);
-
   return (
     <section
       id="companies"
       className="relative w-full py-8 bg-linear-to-b from-primary-50/60 via-primary-100 to-primary-50/60 "
     >
-      <div data-aos="fade-down" data-aos-duration="800">
+      <div>
         <CustomHeader title={t("title")} subTitle={t("subtitle")} />
       </div>
       
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+      <div className="max-w-7xl mx-auto mt-12">
         {/* Company Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mb-8">
-          {cards.map((card, index) => (
+          {cards.map((card) => (
             <div
               key={card.key}
               onClick={() => handleCardClick(card)}
-              data-aos="fade-up"
-              data-aos-duration="800"
-              data-aos-delay={index * 100}
               className={`
                 relative rounded-xl p-6 
                 hover:shadow-lg
@@ -216,10 +186,6 @@ export default function OurCompanies() {
                 {/* Close Button */}
                 <button
                   onClick={handleClosePanel}
-                  data-aos="fade-in"
-                  data-aos-duration="600"
-                  data-aos-delay="200"
-                  data-aos-once="false"
                   className={`
                     absolute top-4 ${isRTL ? "left-4" : "right-4"}
                     w-8 h-8 flex items-center justify-center
@@ -234,10 +200,6 @@ export default function OurCompanies() {
 
                 {/* Left Side - Logo and Name */}
                 <div
-                  data-aos={isRTL ? "fade-left" : "fade-right"}
-                  data-aos-duration="800"
-                  data-aos-delay="300"
-                  data-aos-once="false"
                   className={`
                     flex flex-col items-center lg:items-start
                     ${isRTL ? "lg:ml-8" : "lg:mr-8"}
@@ -258,10 +220,6 @@ export default function OurCompanies() {
 
                 {/* Right Side - Description and Link */}
                 <div
-                  data-aos={isRTL ? "fade-right" : "fade-left"}
-                  data-aos-duration="800"
-                  data-aos-delay="400"
-                  data-aos-once="false"
                   className={`
                     flex-1 flex flex-col justify-between
                     ${isRTL ? "lg:order-1" : "lg:order-2"}
@@ -269,19 +227,11 @@ export default function OurCompanies() {
                 >
                   <div>
                     <h4
-                      data-aos="fade-up"
-                      data-aos-duration="600"
-                      data-aos-delay="500"
-                      data-aos-once="false"
                       className="text-2xl font-semibold text-foreground mb-4"
                     >
                       {selectedCompany.title}
                     </h4>
                     <p
-                      data-aos="fade-up"
-                      data-aos-duration="600"
-                      data-aos-delay="600"
-                      data-aos-once="false"
                       className="text-base text-muted-foreground leading-relaxed mb-6"
                     >
                       {selectedCompany.description}
@@ -292,10 +242,6 @@ export default function OurCompanies() {
                     href={selectedCompany.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    data-aos="fade-up"
-                    data-aos-duration="600"
-                    data-aos-delay="700"
-                    data-aos-once="false"
                     className={`
                       inline-flex items-center gap-2
                       text-base font-medium text-primary

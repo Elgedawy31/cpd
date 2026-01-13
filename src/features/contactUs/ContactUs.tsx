@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useEffect } from "react";
-import { Send, Loader2, CheckCircle, Mail, User, MessageSquare, Phone, Building, Tag } from "lucide-react";
+import { Send, Loader2, CheckCircle, Mail, User, MessageSquare, Phone, Building, Tag, Briefcase } from "lucide-react";
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 import AOS from "aos";
@@ -143,25 +143,33 @@ console.log(getValues("phone"))
             )}
           </div>
 
-          {/* Architectural Design Select */}
+          {/* Select Company */}
           <div>
-              <label className="flex items-center gap-2 text-sm font-semibold mb-2 text-foreground/80">
-                <Building size={18} /> {t("architecturalDesign")}
-              </label>
-            <select
-              {...register("architecturalDesign")}
-              className={`w-full px-4 py-3 rounded-lg border text-foreground/90 bg-surface focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
-                errors.architecturalDesign ? "border-destructive" : "border-border"
-              }`}
-            >
-              <option value="">{t("selectArchitecturalDesign")}</option>
-              <option value="CPV Arabia">CPV Arabia</option>
-              <option value="Dome">Dome</option>
-              <option value="FDH">FDH</option>
-              <option value="Designal Engineering">Designal Engineering</option>
-              <option value="DomApp">DomApp</option>
-              <option value="Dlalat Technology Co. Ltd.">Dlalat Technology Co. Ltd.</option>
-            </select>
+            <label className="flex items-center gap-2 text-sm font-semibold mb-2 text-foreground/80">
+              <Briefcase size={18} className="text-primary" /> {t("selectCompany") || "Select Company"}
+            </label>
+            <div className="relative">
+              <select
+                {...register("architecturalDesign")}
+                className={`w-full px-4 py-3 pr-10 rounded-lg border text-foreground/90 bg-surface focus:outline-none focus:ring-2 focus:ring-primary transition-all appearance-none cursor-pointer hover:border-primary/50 ${
+                  errors.architecturalDesign ? "border-destructive" : "border-border"
+                }`}
+              >
+                <option value="" disabled hidden>
+                  {t("selectCompanyPlaceholder") || "Choose a company..."}
+                </option>
+                <option value="CPV Arabia">CPV Arabia</option>
+                <option value="Dome FDH">Dome FDH</option>
+                <option value="Designal Engineering">Designal Engineering</option>
+                <option value="DomApp">DomApp</option>
+                <option value="Dlalat Technology Co. Ltd.">Dlalat Technology Co. Ltd.</option>
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <svg className="w-5 h-5 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </div>
             {errors.architecturalDesign && (
               <p className="text-destructive text-sm mt-1">{errors.architecturalDesign.message}</p>
             )}

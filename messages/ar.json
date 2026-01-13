@@ -186,7 +186,9 @@
     "subject": "الموضوع",
     "subjectPlaceholder": "موضوع رسالتك",
     "architecturalDesign": "التصميم المعماري",
-    "selectArchitecturalDesign": "اختر التصميم المعماري"
+    "selectArchitecturalDesign": "اختر التصميم المعماري",
+    "selectCompany": "اختر الشركة",
+    "selectCompanyPlaceholder": "اختر شركة..."
   },
 
   "footer": {

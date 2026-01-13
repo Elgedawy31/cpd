@@ -187,7 +187,9 @@
     "subject": "Subject",
     "subjectPlaceholder": "Subject of your message",
     "architecturalDesign": "Architectural Design",
-    "selectArchitecturalDesign": "Select Architectural Design"
+    "selectArchitecturalDesign": "Select Architectural Design",
+    "selectCompany": "Select Company",
+    "selectCompanyPlaceholder": "Choose a company..."
   },
   "footer": {
     "description": "We deliver integrated, reliable, and high-quality solutions that transform expertise into measurable results.",

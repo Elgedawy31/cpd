@@ -8,7 +8,7 @@ function CustomHeader({title , subTitle}:{title:string , subTitle?:string}) {
   const isRTL = locale === 'ar'
   
   return (
-    <div className="relative max-w-7xl mx-auto text-start mb-10">
+    <div className="relative max-w-7xl mx-auto text-start mb-0">
       {/* Title section */}
       <div className="relative mb-2">
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground tracking-tight leading-tight">

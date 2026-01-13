@@ -49,12 +49,12 @@ export default function AboutSection() {
         isRTL ? "text-right" : "text-left"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+      <div className="max-w-7xl mx-auto px-4 lg:px-0">
         <div>
           <CustomHeader title={t("title")} subTitle={t("subtitle")} />
         </div>
 
-        <div className="mt-12 grid gap-10 lg:grid-cols-5 items-start">
+        <div className="mt-12 grid gap-10 lg:grid-cols-5 items-stretch">
           {/* Left: Image that changes with active section */}
           <div
             key={`image-${activeIndex}`}
@@ -81,7 +81,7 @@ export default function AboutSection() {
 
           {/* Right: Horizontal slider on top, text below */}
           <div
-            className={`${isRTL ? "lg:order-first" : ""} space-y-8 lg:col-span-2`}
+            className={`${isRTL ? "lg:order-first" : ""} space-y-8 lg:col-span-2 flex flex-col justify-between`}
           >
             {/* Text content */}
             <div className="space-y-4">

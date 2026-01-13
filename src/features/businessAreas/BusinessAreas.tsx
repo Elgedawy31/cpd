@@ -104,7 +104,7 @@ export default function BusinessAreas() {
             {/* Foreground content */}
             <div
               key={`content-${activeIndex}`}
-              className="relative z-10 flex flex-col min-h-[320px] lg:min-h-[420px] justify-end p-6 sm:p-8 lg:p-10 text-white"
+              className="relative z-10 flex flex-col min-h-[320px] lg:min-h-[480px] justify-end p-6 sm:p-8 lg:p-10 text-white"
             >
               <div
                 className="space-y-3 sm:space-y-4"

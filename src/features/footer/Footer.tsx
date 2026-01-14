@@ -6,9 +6,6 @@ import {
   Mail,
   Phone,
   Clock,
-  Facebook,
-  Linkedin,
-  Twitter,
 } from "lucide-react";
 import Link from "next/link";
 import LanguageDropdown from "../navbar/LanguageDropdown";
@@ -126,14 +123,58 @@ export default function Footer() {
             <div>
               <h3 className="text-lg font-semibold mb-3">{t("followUs")}</h3>
               <div className="flex gap-4">
-                <Link href="https://facebook.com" target="_blank">
-                  <Facebook size={20} />
+                <Link
+                  href="https://facebook.com"
+                  target="_blank"
+                  className="text-white/70 transition-colors duration-200 hover:text-[#1877F2]"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    className="w-5 h-5"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M13.135 6H15V3h-1.865a4.147 4.147 0 0 0-4.142 4.142V9H7v3h2v9.938h3V12h2.021l.592-3H12V6.591A.6.6 0 0 1 12.592 6h.543Z"
+                    />
+                  </svg>
                 </Link>
-                <Link href="https://linkedin.com" target="_blank">
-                  <Linkedin size={20} />
+                <Link
+                  href="https://linkedin.com"
+                  target="_blank"
+                  className="text-white/70 transition-colors duration-200 hover:text-[#5ba2ea]"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="w-5 h-5"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M12.51 8.796v1.697a3.738 3.738 0 0 1 3.288-1.684c3.455 0 4.202 2.16 4.202 4.97V19.5h-3.2v-5.072c0-1.21-.244-2.766-2.128-2.766-1.827 0-2.139 1.317-2.139 2.676V19.5h-3.19V8.796h3.168ZM7.2 6.106a1.61 1.61 0 0 1-.988 1.483 1.595 1.595 0 0 1-1.743-.348A1.607 1.607 0 0 1 5.6 4.5a1.601 1.601 0 0 1 1.6 1.606Z"
+                    />
+                    <path d="M7.2 8.809H4V19.5h3.2V8.809Z" />
+                  </svg>
                 </Link>
-                <Link href="https://twitter.com" target="_blank">
-                  <Twitter size={20} />
+                <Link
+                  href="https://x.com"
+                  target="_blank"
+                  className="text-white/70 transition-colors duration-200 hover:text-gray-200"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    className="w-5 h-5"
+                  >
+                    <path d="M 18.492188 2.9941406 A 0.50005 0.50005 0 0 0 18.113281 3.1816406 L 13.060547 9.3164062 L 9.0566406 3.7714844 C 8.7066406 3.2874844 8.1458281 3 7.5488281 3 L 4.078125 3 C 3.420125 3 3.0388281 3.7462969 3.4238281 4.2792969 L 9.8652344 13.199219 L 4.1132812 20.181641 A 0.50090307 0.50090307 0 1 0 4.8867188 20.818359 L 10.470703 14.037109 L 14.943359 20.228516 C 15.293359 20.712516 15.854172 21 16.451172 21 L 19.921875 21 C 20.579875 21 20.961172 20.253703 20.576172 19.720703 L 13.667969 10.15625 L 18.886719 3.8183594 A 0.50005 0.50005 0 0 0 18.492188 2.9941406 z M 4.4550781 4 L 7.5507812 4 C 7.8257813 4 8.0850937 4.1324687 8.2460938 4.3554688 L 19.544922 20 L 16.451172 20 C 16.176172 20 15.916859 19.867531 15.755859 19.644531 L 4.4550781 4 z"></path>
+                  </svg>
                 </Link>
               </div>
             </div>

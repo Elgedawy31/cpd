@@ -5,6 +5,7 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import "../globals.css";
 import { Metadata } from "next";
+import { Lora } from "next/font/google";
 
 type Props = {
   children: ReactNode;
@@ -55,6 +56,12 @@ export const metadata: Metadata = {
   },
 };
 
+const lora = Lora({
+  subsets: ["latin"],
+  variable: "--font-lora",
+  display: "swap",
+});
+
 export default async function RootLayout({ children, params }: Props) {
   const { locale } = await params;
 
@@ -66,7 +73,7 @@ export default async function RootLayout({ children, params }: Props) {
 const messages = await getMessages()
 
   return (
-    <html lang={locale} dir={locale ==='ar' ? "rtl" : "ltr"}>
+    <html lang={locale} dir={locale ==='ar' ? "rtl" : "ltr"} className={lora.variable}>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
 

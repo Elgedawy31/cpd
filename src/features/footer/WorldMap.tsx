@@ -334,22 +334,97 @@ function LocationPopover({ location, group, position, containerRef, isOpen, onMo
         <p className="text-xs text-muted-foreground leading-relaxed max-w-[200px]">{location.address}</p>
       </>
     );
-  })() : group ? (
-    <>
-      <div className="w-8 h-8 rounded-full mb-3 flex items-center justify-center overflow-hidden shrink-0">
-        <Image src={getFlagSrc(undefined, group)} alt="flag" width={32} height={32} className="w-full h-full object-cover rounded-full" />
-      </div>
-      {group.locations.map((loc, index) => {
-        const { city, country } = extractCityAndCountry(loc.address);
-        return (
-          <div key={index} className={index > 0 ? "mt-3 pt-3 border-t border-border" : ""}>
-            <p className="text-sm font-bold text-card-foreground mb-1">{city}, {country}</p>
-            <p className="text-xs text-muted-foreground leading-relaxed max-w-[200px]">{loc.address}</p>
+  })() : group ? (() => {
+    const isSaudiArabia = group.locations.some(
+      gloc => saudiArabiaLocations.some(
+        saLoc => saLoc.name === gloc.name && saLoc.lat === gloc.lat && saLoc.lng === gloc.lng
+      )
+    );
+    const isEgypt = group.locations.some(
+      gloc => egyptLocations.some(
+        egLoc => egLoc.name === gloc.name && egLoc.lat === gloc.lat && egLoc.lng === gloc.lng
+      )
+    );
+
+    if (isSaudiArabia) {
+      // For Saudi Arabia: Show "Riyadh, Saudi Arabia" once at the top
+      const { city, country } = extractCityAndCountry(group.locations[0].address);
+      return (
+        <>
+          <div className="w-8 h-8 rounded-full mb-3 flex items-center justify-center overflow-hidden shrink-0">
+            <Image src={getFlagSrc(undefined, group)} alt="flag" width={32} height={32} className="w-full h-full object-cover rounded-full" />
           </div>
-        );
-      })}
-    </>
-  ) : null;
+          <p className="text-sm font-bold text-card-foreground mb-3">{city}, {country}</p>
+          {group.locations.map((loc, index) => (
+            <div key={index} className={index > 0 ? "mt-3 pt-3 border-t border-border" : ""}>
+              <p className="text-xs text-muted-foreground leading-relaxed max-w-[200px]">{loc.address}</p>
+            </div>
+          ))}
+        </>
+      );
+    } else if (isEgypt) {
+      // For Egypt: Show only 2 titles (group locations by main city)
+      const getMainCity = (address: string): string => {
+        const parts = address.split(',').map(p => p.trim());
+        // Prioritize main cities: Cairo and Kafr El-Shaikh
+        for (let i = parts.length - 2; i >= 0; i--) {
+          const part = parts[i];
+          if (part.includes('Cairo')) return 'Cairo';
+          if (part.includes('Kafr El-Shaikh')) return 'Kafr El-Shaikh';
+        }
+        // Fallback to extracted city
+        return extractCityAndCountry(address).city;
+      };
+      
+      const locationsByCity = new Map<string, Location[]>();
+      group.locations.forEach(loc => {
+        const mainCity = getMainCity(loc.address);
+        if (!locationsByCity.has(mainCity)) {
+          locationsByCity.set(mainCity, []);
+        }
+        locationsByCity.get(mainCity)!.push(loc);
+      });
+      
+      const cityGroups = Array.from(locationsByCity.entries()).slice(0, 2); // Only show first 2 cities
+      
+      return (
+        <>
+          <div className="w-8 h-8 rounded-full mb-3 flex items-center justify-center overflow-hidden shrink-0">
+            <Image src={getFlagSrc(undefined, group)} alt="flag" width={32} height={32} className="w-full h-full object-cover rounded-full" />
+          </div>
+          {cityGroups.map(([city, locations], cityIndex) => {
+            const { country } = extractCityAndCountry(locations[0].address);
+            return (
+              <div key={cityIndex} className={cityIndex > 0 ? "mt-3 pt-3 border-t border-border" : ""}>
+                <p className="text-sm font-bold text-card-foreground mb-1">{city}, {country}</p>
+                {locations.map((loc, locIndex) => (
+                  <p key={locIndex} className="text-xs text-muted-foreground leading-relaxed max-w-[200px] mt-1">{loc.address}</p>
+                ))}
+              </div>
+            );
+          })}
+        </>
+      );
+    } else {
+      // Default behavior for other groups
+      return (
+        <>
+          <div className="w-8 h-8 rounded-full mb-3 flex items-center justify-center overflow-hidden shrink-0">
+            <Image src={getFlagSrc(undefined, group)} alt="flag" width={32} height={32} className="w-full h-full object-cover rounded-full" />
+          </div>
+          {group.locations.map((loc, index) => {
+            const { city, country } = extractCityAndCountry(loc.address);
+            return (
+              <div key={index} className={index > 0 ? "mt-3 pt-3 border-t border-border" : ""}>
+                <p className="text-sm font-bold text-card-foreground mb-1">{city}, {country}</p>
+                <p className="text-xs text-muted-foreground leading-relaxed max-w-[200px]">{loc.address}</p>
+              </div>
+            );
+          })}
+        </>
+      );
+    }
+  })() : null;
 
   if (!isOpen || !content || !position || !containerRef.current) return null;
   

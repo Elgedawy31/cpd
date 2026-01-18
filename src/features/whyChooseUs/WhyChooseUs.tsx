@@ -20,7 +20,7 @@ export default function WhyChooseUs() {
       title: t("risk.title"),
       description: t("risk.description"),
       icon: (
-        <ShieldCheck className="w-12 h-12 text-primary mb-4 group-hover:scale-110 transition-transform duration-500" />
+        <ShieldCheck className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-primary mb-4 group-hover:scale-110 transition-transform duration-500" />
       ),
     },
     {
@@ -28,7 +28,7 @@ export default function WhyChooseUs() {
       title: t("facade.title"),
       description: t("facade.description"),
       icon: (
-        <Building2 className="w-12 h-12 text-primary mb-4 group-hover:scale-110 transition-transform duration-500" />
+        <Building2 className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-primary mb-4 group-hover:scale-110 transition-transform duration-500" />
       ),
     },
     {
@@ -36,7 +36,7 @@ export default function WhyChooseUs() {
       title: t("softwareDistribution.title"),
       description: t("softwareDistribution.description"),
       icon: (
-        <Laptop className="w-12 h-12 text-primary mb-4 group-hover:scale-110 transition-transform duration-500" />
+        <Laptop className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-primary mb-4 group-hover:scale-110 transition-transform duration-500" />
       ),
     },
     {
@@ -44,7 +44,7 @@ export default function WhyChooseUs() {
       title: t("softwareSolutions.title"),
       description: t("softwareSolutions.description"),
       icon: (
-        <BrainCircuit className="w-12 h-12 text-primary mb-4 group-hover:scale-110 transition-transform duration-500" />
+        <BrainCircuit className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-primary mb-4 group-hover:scale-110 transition-transform duration-500" />
       ),
     },
     {
@@ -52,7 +52,7 @@ export default function WhyChooseUs() {
       title: t("integratedEngineering.title"),
       description: t("integratedEngineering.description"),
       icon: (
-        <Layers3 className="w-12 h-12 text-primary mb-4 group-hover:scale-110 transition-transform duration-500" />
+        <Layers3 className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-primary mb-4 group-hover:scale-110 transition-transform duration-500" />
       ),
     },
   ];
@@ -66,7 +66,7 @@ export default function WhyChooseUs() {
         <CustomHeader title={t('title')} subTitle={t('subtitle')} />
       </div>
 
-      <div className="container mx-auto px-4 lg:px-0 mt-12 grid gap-10 sm:grid-cols-1 lg:grid-cols-2">
+      <div className="container mx-auto px-4 lg:px-0 mt-8 sm:mt-10 lg:mt-12 grid gap-4 sm:gap-6 lg:gap-8 sm:grid-cols-1 lg:grid-cols-2">
         {cards.map((card) => (
           <div
             key={card.key}

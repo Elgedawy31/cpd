@@ -144,7 +144,6 @@ function StatCard({
   targetValue,
   prefix = "",
   formatNumber,
-  index,
   isRTL,
   shouldAnimate,
   icon,

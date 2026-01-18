@@ -86,7 +86,7 @@ export default function VerticalSlider({
     }
     setProgress(0);
     onItemChange?.(index);
-  };4
+  };
 
   // Calculate positions for the progress indicator
   // Distribute markers evenly from top (0%) to bottom (100%)
@@ -106,7 +106,7 @@ export default function VerticalSlider({
   return (
     <div className={`relative flex ${isRTL ? "flex-row-reverse" : "flex-row"}    ${className}`}>
       {/* Vertical Progress Line */}
-      <div className={`relative  ${isRTL ? "ml-4" : "mr-4"} shrink-0`}>
+      <div className={`relative  ${isRTL ? "ml-8" : "mr-8"} shrink-0`}>
         {/* Container for the line - approximate height based on items */}
         <div
           className="relative"

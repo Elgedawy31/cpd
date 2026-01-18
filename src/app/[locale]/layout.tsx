@@ -5,7 +5,7 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import "../globals.css";
 import { Metadata } from "next";
-import { Montserrat } from "next/font/google";
+import { Montserrat, Alexandria } from "next/font/google";
 
 type Props = {
   children: ReactNode;
@@ -62,6 +62,12 @@ const montserrat = Montserrat({
   display: "swap",
 });
 
+const alexandria = Alexandria({
+  subsets: ["latin", "arabic"],
+  variable: "--font-alexandria",
+  display: "swap",
+});
+
 export default async function RootLayout({ children, params }: Props) {
   const { locale } = await params;
 
@@ -72,8 +78,10 @@ export default async function RootLayout({ children, params }: Props) {
   setRequestLocale(locale);
 const messages = await getMessages()
 
+  const fontVariable = locale === "ar" ? alexandria.variable : montserrat.variable;
+
   return (
-    <html lang={locale} dir={locale ==='ar' ? "rtl" : "ltr"} className={montserrat.variable}>
+    <html lang={locale} dir={locale ==='ar' ? "rtl" : "ltr"} className={`${montserrat.variable} ${alexandria.variable} ${fontVariable}`}>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
 

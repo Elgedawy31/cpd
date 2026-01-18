@@ -113,6 +113,9 @@
 * {
   font-family: var(--font-montserrat), sans-serif;
 }
+html[dir="rtl"] * {
+  font-family: var(--font-alexandria), sans-serif;
+}
 html{
 scroll-behavior: smooth;
 }
@@ -129,10 +132,21 @@ body {
   color: var(--color-foreground);
   background-color: white;
 }
+html[dir="rtl"] body {
+  font-family: var(--font-alexandria), sans-serif;
+}
 
-/* Heading typography with Montserrat */
+/* Heading typography */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-montserrat), sans-serif;
+}
+html[dir="rtl"] h1,
+html[dir="rtl"] h2,
+html[dir="rtl"] h3,
+html[dir="rtl"] h4,
+html[dir="rtl"] h5,
+html[dir="rtl"] h6 {
+  font-family: var(--font-alexandria), sans-serif;
 }
 
 /* Tailwind CSS Shadow overrides */
@@ -175,9 +189,17 @@ h1, h2, h3, h4, h5, h6 {
 button {
   font-family: var(--font-montserrat), sans-serif;
 }
+html[dir="rtl"] button {
+  font-family: var(--font-alexandria), sans-serif;
+}
 input, select, textarea {
   font-family: var(--font-montserrat), sans-serif;
   color: var(--color-foreground);
+}
+html[dir="rtl"] input,
+html[dir="rtl"] select,
+html[dir="rtl"] textarea {
+  font-family: var(--font-alexandria), sans-serif;
 }
 
 /* Code elements use monospace */

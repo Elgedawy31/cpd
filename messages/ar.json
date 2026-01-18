@@ -21,11 +21,11 @@
     "buttonPrimary": "من نحن",
     "buttonSecondary": "اعرف المزيد",
     "stats": {
-  "Countries": { "label": "الدول", "value": "46" },
-  "Clients": { "label": "العملاء", "value": "24630" },
-  "Employees": { "label": "الموظفون", "value": "360" },
-  "ProjectsCompleted": { "label": "المشاريع المنجزة", "value": "46210" },
-  "Companies": { "label": "الشركات", "value": "5" }
+  "Countries": { "label": "دول تضم نجاحنا", "value": "46" },
+  "Clients": { "label": "عملائنا", "value": "24630" },
+  "Employees": { "label": "موظفينا", "value": "360" },
+  "ProjectsCompleted": { "label": "مشاريع مكتملة", "value": "46210" },
+  "Companies": { "label": "شركاتنا", "value": "5" }
 }
 
   },

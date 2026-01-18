@@ -56,22 +56,22 @@ export default function Footer() {
             <h3 className="text-lg font-semibold">{t("quickLinks")}</h3>
             <ul className="space-y-2 text-sm opacity-70">
               <li>
-                <Link href={`/${locale}/`} className="hover:text-primary">
+                <Link href={`/${locale}/`} className="hover:text-gray-300">
                   {t("home")}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/about`} className="hover:text-primary">
+                <Link href={`/${locale}/about`} className="hover:text-gray-300">
                   {t("about")}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/services`} className="hover:text-primary">
+                <Link href={`/${locale}/services`} className="hover:text-gray-300">
                   {t("services")}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/contact`} className="hover:text-primary">
+                <Link href={`/${locale}/contact`} className="hover:text-gray-300">
                   {t("contact")}
                 </Link>
               </li>

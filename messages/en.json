@@ -82,8 +82,8 @@
       "description": "Integrated façade and steel delivery from concept to installation—IFC, shop, connection detailing, and fabrication packages by focused specialists. Verified performance and compliance: drift/deflection, anchorage, thermal bridging, and airtightness checked against SBC, ACI/AISC, EN/BS, and ASTM/AAMA under disciplined QA/QC. Digital-to-site accuracy via BIM LOD400/500, clash resolution, and laser/drone surveys for predictable schedules and faster approvals."
     },
     "softwareDistribution": {
-      "title": "Software Distribution & Integration",
-      "description": "We are your trusted exclusive software partner, delivering top-tier solutions through dealership, distribution, and direct sales. With strong partnerships and market experience, we ensure tailored software solutions across industries, combining innovation, reliability, and strategic impact."
+      "title": "Software Distribution",
+      "description": "We are your trusted exclusive software partner, delivering top-tier solutions through dealership, distribution, and direct sales. Through these partnerships, we provide and implement advanced technologies across key sectors, including software solutions, cybersecurity, customization & integration, and technical support, as well as enterprise platforms such as Business Intelligence (BI), ERP & CRM systems, Finance & Accounting, AI solutions, and Data Security."
     },
     "softwareSolutions": {
       "title": "Software Solutions",
@@ -156,8 +156,6 @@
       }
     ]
   },
-
-
 
   "contact": {
     "title": "Get in Touch",

@@ -30,31 +30,31 @@ export default function StatisticsSection() {
       label: t("Companies.label"),
       value: parseInt(t("Companies.value")),
       prefix: "+",
-      icon: <Building2 className="w-6 h-6" />,
+      icon: <Building2 className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />,
     },
     {
       label: t("ProjectsCompleted.label"),
       value: parseInt(t("ProjectsCompleted.value")),
       prefix: "+",
-      icon: <CheckCircle2 className="w-6 h-6" />,
+      icon: <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />,
     },
     {
       label: t("Employees.label"),
       value: parseInt(t("Employees.value")),
       prefix: "+",
-      icon: <Users className="w-6 h-6" />,
+      icon: <Users className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />,
     },
     {
       label: t("Countries.label"),
       value: parseInt(t("Countries.value")),
       prefix: "+",
-      icon: <Globe className="w-6 h-6" />,
+      icon: <Globe className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />,
     },
     {
       label: t("Clients.label"),
       value: parseInt(t("Clients.value")),
       prefix: "+",
-      icon: <Briefcase className="w-6 h-6" />,
+      icon: <Briefcase className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />,
     },
   ];
 
@@ -108,20 +108,25 @@ export default function StatisticsSection() {
 
       <div className="container mx-auto px-4 lg:px-0 relative z-10">
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-8">
-          {stats.map((stat, index) => (
-            <StatCard
-              key={index}
-              label={stat.label}
-              targetValue={stat.value}
-              prefix={stat.prefix}
-              formatNumber={formatNumber}
-              index={index}
-              isRTL={isRTL}
-              shouldAnimate={hasAnimated}
-              icon={stat.icon}
-            />
-          ))}
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-8">
+          {stats.map((stat, index) => {
+            const isLastCard = index === stats.length - 1;
+            const isAloneInLastRow = isLastCard && stats.length % 2 !== 0;
+            return (
+              <StatCard
+                key={index}
+                label={stat.label}
+                targetValue={stat.value}
+                prefix={stat.prefix}
+                formatNumber={formatNumber}
+                index={index}
+                isRTL={isRTL}
+                shouldAnimate={hasAnimated}
+                icon={stat.icon}
+                isAloneInLastRow={isAloneInLastRow}
+              />
+            );
+          })}
         </div>
       </div>
     </section>
@@ -137,6 +142,7 @@ interface StatCardProps {
   isRTL: boolean;
   shouldAnimate: boolean;
   icon: React.ReactNode;
+  isAloneInLastRow?: boolean;
 }
 
 function StatCard({
@@ -147,6 +153,7 @@ function StatCard({
   isRTL,
   shouldAnimate,
   icon,
+  isAloneInLastRow = false,
 }: StatCardProps) {
   const [count, setCount] = useState(0);
   const startTimeRef = useRef<number | null>(null);
@@ -191,13 +198,13 @@ function StatCard({
   }, [targetValue, duration, shouldAnimate]);
 
   return (
-    <div className="group relative">
+    <div className={`group relative ${isAloneInLastRow ? "col-span-2 lg:col-span-1" : ""}`}>
       {/* Main Card */}
       <div
         className={`
           relative h-full
           bg-white
-          rounded-xl p-5
+          rounded-xl p-3 sm:p-4 lg:p-5
           border border-primary-100/50
           shadow-sm
           transition-all duration-300 ease-out
@@ -205,6 +212,7 @@ function StatCard({
           hover:border-primary-200/60
           hover:bg-primary-50/30
           overflow-hidden
+          ${isAloneInLastRow ? "flex flex-col items-center text-center" : ""}
         `}
       >
         {/* Subtle hover background */}
@@ -218,11 +226,11 @@ function StatCard({
         />
 
         {/* Icon Container */}
-        <div className="relative z-10 mb-4">
+        <div className={`relative z-10 mb-2 sm:mb-3 lg:mb-4 ${isAloneInLastRow ? "mx-auto" : ""}`}>
           <div
             className={`
               inline-flex items-center justify-center
-              w-11 h-11 rounded-lg
+              w-8 h-8 sm:w-10 sm:h-10 lg:w-11 lg:h-11 rounded-lg
               bg-primary-50
               text-primary
               group-hover:bg-primary-100
@@ -235,16 +243,16 @@ function StatCard({
         </div>
 
         {/* Number */}
-        <div className="relative z-10 mb-2">
+        <div className={`relative z-10 mb-1 sm:mb-2 ${isAloneInLastRow ? "w-full" : ""}`}>
           <div
             className={`
-              text-3xl md:text-4xl lg:text-5xl font-extrabold
+              text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-extrabold
               text-primary
               leading-none
-              ${isRTL ? "text-right" : "text-left"}
+              ${isAloneInLastRow ? "text-center" : isRTL ? "text-right" : "text-left"}
             `}
           >
-            <span className="text-primary-400/70 text-2xl md:text-3xl lg:text-4xl">
+            <span className="text-primary-400/70 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl">
               {prefix}
             </span>
             <span className="tabular-nums tracking-tight">
@@ -254,16 +262,16 @@ function StatCard({
         </div>
 
         {/* Label */}
-        <div className="relative z-10">
+        <div className={`relative z-10 ${isAloneInLastRow ? "w-full" : ""}`}>
           <div
             className={`
-              text-sm md:text-base
+              text-xs sm:text-sm md:text-base
               text-muted-foreground
               font-medium
               leading-snug
               group-hover:text-foreground
               transition-colors duration-300
-              ${isRTL ? "text-right" : "text-left"}
+              ${isAloneInLastRow ? "text-center" : isRTL ? "text-right" : "text-left"}
             `}
           >
             {label}

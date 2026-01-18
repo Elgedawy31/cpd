@@ -8,6 +8,7 @@ import OurPartners from "@/features/ourPartners/OurPartners";
 import WhyChooseUs from "@/features/whyChooseUs/WhyChooseUs";
 import BusinessAreas from "@/features/businessAreas/BusinessAreas";
 import SplashScreen from "@/components/SplashScreen";
+import StatisticsSection from "@/features/statistics/Statistics";
 import { useLocale } from "next-intl";
 import WorldOutlineMap from "@/features/footer/WorldMap";
 
@@ -20,6 +21,7 @@ export default function HomePage() {
       <SplashScreen />
       <Navbar />
       <Hero />
+      <StatisticsSection />
       <AboutSection />
       <BusinessAreas />
       <OurCompanies />

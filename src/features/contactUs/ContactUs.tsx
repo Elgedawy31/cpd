@@ -3,12 +3,10 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Send, Loader2, CheckCircle, Mail, User, MessageSquare, Phone, Building, Tag, Briefcase } from "lucide-react";
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
-import AOS from "aos";
-import "aos/dist/aos.css";
 import { useTranslations } from "next-intl";
 
 export default function ContactSection() {
@@ -40,16 +38,6 @@ export default function ContactSection() {
     resolver: zodResolver(contactSchema),
   });
 
-  useEffect(() => {
-    AOS.init({ 
-      duration: 1000, 
-      once: true, 
-      mirror: false,
-      offset: 100,
-      easing: 'ease-out-cubic'
-    });
-  }, []);
-
   const onSubmit = async (data: ContactFormData) => {
     setIsLoading(true);
     setIsSuccess(false);
@@ -67,9 +55,6 @@ console.log(getValues("phone"))
       {/* Form */}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        data-aos="fade-up"
-        data-aos-duration="1000"
-        data-aos-delay="300"
         className="w-full rounded-lg shadow-xl p-6 md:p-8 space-y-4"
       >
           {/* Name and Phone */}

@@ -2,17 +2,12 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState, useRef } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
 export default function HeroSection() {
   const t = useTranslations("hero");
   const locale = useLocale();
   const [scrollProgress, setScrollProgress] = useState(0);
   const heroRef = useRef<HTMLElement>(null);
   const rafRef = useRef<number | null>(null);
-  useEffect(() => {
-    AOS.init({ duration: 1000, once: true, mirror: false });
-  }, []);
 
   // Scroll-based resize effect
   useEffect(() => {
@@ -105,28 +100,18 @@ export default function HeroSection() {
           height: "100%",
         }}
       >
-        <p data-aos="fade-up" className="text-white text-sm font-bold mb-2">
+        <p className="text-white text-sm font-bold mb-2">
           {t("sharedVision")}
         </p>
-        <h1
-          data-aos-delay='300'
-          data-aos="fade-up"
-          className="text-5xl sm:text-7xl lg:text-8xl font-extrabold text-white mb-4 leading-tight transition-all duration-300 ease-out"
-
-        >
+        <h1 className="text-5xl sm:text-7xl lg:text-8xl font-extrabold text-white mb-4 leading-tight transition-all duration-300 ease-out">
           {t("title")}
         </h1>
 
-        <p
-          data-aos="fade-up"
-          data-aos-delay='600'
-          className="text-white/80 text-lg md:text-xl mb-8 max-w-2xl font-medium transition-all duration-300 ease-out"
-
-        >
+        <p className="text-white/80 text-lg md:text-xl mb-8 max-w-2xl font-medium transition-all duration-300 ease-out">
           {t("subtitle1")}
         </p>
 
-        <div data-aos="fade-up" data-aos-delay='900' className="flex gap-4">
+        <div className="flex gap-4">
           <a
             href={`/${locale}/#about`}
             className="px-6 py-3 bg-white text-primary rounded-md font-semibold text-lg hover:opacity-70 transition-opacity duration-300"

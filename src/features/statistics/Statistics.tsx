@@ -2,8 +2,6 @@
 
 import { useTranslations, useLocale } from "next-intl";
 import { useEffect, useRef, useState } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
 import {
   Building2,
   Users,
@@ -25,11 +23,6 @@ export default function StatisticsSection() {
   const isRTL = locale === "ar";
   const [hasAnimated, setHasAnimated] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
-
-  // Initialize AOS
-  useEffect(() => {
-    AOS.init({ duration: 1000, once: true, mirror: false });
-  }, []);
 
   // Get stats from translations with icons
   const stats: StatItem[] = [
@@ -199,11 +192,7 @@ function StatCard({
   }, [targetValue, duration, shouldAnimate]);
 
   return (
-    <div
-      data-aos="fade-up"
-      data-aos-delay={index * 150}
-      className="group relative"
-    >
+    <div className="group relative">
       {/* Main Card */}
       <div
         className={`

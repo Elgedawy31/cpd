@@ -466,16 +466,7 @@ function LocationPopover({ location, group, position, containerRef, isOpen, onMo
         {content}
       </div>
       {/* Arrow pointing to marker */}
-      <div
-        className="absolute w-3 h-3 bg-card border-l border-b border-border"
-        style={{
-          transform: styles.placement === "top" ? "rotate(45deg)" : "rotate(225deg)",
-          bottom: styles.placement === "top" ? "-6px" : "auto",
-          top: styles.placement === "bottom" ? "-6px" : "auto",
-          left: "50%",
-          marginLeft: "-6px",
-        }}
-      />
+      
     </div>
   );
 }

@@ -103,95 +103,109 @@ export default function VerticalSlider({
   // Progress from top (0%) to bottom (100%)
   const progressHeight = progress; // 0–100
 
-  return (
-    <div className={`relative flex ${isRTL ? "flex-row-reverse" : "flex-row"}    ${className}`}>
-      {/* Vertical Progress Line */}
-      <div className={`relative  ${isRTL ? "ml-8" : "mr-8"} shrink-0`}>
-        {/* Container for the line - approximate height based on items */}
-        <div
-          className="relative"
-          style={{
-            minHeight: `${items.length * 42}px`,
-          }}
-        >
-          {/* Background Line - subtle light gray (full height) */}
-          <div className="absolute top-0 bottom-0 left-0 w-0.5 bg-muted-foreground/10" />
+  const sliderElement = (
+    <div className={`relative ${isRTL ? "ml-8" : "mr-8"} shrink-0`}>
+      {/* Container for the line - approximate height based on items */}
+      <div
+        className="relative"
+        style={{
+          minHeight: `${items.length * 42}px`,
+        }}
+      >
+        {/* Background Line - subtle light gray (full height) */}
+        <div className="absolute top-0 bottom-0 left-0 w-0.5 bg-muted-foreground/10" />
 
-          {/* Active item square marker - aligned with top of text */}
+        {/* Active item square marker - aligned with top of text */}
+        <div
+          className="absolute w-2 h-2 bg-foreground transition-all duration-500 ease-out rounded-1"
+          style={{
+            top: `${markerTop}%`,
+            left: "0",
+            transform: "translate(-50%, 0)",
+          }}
+        />
+
+        {/* Progress Bar - extends from active item down to next item */}
+        {progress > 0 && (
           <div
-            className="absolute w-2 h-2 bg-foreground transition-all duration-500 ease-out rounded-1"
+            className="absolute left-0 w-0.5 bg-foreground transition-all duration-75 ease-linear"
             style={{
-              top: `${markerTop}%`,
-              left: "0",
-              transform: "translate(-50%, 0)",
+              top: "0%",
+              height: `${progressHeight}%`,
+              transform: "translateX(-50%)",
             }}
           />
-
-          {/* Progress Bar - extends from active item down to next item */}
-          {progress > 0 && (
-            <div
-              className="absolute left-0 w-0.5 bg-foreground transition-all duration-75 ease-linear"
-              style={{
-                top: "0%",
-                height: `${progressHeight}%`,
-                transform: "translateX(-50%)",
-              }}
-            />
-          )}
-        </div>
+        )}
       </div>
+    </div>
+  );
 
-      {/* Items List */}
-      <div className="flex-1 space-y-8">
-        {items.map((item, index) => {
-          const isActive = index === activeIndex;
-          return (
+  const itemsElement = (
+    <div className="flex-1 space-y-8">
+      {items.map((item, index) => {
+        const isActive = index === activeIndex;
+        return (
+          <div
+            key={item.id}
+            onClick={() => handleItemClick(index)}
+            className={`
+              group cursor-pointer transition-all duration-500 ease-out
+              ${isActive 
+                ? "opacity-100" 
+                : "opacity-50 hover:opacity-75"
+              }
+              ${isRTL 
+                ? isActive ? "translate-x-0" : "hover:-translate-x-1"
+                : isActive ? "translate-x-0" : "hover:translate-x-1"
+              }
+            `}
+          >
             <div
-              key={item.id}
-              onClick={() => handleItemClick(index)}
               className={`
-                group cursor-pointer transition-all duration-500 ease-out
+                text-xs font-bold uppercase tracking-wider mb-2
+                transition-all duration-500
                 ${isActive 
-                  ? "opacity-100" 
-                  : "opacity-50 hover:opacity-75"
-                }
-                ${isRTL 
-                  ? isActive ? "translate-x-0" : "hover:-translate-x-1"
-                  : isActive ? "translate-x-0" : "hover:translate-x-1"
+                  ? "text-foreground scale-100 font-bold" 
+                  : "text-muted-foreground/60 scale-95 group-hover:scale-100 font-semibold"
                 }
               `}
             >
+              {item.label}
+            </div>
+            {item.content && (
               <div
                 className={`
-                  text-xs font-bold uppercase tracking-wider mb-2
-                  transition-all duration-500
+                  overflow-hidden transition-all duration-500 ease-out
                   ${isActive 
-                    ? "text-foreground scale-100 font-bold" 
-                    : "text-muted-foreground/60 scale-95 group-hover:scale-100 font-semibold"
+                    ? "max-h-96 opacity-100 mt-3" 
+                    : "max-h-0 opacity-0 mt-0"
                   }
                 `}
               >
-                {item.label}
-              </div>
-              {item.content && (
-                <div
-                  className={`
-                    overflow-hidden transition-all duration-500 ease-out
-                    ${isActive 
-                      ? "max-h-96 opacity-100 mt-3" 
-                      : "max-h-0 opacity-0 mt-0"
-                    }
-                  `}
-                >
-                  <div className="text-base text-muted-foreground leading-relaxed">
-                    {item.content}
-                  </div>
+                <div className="text-base text-muted-foreground leading-relaxed">
+                  {item.content}
                 </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+
+  return (
+    <div className={`relative flex ${isRTL ? "flex-row-reverse" : "flex-row"} ${className}`}>
+      {isRTL ? (
+        <>
+          {itemsElement}
+          {sliderElement}
+        </>
+      ) : (
+        <>
+          {sliderElement}
+          {itemsElement}
+        </>
+      )}
     </div>
   );
 }

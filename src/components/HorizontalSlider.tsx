@@ -95,9 +95,11 @@ export default function HorizontalSlider({
   const baseLeft = step * activeIndex;
 
   // Custom per-step offsets for fine visual alignment with labels.
-  // You can tweak these numbers later similar to VerticalSlider.
+  // Separate offsets for RTL (Arabic) and LTR (English) modes.
   // Example for up to 7 items: index -> offset in percentage points.
-  const markerOffsets: number[] = [6, -2, -7, -3, -4, -5, -6];
+  const markerOffsetsLTR: number[] = [6, -2, -7, -3, -4, -5, -6];
+  const markerOffsetsRTL: number[] = [4, 1, -3, 3, 4, 5, 1]; // Mirrored offsets for RTL
+  const markerOffsets = isRTL ? markerOffsetsRTL : markerOffsetsLTR;
   const customOffset = markerOffsets[activeIndex] ?? 0;
 
   const markerLeft = Math.min(100, Math.max(0, baseLeft + customOffset));

@@ -55,7 +55,7 @@ console.log(getValues("phone"))
       {/* Form */}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full rounded-lg shadow-xl p-6 md:p-8 space-y-4"
+        className="w-full rounded-lg shadow-xl p-0 md:p-8 space-y-4"
       >
           {/* Name and Phone */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
